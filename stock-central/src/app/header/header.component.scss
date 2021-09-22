@@ -1,0 +1,56 @@
+.header-container {
+    width: 100%;
+    height: var(--header-height, 40px);
+    background-color: red;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .header span {
+    display: inline-block;
+  }
+  
+  .header > span {
+    margin: 0 10px;
+  }
+  
+  .header span.branding {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header span i {
+    font-size: 0.25rem;
+    margin: 2px;
+  }
+  
+  .header span.icon {
+    position: relative;
+  }
+  
+  .header span.icon svg {
+    width: var(--header-height, 40px);
+    min-height: 100%;
+    color: var(--secondary, #000000);
+    fill: currentColor;
+  }
+  
+  .header span.icon .sub {
+    position: absolute;
+    top: calc(50% - 18px);
+    left: calc(50% - 12px);
+    font-size: 18px;
+    color: var(--foreground, #FFFFFF);
+  }
+  
+  .header .title {
+    font-size: 30px;
+    font-weight: 300;
+    text-shadow: #000000ab 2px 2px 4px;
+  }
+  

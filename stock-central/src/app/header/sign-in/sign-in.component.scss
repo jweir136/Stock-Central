@@ -1,0 +1,85 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    z-index: 2; 
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: blue;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+    color: white;
+    text-align: left;
+  }
+  
+  .popup .close {
+    position: relative;
+    top: 0px;
+    right: 10px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .popup .close:hover {
+    color: var(--primary);
+    cursor: pointer;
+  }
+  
+  .popup .content {
+    max-height: 30%;
+    overflow: auto;
+  }
+  
+  @media screen and (max-width: 700px){
+    .popup{
+      width: 70%;
+    }
+  }
+  
+  .popup button{
+    padding:5px 10px;
+    background: red;
+    border:1px var(--primary);
+    position:relative;
+    color: black;
+    border-radius:2px;
+    text-align:center;
+  }
+  
+  .popup .button:hover {
+    cursor: pointer;
+  }
+  
+  .popup button.transparent {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: white;
+    padding: 0px;
+  }
+  
+  .signIn {
+    text-align: center;
+  }
+  
+  .dividingLine {
+    background-color: white;
+  }
+  

@@ -1,0 +1,16 @@
+<div class="header-container">
+    <div class="header">
+        <span class="branding">
+          Stock Central
+        </span>
+        <span>
+            <span *ngIf="!(userLoggedIn$ | async)">
+                <app-sign-in></app-sign-in>
+            </span>
+            <span *ngIf="(userLoggedIn$ | async)">
+                <app-user-profile class="button"></app-user-profile>
+            </span>
+      </span>
+    </div>
+</div>
+  

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor() { }
+  @Output() openUserPreferenceEditor = new EventEmitter();
 
-  ngOnInit(): void {
+  public popup: boolean = false;
+  public accountCreated: string = '';
+  public userName: string = '';
+  public userFirstName: string = '';
+  public userPhotoUrl: string = '';
+  public editBio: boolean = false;
+  public bioForm: FormGroup = FormGroup.prototype;
+
+  public constructor(public authenticationService: AuthenticationService) {
+    this.authenticationService.authenticationEvent.subscribe((user: boolean) => {
+    });
   }
 
+  public ngOnInit(): void {
+    this.userName = this.authenticationService.getName();
+    this.userFirstName = this.userName.split(' ')[0];
+    this.userPhotoUrl = this.authenticationService.getUserPhotoUrl();
+  }
 }

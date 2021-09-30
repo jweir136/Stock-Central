@@ -14,9 +14,18 @@ export class AuthenticationService {
   private authenticationEventEmitter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public authenticationEvent: Observable<boolean> = this.authenticationEventEmitter.asObservable();
 
-  constructor(
-    public afAuth: AngularFireAuth, // Inject Firebase auth service
-  ) { }
+  constructor(public afAuth: AngularFireAuth) {
+    this.afAuth.authState.subscribe(this.setSession.bind(this));
+  }
+
+  private setSession(user: firebase.User | null): void {
+    if (user) {
+      localStorage.setItem('userInfo', JSON.stringify(user));
+      this.authenticationEventEmitter.next(true);
+    } else {
+      this.resetSession();
+    }
+  }
 
   // Sign in with Google
   GoogleAuth() {
@@ -27,10 +36,34 @@ export class AuthenticationService {
   async AuthLogin(provider: any) {
     try {
       const result = await this.afAuth.signInWithPopup(provider);
-      console.log('You have been successfully logged in!');
-      console.log(result);
+      localStorage.setItem('userInfo', JSON.stringify(result.user));
+      this.authenticationEventEmitter.next(true);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  public getName(): string {
+    return (JSON.parse(localStorage.getItem('userInfo') || '{}')).displayName;
+  }
+
+  public getUserPhotoUrl(): string {
+    return (JSON.parse(localStorage.getItem('userInfo') || '{}')).photoURL;
+  }
+
+  private resetSession(): void {
+    localStorage.removeItem('userInfo');
+    this.authenticationEventEmitter.next(false);
+  }
+
+  public signOut() {
+    firebase.auth().signOut()
+      .catch((error) => {
+        console.error('Error: Sign out returned an error');
+        console.error(error);
+      })
+      .finally(() => {
+        this.resetSession();
+      });
   }
 }

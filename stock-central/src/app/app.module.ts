@@ -11,6 +11,8 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { HeaderComponent } from './header/header.component';
 import { SignInComponent } from './header/sign-in/sign-in.component';
 import { UserProfileComponent } from './header/user-profile/user-profile.component';
+import { StocksScrollComponent } from './main-page/stocks-scroll/stocks-scroll.component';
+import { StockCardComponent } from './main-page/stocks-scroll/stock-card/stock-card.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { UserProfileComponent } from './header/user-profile/user-profile.compone
     MainPageComponent,
     HeaderComponent,
     SignInComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    StocksScrollComponent,
+    StockCardComponent
   ],
   imports: [
     BrowserModule,

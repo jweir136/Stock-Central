@@ -4,6 +4,11 @@
           Stock Central
         </span>
         <span>
+            <form>
+                <input type="text" placeholder="Search Bar">
+            </form>
+        </span>
+        <span>
             <span *ngIf="!(userLoggedIn$ | async)">
                 <app-sign-in></app-sign-in>
             </span>

@@ -1,12 +1,26 @@
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+    </head>
+</html>
+
 <div class="header-container">
     <div class="header">
         <span class="branding">
-          Stock Central
+            Stock Central
         </span>
-        <span>
-            <form>
-                <input type="text" placeholder="Search Bar">
-            </form>
+        <span class = "logo">
+            <i class="fa fa-line-chart" style="font-size:30px"></i>
+        </span>
+        <span class = "search-box">
+            <div class="container">
+                <input type="text" placeholder="Type to search">
+                <div class="search"></div>
+            </div>
         </span>
         <span>
             <span *ngIf="!(userLoggedIn$ | async)">
@@ -15,7 +29,7 @@
             <span *ngIf="(userLoggedIn$ | async)">
                 <app-user-profile class="button"></app-user-profile>
             </span>
-      </span>
+        </span>
     </div>
 </div>
   

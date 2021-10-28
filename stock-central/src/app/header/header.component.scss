@@ -25,7 +25,20 @@
     display: flex;
     align-items: center;
     margin-left: -10px;
-    color: white
+    color: white;
+    font-family: 'Baloo 2', cursive;
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  .header span.logo {
+    color:rgb(80, 170, 95);
+    top: 0;
+    left: -15%;
+    bottom: 0;
+    right: 0;
+    position: relative;
+
   }
 
   .header span i {

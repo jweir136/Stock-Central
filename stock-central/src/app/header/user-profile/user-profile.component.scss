@@ -1,6 +1,36 @@
-.helloButton {
-    background: rgb(56, 119, 66);
+.profile-button {
+    background: rgb(80, 170, 95);
+    outline: none;
+    border-radius: 10px;
+    height: 40px;
+    width: 125px;
+    position: relative;
+    transition: all 0.25s ease-in-out;
+    top: 0px;
+    right: 0px;
+    left: 22px;
+    
+}
 
+.profile-button > button {
+    position: absolute;
+}
+
+.profile-button span.greeting {
+    text-align: center;
+    font-family: 'Baloo 2', cursive;
+    color: white;
+    position: relative;
+    top: 20%;
+    padding-left: 10%;
+    padding-right: 10%;
+    font-size: 16px;
+}
+
+.profile-button:hover{
+    cursor: pointer;
+    background-color:rgb(98, 192, 113);
+    transition: all 0.25s ease-in-out
 }
 
 .overlay {
@@ -14,6 +44,7 @@
     z-index: 2;
     visibility: visible;
     opacity: 1;
+    transition: all 5s ease-in-out
 }
 
 .popup {
@@ -21,10 +52,14 @@
     padding: 20px;
     background: rgb(80, 170, 95);
     border-radius: 10px;
-    width: 50%;
+    width: 20%;
+    height: 50%;
     position: relative;
     transition: all 5s ease-in-out;
     color: white;
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px;
+    top: 20px;
     text-align: center;
 }
 
@@ -55,36 +90,26 @@
     }
 }
 
-.popup button{
+.popup closeButton{
     padding:5px 10px;
-    background: var(--primary);
-    border:1px var(--primary);
+    background: rgb(56, 119, 66);
+    border: none;
+    height: 20px;
+    width: 60px;
     position: relative;
-    color: black;
-    border-radius:2px;
-    text-align:center;
-    bottom: 10px;
-}
-
-.popup button{
-    padding:5px 10px;
-    background: var(--primary);
-    border:1px var(--primary);
-    position: relative;
-    color: black;
     border-radius:2px;
     text-align:center;
     bottom: 10px;
     transition: all 0.4s ease 0s;
 }
 
-.popup button:hover{
+.popup closeButton:hover{
     cursor: pointer;
     opacity: .5;
     transition: all 0.4s ease 0s;
 }
 
-.popup button.transparent {
+.popup closeButton.transparent {
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
@@ -95,11 +120,11 @@
     padding: 0px;
 }
 
-.popup button.transparent span {
+.popup closeButton.transparent span {
     margin-left: 10px;
 }
 
-.popup .button:hover {
+.popup .closeButton:hover {
     cursor: pointer;
 }
 

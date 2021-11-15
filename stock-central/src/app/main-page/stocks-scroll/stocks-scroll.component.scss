@@ -1,16 +1,49 @@
-.box {
+.stock-card-container {
     float: left;
-    border: 1px solid black;
+    border: 5px solid rgb(56, 119, 66);
+    background: rgb(56, 119, 66);
+    border-radius: 10px;
     clear: both;
-    margin: auto;
-    height: 80vh;
+    margin-left: 0;
+    margin-top: 10px;
+    height: relative;
+    width: 20%;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    overflow: auto;
+    overflow: hidden;
+    
 }
 
-.red {
-    background-color: white;
+.label {
+    color: rgb(114, 196, 127);
+    font-family: 'Baloo 2', cursive;
+    font-weight: 400;
+    font-size: 25px;
+    text-align: center;
+}
+
+.stock1 {
+    width: 250px;
+    height: 60px;
+    position: relative;
+}
+
+.stock2 {
+    width: 250px;
+    height: 60px;
+    position: relative;
+}
+
+.stock3 {
+    width: 250px;
+    height: 60px;
+    position: relative;
+}
+
+.stock4 {
+    width: 250px;
+    height: 60px;
+    position: relative;
 }

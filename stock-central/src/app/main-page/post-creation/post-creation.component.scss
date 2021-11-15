@@ -1,0 +1,130 @@
+.create-post-button {
+    background: rgb(80, 170, 95);
+    outline: none;
+    border-radius: 10px;
+    height: 40px;
+    width: 125px;
+    position: relative;
+    transition: all 0.25s ease-in-out;
+    top: 1vh;
+    right: 0px;
+    left: 22px;
+    
+}
+
+.create-post-button > button {
+    position: absolute;
+}
+
+.create-post-button span.greeting {
+    text-align: center;
+    font-family: 'Baloo 2', cursive;
+    color: white;
+    position: relative;
+    top: 20%;
+    padding-left: 10%;
+    padding-right: 10%;
+    font-size: 16px;
+}
+
+.create-post-button:hover{
+    cursor: pointer;
+    background-color:rgb(98, 192, 113);
+    transition: all 0.25s ease-in-out
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    z-index: 2;
+    visibility: visible;
+    opacity: 1;
+    transition: all 5s ease-in-out
+}
+
+.popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: rgb(80, 170, 95);
+    border-radius: 10px;
+    width: 20%;
+    height: 50%;
+    position: relative;
+    transition: all 5s ease-in-out;
+    color: white;
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px;
+    top: 20px;
+    text-align: center;
+}
+
+.popup .close {
+    position: relative;
+    top: 0;
+    right: 10px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+
+.popup .close:hover {
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.popup .content {
+    max-height: 30%;
+    overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+    .popup{
+        width: 70%;
+    }
+}
+
+.popup closeButton{
+    padding:5px 10px;
+    background: rgb(56, 119, 66);
+    border: none;
+    height: 20px;
+    width: 60px;
+    position: relative;
+    border-radius:2px;
+    text-align:center;
+    bottom: 10px;
+    transition: all 0.4s ease 0s;
+}
+
+.popup closeButton:hover{
+    cursor: pointer;
+    opacity: .5;
+    transition: all 0.4s ease 0s;
+}
+
+.popup closeButton.transparent {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: white;
+    padding: 0px;
+}
+
+.popup closeButton.transparent span {
+    margin-left: 10px;
+}
+
+.popup .closeButton:hover {
+    cursor: pointer;
+}
+

@@ -1,0 +1,17 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-post-creation',
+  templateUrl: './post-creation.component.html',
+  styleUrls: ['./post-creation.component.scss']
+})
+export class PostCreationComponent implements OnInit {
+
+  public popup: boolean = false;
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

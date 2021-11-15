@@ -1,0 +1,28 @@
+.post-card-container {
+  float: left;
+  border: 5px solid rgb(56, 119, 66);
+  background: rgb(56, 119, 66);
+  border-radius: 10px;
+  clear: both;
+  margin-left: 0;
+  margin-bottom: 10px;
+  height: relative;
+  width: 77vw;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.profile-image img {
+  float: left;
+  height: 5vh;
+  width: 5vh;
+}
+
+.post-content img {
+  float: left;
+  height: 10vh
+}
+

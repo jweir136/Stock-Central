@@ -1,0 +1,14 @@
+.user-post-cards-container {
+    border-radius: 10px;
+    clear: both;
+    margin-left: 0;
+    margin-top: 10px;
+    height: 86vh;
+    width: 77.5vw;
+    overflow-y: auto;
+
+}
+
+.user-post-cards-container::-webkit-scrollbar {
+    display: none;
+}

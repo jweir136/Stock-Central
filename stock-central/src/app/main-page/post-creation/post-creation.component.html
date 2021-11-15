@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title> account button font </title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+</html>
+
+<div class="create-post-button" type="button" title="Click to create post" (click)="popup=true">
+    <span class = "greeting">
+        Create Post
+    </span>
+</div>
+
+<div class="overlay" *ngIf="popup">
+    <div class="popup">
+        <a class="close" (click)="popup=false">&times;</a>
+        This is where you would create a post
+    </div>
+</div>

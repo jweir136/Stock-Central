@@ -6,12 +6,8 @@
     </head>
 </html>
 
-<div class='stock-card-container'>
-    <div class = "label">
-        My WatchList
-    </div>
-    <div class="stock-card" *ngFor="let product of products">
-        <app-stock-card></app-stock-card>
+<div class="user-post-cards-container">
+    <div *ngFor="let product of products">
+        <app-user-post-card></app-user-post-card>
     </div>
 </div>
-<br>

@@ -13,6 +13,9 @@ import { SignInComponent } from './header/sign-in/sign-in.component';
 import { UserProfileComponent } from './header/user-profile/user-profile.component';
 import { StocksScrollComponent } from './main-page/stocks-scroll/stocks-scroll.component';
 import { StockCardComponent } from './main-page/stocks-scroll/stock-card/stock-card.component';
+import { UserPostCardComponent } from './main-page/user-post-scroll/user-post-card/user-post-card.component';
+import { UserPostScrollComponent } from './main-page/user-post-scroll/user-post-scroll.component';
+import { PostCreationComponent } from './main-page/post-creation/post-creation.component'
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import { StockCardComponent } from './main-page/stocks-scroll/stock-card/stock-c
     SignInComponent,
     UserProfileComponent,
     StocksScrollComponent,
-    StockCardComponent
+    StockCardComponent,
+    UserPostCardComponent,
+    UserPostScrollComponent,
+    PostCreationComponent
   ],
   imports: [
     BrowserModule,

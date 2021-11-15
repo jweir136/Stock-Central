@@ -6,15 +6,17 @@
     clear: both;
     margin-left: 0;
     margin-top: 10px;
-    height: relative;
-    width: 20%;
+    height: 85vh;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    overflow: hidden;
-    
+    overflow-y: auto;
 }
+
+.stock-card-container::-webkit-scrollbar {
+    display: none;
+  }
 
 .label {
     color: rgb(114, 196, 127);
@@ -24,26 +26,8 @@
     text-align: center;
 }
 
-.stock1 {
-    width: 250px;
-    height: 60px;
-    position: relative;
-}
-
-.stock2 {
-    width: 250px;
-    height: 60px;
-    position: relative;
-}
-
-.stock3 {
-    width: 250px;
-    height: 60px;
-    position: relative;
-}
-
-.stock4 {
-    width: 250px;
+.stock-card {
+    width: 18vw;
     height: 60px;
     position: relative;
 }

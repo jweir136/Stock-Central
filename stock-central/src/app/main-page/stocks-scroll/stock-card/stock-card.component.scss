@@ -60,6 +60,11 @@
   left: 0.75vw;
   top: 0.2vh;
   position: absolute;
+  font-size: 30px;
+  font-weight: 200;
+  color:rgb(56, 119, 66);
+  animation: infoAppear;
+  animation-duration: 1.25s;
 
   &:hover {
     cursor: pointer;

@@ -11,10 +11,38 @@
   opacity: 1;
 }
 
+.signInButton {
+  background: rgb(80, 170, 95);
+  outline: none;
+  border-radius: 10px;
+  height: 40px;
+  width: 125px;
+  position: relative;
+  transition: all 0.25s ease-in-out;
+  top: 0px;
+  right: 0px;
+  left: 22px;
+  
+}
+
+.signInButton:hover {
+  cursor: pointer;
+}
+
+.signInButton span.text {
+  text-align: center;
+  font-family: 'Baloo 2', cursive;
+  color: white;
+  position: relative;
+  top: 20%;
+  padding-left: 38px;
+  font-size: 16px;
+}
+
 .popup {
   margin: 70px auto;
   padding: 20px;
-  background: blue;
+  background: rgb(80, 170, 95);
   border-radius: 5px;
   width: 30%;
   position: relative;
@@ -52,7 +80,7 @@
 
 .popup button{
   padding:5px 10px;
-  background: red;
+  background: rgb(56, 119, 66);;
   border:1px var(--primary);
   position:relative;
   color: black;
@@ -77,8 +105,4 @@
 
 .signIn {
   text-align: center;
-}
-
-.dividingLine {
-  background-color: white;
 }

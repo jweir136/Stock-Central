@@ -24,7 +24,7 @@
   .header span.branding {
     display: flex;
     align-items: center;
-    margin-left: -10px;
+    margin-left: 0vw;
     top: 14%;
     color: white;
     font-family: 'Baloo 2', cursive;
@@ -35,11 +35,11 @@
 
   .header span.logo {
     color:rgb(80, 170, 95);
-    top: 0;
-    left: -15%;
+    top: -0.8vh;
+    left: 17.5vw;
     bottom: 0;
     right: 0;
-    position: relative;
+    position: absolute;
 
   }
 

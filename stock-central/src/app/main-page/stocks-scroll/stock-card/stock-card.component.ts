@@ -9,6 +9,8 @@ export class StockCardComponent implements OnInit {
 
   constructor() { }
 
+  public popup: boolean = false
+
   ngOnInit(): void {
   }
 

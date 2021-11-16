@@ -1,22 +1,127 @@
 .stockCard {
   font-family: 'Baloo 2', cursive;
-  height: 50px;
-  width: 250px;
+  height: 8.5vh;
+  width: 20vw;
   background-color: white;
   border-radius: 25px;
   text-align: center;
 }
 
-.stockCard span.tickerCircle {
-  background-color: rgb(147, 231, 161);
-  height: 50px;
-  width: 80px;
-  border-radius: 25px;
-  position: absolute;
-  left: 0;
-  font-size: 32px;
-  color: rgb(56, 119, 66);
+.stockCard {
+  .tickerCircle {
+    background-color: rgb(147, 231, 161);
+    height: 8.5vh;
+    width: 6.5vw;
+    border-radius: 25px;
+    position: absolute;
+    font-size: 32px;
+    color: rgb(56, 119, 66);
+    text-overflow: clip;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+  }
 }
+
+.popup {
+  background-color: white;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 15px;
+  position: absolute;
+  float: left;
+  z-index: 10;
+  width: 20vw;
+  height: 22vh;
+  animation: popupSlide;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+
+  .popupHeader {
+    float: top;
+    position: absolute;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    top: 0;
+    width: 20vw;
+    height: 6vh;
+    background-color: rgb(147, 231, 161);
+    animation: popupHeaderSlide;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+    z-index: 15;
+  }
+
+
+}
+.popup a.close {
+  z-index: 20;
+  left: 0.75vw;
+  top: 0.2vh;
+  position: absolute;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.popupHeader span.companyName {
+  position: absolute;
+  left: 6vw;
+  top: 1vh;
+  animation: infoAppear;
+  animation-duration: 1.25s;
+  font-family: 'Baloo 2', cursive;
+}
+
+.popup span.trendData {
+  animation: infoAppear;
+  animation-duration: 1.25s;
+  position: absolute;
+  left: 1vw;
+  top: 10vh;
+}
+.popup span.unfollowStock {
+  animation: infoAppear;
+  animation-duration: 1.25s;
+  position: absolute;
+  left: 4vw;
+  top: 17vh;
+  background-color:rgb(147, 231, 161);
+  height: 4vh;
+  width: 12vw;
+  border-radius: 10px;
+
+  span.unfollowLabel {
+    left: 2vw;
+    top: 0vh;
+    z-index: 30;
+    position: absolute;
+    font-family: 'Baloo 2', cursive;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@keyframes popupSlide {
+  from {height: 0vh;}
+  to {height: 22vh;}
+}
+
+@keyframes popupHeaderSlide {
+  from {height: 0vh;}
+  to {height: 6vh;}
+}
+
+@keyframes infoAppear {
+  from {opacity: 0;}
+  to {opacity: 100;}
+}
+
+
 
 .stockCard span.label {
   text-align: right;
@@ -26,8 +131,5 @@
   color: rgb(56, 119, 66);
   font-weight: 700;
   font-size: 18px;
-}
-
-.stockCard span.tickerCircle:hover {
-  cursor: pointer;
+  text-overflow: clip;
 }

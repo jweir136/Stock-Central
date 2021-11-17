@@ -1,6 +1,6 @@
 .main-page-container {
     width: 98vw;
-    overflow: hidden; /* will contain if #first is longer than #second */
+    overflow: auto; /* will contain if #first is longer than #second */
 }
 
 .stock-scroll {

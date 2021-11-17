@@ -2,18 +2,18 @@
   float: left;
   border: none;
   background: white;
-  box-shadow: 0 0 10px rgb(56, 119, 66) inset;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 10px;
   clear: both;
   margin-left: 0;
-  margin-bottom: 10px;
+  margin-bottom: 5vh;
   height: relative;
-  width: 75vw;
+  width: 70vw;
   top: 0;
-  left: 0;
+  left: 2vw;
   bottom: 0;
   right: 0;
+  position: relative;
   overflow: hidden;
 }
 
@@ -31,19 +31,19 @@
 }
 
 .post-card-header span.tickerCircle {
-  background-color: rgb(147, 231, 161);
+  background-color: none;
   height: 6vh;
   width: 5vw;
   border-radius: 25px;
-  position: absolute;
-  right: 2vw;
-  top: 11.5vh;
+  position: relative;
+  left: relative;
+  top: 0.5vh;
   color: rgb(56, 119, 66);
   text-overflow: clip;
-}
 
-.post-card-header span.tickerCircle:hover {
-  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .post-card-header span.tickerLabel {
@@ -51,11 +51,12 @@
   transform: translate(-1vw, 0vh);
   font-family: 'Baloo 2', cursive;
   font-size: 24px;
+  color: rgb(80, 170, 95);
 }
 
 .profile-image img {
   float: left;
-  align: top;
+  align-self: top;
   padding-top: 0.75vh;
   padding-left: 0.5vh;
   height: 6vh;
@@ -68,6 +69,7 @@
   align-self: top;
   padding-top: 0.7vh;
   padding-left: 1vh;
+  height: 7vh;
   font-size: 4vh;
   font-family: 'Baloo 2', cursive;
   color: white;
@@ -77,15 +79,11 @@
   cursor: pointer;
 }
 
-.post-content img {
-  float: left;
-  height: 10vh
-}
 
 .post-content p {
   font-family: 'Khula', sans-serif;
   color: black;
   font-size: 3vh;
   position: relative;
+  left: 2vh;
 }
-

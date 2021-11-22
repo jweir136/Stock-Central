@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../services/authentication.service'
 })
 export class SignInComponent {
 
-  public popup: boolean = false;
+  public popup: boolean = true;
 
   public constructor(public authenticationService: AuthenticationService) {}
 }

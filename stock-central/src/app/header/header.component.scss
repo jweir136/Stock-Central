@@ -1,60 +1,37 @@
 .header-container {
-    width: 97.5%;
-    height: 15px;
+    top: 0px;
+    height: 8vh;
     background-color: rgb(56, 119, 66);
-    min-height: 100%;
-    border-radius: 7px;
-    padding: 15px
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
+    z-index: 2;
   }
 
-  .header span {
-    display: inline-block;
-  }
-
-  .header > span {
-    margin: 0 10px;
-  }
-
-  .header span.branding {
-    display: flex;
-    align-items: center;
-    margin-left: 0vw;
-    top: 14%;
+  .branding {
+    float: left;
+    margin: auto;
+    margin-left: 1vw;
     color: white;
     font-family: 'Baloo 2', cursive;
-    font-size: 37px;
+    font-size: 5vh;
     font-weight: 700;
     position: relative;
   }
 
-  .header span.logo {
+  .logo {
+    position: relative;
+    float: left;
+    margin: auto;
+    margin-top: 2vh;
+    margin-left: 1vw;
     color:rgb(80, 170, 95);
-    top: -0.8vh;
-    left: 17.5vw;
-    bottom: 0;
-    right: 0;
-    position: absolute;
 
-  }
-
-  .header span i {
-    font-size: 2.5rem;
-    margin: 20px;
   }
 
   .container {
-    position: relative;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 50%;
+    position: absolute;
+    float: left;
+    top: -2.5vh;
     bottom: 0;
+    left: 41vw;
     width: 300px;
     height: 100px;
     .search {
@@ -164,27 +141,9 @@
     }
   }
 
-  .header span.icon {
-    position: relative;
+  .profileButton {
+    float: right;
+    margin-top: 1vh;
+    margin-right: 1vw;
   }
 
-  .header span.icon svg {
-    width: var(--header-height, 40px);
-    min-height: 100%;
-    color: var(--secondary, #000000);
-    fill: currentColor;
-  }
-
-  .header span.icon .sub {
-    position: absolute;
-    top: calc(50% - 18px);
-    left: calc(50% - 12px);
-    font-size: 18px;
-    color: var(--foreground, #FFFFFF);
-  }
-
-  .header .title {
-    font-size: 30px;
-    font-weight: 300;
-    text-shadow: #000000ab 2px 2px 4px;
-  }

@@ -2,14 +2,11 @@
     background: rgb(80, 170, 95);
     outline: none;
     border-radius: 10px;
-    height: 40px;
-    width: 125px;
     position: relative;
+    width: 10vw;
+    height: 5vh;
     transition: all 0.25s ease-in-out;
-    top: 0px;
-    right: 0px;
-    left: 22px;
-    
+    text-align: center;
 }
 
 .profile-button > button {

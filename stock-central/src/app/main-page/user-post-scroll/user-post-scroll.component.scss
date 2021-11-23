@@ -1,19 +1,9 @@
 .user-post-cards-container {
-    border-radius: 10px;
-    clear: both;
+    border-radius: 0px;
     margin-left: 2vw;
-    margin-top: 10px;
-    height: 86vh;
-    width: 75vw;
-    overflow-y: auto;
-
-}
-
-.create-post-button {
-    position: absolute;
-    right: 46vw;
-    top: 98vh;
-
+    margin-top: 0px;
+    width: 80vw;
+    overflow: auto
 }
 
 .user-post-cards-container::-webkit-scrollbar {

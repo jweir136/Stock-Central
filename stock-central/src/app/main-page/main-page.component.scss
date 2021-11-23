@@ -1,6 +1,5 @@
 .main-page-container {
-    width: 98vw;
-    overflow: auto; /* will contain if #first is longer than #second */
+    overflow-y: hidden; /* will contain if #first is longer than #second */
 }
 
 .stock-scroll {
@@ -10,6 +9,14 @@
 
 .post-scroll {
     overflow: hidden; /* if you don't want #second to wrap below #first */
+
+}
+
+.create-post-button {
+    position: fixed;
+    right: 46vw;
+    top: 98vh;
+
 }
 
 

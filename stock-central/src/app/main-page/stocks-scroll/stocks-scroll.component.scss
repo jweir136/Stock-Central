@@ -1,11 +1,12 @@
 .stock-card-container {
     float: left;
+    position: fixed;
     border: 5px solid rgb(56, 119, 66);
     background: rgb(56, 119, 66);
     border-radius: 10px;
     clear: both;
-    margin-left: 0;
-    margin-top: 10px;
+    margin-left: 1vw;
+    margin-top: 5vw;
     height: 85vh;
     width: 20vw;
     top: 0;

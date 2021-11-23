@@ -1,2 +1,20 @@
-<app-header></app-header>
-<app-main-page></app-main-page>
+<div class = "fullWebPage">
+    <div class="header">
+        <app-header></app-header>
+    </div>
+    <div *ngIf="!(userLoggedIn$ | async)">
+        <div class="signInButton" type="button">
+            <button type="button" class="btn googleBtn" (click)="authenticationService.GoogleAuth()">
+                <i class="fab fa-google-plus-g"></i>
+                <span class="text">
+                Sign in with Google
+                </span>
+            </button>
+        </div>
+    </div>
+    <span *ngIf="(userLoggedIn$ | async)" class="mainPage">
+        <app-main-page></app-main-page>
+    </span>
+</div>
+
+

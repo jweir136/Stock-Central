@@ -1,0 +1,52 @@
+.signInButton {
+    button {
+      background: rgb(80, 170, 95);
+      outline: none;
+      border: none;
+      border-radius: 10px;
+      height: 10vh;
+      width: 35vw;
+      position: absolute;
+      transition: all 0.25s ease-in-out;
+      top: 70vh;
+      right: 0px;
+      left: 7.5vw;
+      align-self: center; 
+      animation: popup-enter;
+      animation-duration: 0.25s;
+  
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  
+  }
+
+  .signInButton span.text {
+    text-align: center;
+    font-family: 'Baloo 2', cursive;
+    color: white;
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: 2vw;
+  }
+
+.fullWebPage {
+    margin-top: -8px;
+    margin-left: -8px;
+    margin-right: -8px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+}
+
+.mainPage {
+    position: absolute;
+    margin-top:8vh;
+}

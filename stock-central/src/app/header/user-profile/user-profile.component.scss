@@ -4,9 +4,10 @@
     border-radius: 10px;
     position: relative;
     width: 10vw;
-    height: 5vh;
+    height: 6vh;
     transition: all 0.25s ease-in-out;
     text-align: center;
+    top: -0.1vh;
 }
 
 .profile-button > button {
@@ -18,7 +19,7 @@
     font-family: 'Baloo 2', cursive;
     color: white;
     position: relative;
-    top: 20%;
+    top: 15%;
     padding-left: 10%;
     padding-right: 10%;
     font-size: 16px;

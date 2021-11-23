@@ -50,31 +50,43 @@
     to {opacity: 1;}
 }
 
+
+
 .popup {
     margin: 70px auto;
     padding: 20px;
-    background: rgb(80, 170, 95);
+    background: white;
     border-radius: 10px;
-    width: 20%;
-    height: 50%;
+    width: 20vw;
+    height: 27vh;
     position: relative;
     transition: all 5s ease-in-out;
-    color: white;
+    color: rgb(80, 170, 95);
     font-family: 'Baloo 2', cursive;
     font-size: 20px;
-    top: 20px;
+    top: 25vh;
     text-align: center;
+
+}
+
+.popup span.editButton {
+    font-size: 16px;
+    color:rgb(80, 170, 95);
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .popup .close {
-    position: relative;
+    position: absolute;
     top: 0;
-    right: 10px;
+    left: 1vw;
     transition: all 200ms;
     font-size: 30px;
     font-weight: bold;
     text-decoration: none;
-    color: white;
+    color: rgb(80, 170, 95);
 }
 
 .popup .close:hover {
@@ -87,10 +99,30 @@
     overflow: auto;
 }
 
+.username {
+    background-color: rgb(227, 253, 228);
+    border-radius: 2vh;
+    width: 22vw;
+    height: 6vh;
+    position: relative;
+    right: 1vw;
+}
+
 @media screen and (max-width: 700px){
     .popup{
         width: 70%;
     }
+}
+
+.circle {
+    background-color: white;
+    height: 25vh;
+    width: 25vh;
+    border-radius: 12.5vh;
+    top: -13.5vh;
+    position: absolute;
+    align-items: center;
+    left: 5.75vw;
 }
 
 .popup closeButton{
@@ -116,7 +148,7 @@
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
-    cursor:pointer;
+    cursor: pointer;
     overflow: hidden;
     outline:none;
     color: white;
@@ -134,6 +166,15 @@
 .editButton span {
     float: left;
     margin-top: 15px;
+}
+
+.profilePicture {
+    height: 22vh;
+    width: 22vh;
+    border-radius: 11vh;
+    top: -12vh;
+    position: absolute;
+    left: 6.4vw;
 }
 
 .profilePicture:hover {

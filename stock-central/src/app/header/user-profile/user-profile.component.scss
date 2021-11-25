@@ -51,7 +51,12 @@
     to {opacity: 1;}
 }
 
-
+@keyframes fadeInSlide {
+    from {opacity: 0;
+          top: 30vh;}
+    to {opacity: 1;
+        top: 25vh;}
+}
 
 .popup {
     margin: 70px auto;
@@ -67,6 +72,8 @@
     font-size: 20px;
     top: 25vh;
     text-align: center;
+    animation: fadeInSlide;
+    animation-duration: 0.5s;
 
 }
 

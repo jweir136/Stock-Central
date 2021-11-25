@@ -1,25 +1,36 @@
 .stockCard {
   font-family: 'Baloo 2', cursive;
   height: 8.5vh;
-  width: 20vw;
+  width: 18vw;
+  left: 1vw;
+  font-size: 20px;
   background-color: white;
   border-radius: 25px;
-  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px;
 }
 
 .stockCard {
   .tickerCircle {
     background-color: rgb(147, 231, 161);
     height: 8.5vh;
-    width: 6.5vw;
+    width: 5vw;
     border-radius: 25px;
     position: absolute;
-    font-size: 32px;
-    color: rgb(56, 119, 66);
-    text-overflow: clip;
 
     &:hover {
       cursor: pointer;
+    }
+
+    .circleLabel {
+      font-size: 26px;
+      color:rgb(56, 119, 66);
+      text-overflow: clip;
+      text-align: center;
+      height: 5vh;
+      width: 5vw;
+      left: 0vw;
+      top: 0.6vh;
+      position: absolute;
     }
 
   }
@@ -129,8 +140,8 @@
 
 .stockCard span.label {
   text-align: right;
-  top: 22%;
-  right: -15%;
+  top: 1.5vh;
+  left: 5.5vw;
   position: relative;
   color: rgb(56, 119, 66);
   font-weight: 700;

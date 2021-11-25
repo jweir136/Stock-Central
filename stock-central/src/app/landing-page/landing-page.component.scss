@@ -69,6 +69,26 @@
   }
 }
 
+.returnToSignIn {
+    border: 3px solid rgb(80, 170, 95);
+    border-radius: 10px;
+    color:rgb(80, 170, 95);
+    background-color: white;
+    font-family: 'Baloo 2', cursive;
+    font-size: 2vw;
+    text-align: center;
+    height: 7.5vh;
+    width: 16vw;
+    border-radius: 10px;
+    position: absolute;
+    top: 65vh;
+    left: 17vw;
+  
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
 p {
   top: 44.5vh;
   left: 29.5vw;
@@ -243,9 +263,32 @@ p {
     border: none;
   }
 
+  .popupEmailInput {
+    position:absolute;
+    top: 35vh;
+    left: 12.5vw;
+    height: 6vh;
+    width: 30vw;
+    border: none;
+    outline: none;
+    font-size: 2vw;
+    font-family: 'Baloo 2', cursive;
+  }
+
+  .popupEmailLine {
+    position:absolute;
+    top: 35vh;
+    left: 11.5vw;
+    height: 6.5vh;
+    width: 0.25vw;
+    background-color:rgb(80, 170, 95);
+    border-radius: 0.25vw;
+    border: none;
+  }
+
   .popupPasswordInput {
     position: absolute;
-    top: 35vh;
+    top: 45vh;
     left: 12.5vw;
     height: 6vh;
     width: 30vw;
@@ -257,7 +300,7 @@ p {
 
   .popupPasswordLine {
     position:absolute;
-    top: 35vh;
+    top: 45vh;
     left: 11.5vw;
     height: 6.5vh;
     width: 0.25vw;
@@ -277,7 +320,7 @@ p {
     width: 16vw;
     border-radius: 10px;
     position: absolute;
-    top: 50vh;
+    top: 55vh;
     left: 17vw;
 
     &:hover {

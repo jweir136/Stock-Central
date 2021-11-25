@@ -7,7 +7,7 @@
 
     <input class="usernameInput" type="text" placeholder="Email" id="signInEmail">
     <div class="usernameLine"></div>
-    <input class="passwordInput" type="password" placeholder="Password" id="signInPassword">
+    <input class="passwordInput" type="password" placeholder="Password" id="signInPassword" (keyup.enter)="signIn()">
     <div class="passwordLine"></div>
 
     <div class="signInButton" type="button" (click)="signIn()">
@@ -39,14 +39,21 @@
         <div class="line4"></div>
         <div class="line5"></div>
 
-        <input class="popupUsernameInput" type="text" placeholder="Email" id="Email">
+        <input class="popupUsernameInput" type="text" placeholder="Username" id="Username">
         <div class="popupUsernameLine"></div>
+        <input class="popupEmailInput" type="text" placeholder="Email" id="Email">
+        <div class="popupEmailLine"></div>
         <input class="popupPasswordInput" type="password" placeholder="Create Password" id="Password">
         <div class="popupPasswordLine"></div>
 
         <div class="registerButton" type="button" (click)="signUp()">
             Register
         </div>
+
+        <div class="returnToSignIn" type="button" (click)="popup=false">
+            Return to Sign Up
+        </div>
+
 
     </div>
 </div>

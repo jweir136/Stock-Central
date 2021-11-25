@@ -27,21 +27,39 @@ export class AuthenticationService {
     }
   }
 
-  async SignUp(email: string, password: string) {
+  async SignUp(email: string, password: string, name: string) {
     try {
       const result = await this.afAuth.createUserWithEmailAndPassword(email, password)
       console.log(result);
+      localStorage.setItem('userInfo', JSON.stringify("name: " + name));
     } catch (error) {
       console.log(error);
     }
   }
 
   async SignIn(email: string, password: string) {
-    try {
-      const result = await this.afAuth.signInWithEmailAndPassword(email, password)
-      console.log(result);
-    } catch (error) {
-      console.log(error);
+    if (email === "") {
+      alert('Please enter a valid email address');
+    }
+    else if (password === "") {
+      alert('Please enter a valid password');
+    } 
+    else {
+      try {
+        const result = await this.afAuth.signInWithEmailAndPassword(email, password)
+        console.log(result);
+      } catch (error: any) {
+        console.log(error);
+        if (error.message.startsWith('Firebase: The password is invalid')) {
+          alert("Password entered was incorrect. Please try again");
+        }
+        else if (error.message.startsWith('Firebase: The email address is badly formatted')) {
+          alert('Email entered is invalid. Please try again');
+        }
+        else if (error.message.startsWith('Firebase: There is no user record corresponding')) {
+          alert('This email address does not exist in our system. Press the Sign Up Button to Register');
+        }
+      }
     }
   }
 

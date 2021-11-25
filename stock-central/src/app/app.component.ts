@@ -10,7 +10,6 @@ import {AuthenticationService} from '../app/services/authentication.service';
 })
 export class AppComponent {
   title = 'stock-central';
-  public popup: boolean = false;
   public userLoggedIn$: Observable<boolean> = this.authenticationService.authenticationEvent;
 
   public constructor(public authenticationService: AuthenticationService) {

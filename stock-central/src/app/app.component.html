@@ -3,58 +3,7 @@
         <app-header></app-header>
     </div>
     <div *ngIf="!(userLoggedIn$ | async)">
-        <div class="container">
-            <div class="greeting">
-                Sign In
-            </div>
-            <div class="line1"></div>
-            <div class="line2"></div>
-
-            <input class="usernameInput" type="text" placeholder="Email">
-            <div class="usernameLine"></div>
-            <input class="passwordInput" type="password" placeholder="Password">
-            <div class="passwordLine"></div>
-
-            <div class="signInButton" type="button">
-                Sign In
-            </div>
-
-            <p>Don't have an account?
-            <div class="signUpButton" type="button" (click)="popup=true">
-                Sign Up
-            </div>
-
-            <div class="signInWGButton" type="button">
-                <button type="button" class="btn googleBtn" (click)="authenticationService.GoogleAuth()">
-                    <i class="fab fa-google-plus-g"></i>
-                    <span class="text">
-                    Sign in with Google
-                    </span>
-                </button>
-            </div>
-        </div>
-
-        <div class="popup" *ngIf="popup">
-            <div class="popupContainer">
-                <div class="popupGreeting">
-                    Sign Up
-                </div>
-
-                <div class="line3"></div>
-                <div class="line4"></div>
-                <div class="line5"></div>
-
-                <input class="popupUsernameInput" type="text" placeholder="Email">
-                <div class="popupUsernameLine"></div>
-                <input class="popupPasswordInput" type="password" placeholder="Create Password">
-                <div class="popupPasswordLine"></div>
-
-                <div class="registerButton" type="button" (click)="popup=false">
-                    Register
-                </div>
-
-            </div>
-        </div>
+        <app-landing-page></app-landing-page>
     </div>
     <span *ngIf="(userLoggedIn$ | async)" class="mainPage">
         <app-main-page></app-main-page>

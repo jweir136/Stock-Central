@@ -27,6 +27,24 @@ export class AuthenticationService {
     }
   }
 
+  async SignUp(email: string, password: string) {
+    try {
+      const result = await this.afAuth.createUserWithEmailAndPassword(email, password)
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async SignIn(email: string, password: string) {
+    try {
+      const result = await this.afAuth.signInWithEmailAndPassword(email, password)
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // Sign in with Google
   GoogleAuth() {
     return this.AuthLogin(new firebase.auth.GoogleAuthProvider());

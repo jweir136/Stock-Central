@@ -1,6 +1,10 @@
 const http = require('http');
 
+const express = require('express')
+const app = express();
+
 const hostname = '127.0.0.1';
+
 const port = 3000;
 
 const server = http.createServer((req, res) => {
@@ -14,7 +18,6 @@ server.listen(port, hostname, () => {
 });
 
 var mysql = require('mysql');
-
 var connection = mysql.createConnection({
     host: 'stock-central.cpbbumloza64.us-east-2.rds.amazonaws.com',
     user: 'admin',
@@ -22,15 +25,16 @@ var connection = mysql.createConnection({
     port: '3306',
     database: 'stock_central'
 });
-
-
 connection.connect(function (err) {
     if (err) {
         console.error('Database connection failed: ' + err.stack);
         return;
     }
-
     console.log('Connected!');
 });
 
-connection.end();
+app.get('/', (req, res) => {
+    res.send('zora')
+})
+
+

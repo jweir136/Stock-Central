@@ -1,11 +1,8 @@
-const http = require('http');
-const Joi = require('joi')
 const express = require('express')
+const Joi = require('joi')
 let functions = require('./functions')
 let connectToRDB = require('./aws_rdb')
 let sqlConnectionPool = require('./generate_sql_connection_pool');
-let alpacaSecrets = require('./secrets')
-let marketData = require('./market_data.js')
 const app = express();
 app.use(express.json())
 
@@ -16,31 +13,42 @@ var mysql_pool = sqlConnectionPool.sqlConnectionPool
 
 // base route
 app.get('/', (req, res) => {
-    res.send('zora')
+    res.send('chimp')
 })
 
 
 // endpoint to get price information for specified ticker
-app.get('/api/getQuote/:ticker', async (req, res) => {
+app.get('/api/quote/:ticker', async (req, res) => {
     const ticker = req.params.ticker
-    let test = await functions.tickerIsValid(ticker)
-    console.log(test)
-    res.send(test)
-    // if (functions.tickerIsValid(ticker).length > 0) {
-    //     marketData.getQuote(ticker)
-    // }
-    // else {
-    //     res.status(400).send('Enter a valid stock ticker')
-    // }
+    let priceData = await functions.getPriceData(ticker)
+    try {
+        if (priceData == 'undefined' || priceData == null) {
+            res.status(400).send('Enter a valid stock ticker')
+        }
+        else {
+            res.status(200).send(priceData)
+        }
+    }
+    catch (e) {
+        console.error(e)
+        res.status(400).send('Enter a valid stock ticker')
+    }
 });
 
 // endpoint to get company news for specified stock ticker
-app.get('/api/getCompanyNews/:ticker', (req, res) => {
+app.get('/api/companyNews/:ticker', async (req, res) => {
     const ticker = req.params.ticker
-    if (tickerIsValid(ticker)) {
-        marketData.getCompanyNews(ticker)
+    let newsData = await functions.getNewsData(ticker)
+    try {
+        if (newsData == 'undefined' || newsData == null) {
+            res.status(400).send('Enter a valid stock ticker')
+        }
+        else {
+            res.status(200).send(newsData)
+        }
     }
-    else {
+    catch (e) {
+        console.error(e)
         res.status(400).send('Enter a valid stock ticker')
     }
 });

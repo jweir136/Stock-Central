@@ -1,8 +1,10 @@
 const { IEXCloudClient } = require("node-iex-cloud");
 const fetch = require('node-fetch-commonjs')
-let secrets = require('./secrets')
+let secrets = require('./secrets');
+
 
 const iexSandboxKey = secrets.iexSandboxKey
+const iexBaseURL = secrets.iexBaseURL
 
 const iex = new IEXCloudClient(fetch, {
     sandbox: true,
@@ -11,17 +13,15 @@ const iex = new IEXCloudClient(fetch, {
 });
 
 // retrieves company news for last 5 days
-function getQuote(ticker) {
-    iex.symbol(ticker).quote('latestPrice').then(res => {
-        console.log(res)
+async function getQuote(ticker) {
+    return iex.symbol(ticker).quote().then(res => {
         return res
-    });
+    })
 }
 
 // retrieves 3 of the company's recent headlines
-function getCompanyNews(ticker) {
-    iex.symbol(ticker).news(3).then(res => {
-        console.log(res)
+async function getCompanyNews(ticker) {
+    return iex.symbol(ticker).news(3).then(res => {
         return res
     });
 }

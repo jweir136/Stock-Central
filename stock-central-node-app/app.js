@@ -3,8 +3,8 @@ const Joi = require('joi')
 const express = require('express')
 let connectToRDB = require('./aws_rdb')
 let sqlConnectionPool = require('./generate_sql_connection_pool');
-const { nextTick } = require('process');
-
+let alpacaSecrets = require('./secrets')
+let marketData = require('./market_data.js')
 const app = express();
 app.use(express.json())
 
@@ -13,10 +13,19 @@ var rdb = connectToRDB.connectToRDB()
 var mysql_pool = sqlConnectionPool.sqlConnectionPool
 
 
+
+
+// marketData.getAccount()
+// marketData.getQuote('PINS')
+marketData.getCompanyNews('PINS')
+
+
+// base route
 app.get('/', (req, res) => {
     res.send('zora')
 })
 
+// gets all users
 app.get('/api/users', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -88,7 +97,6 @@ app.get('/api/users/:username', (req, res) => {
     });
 });
 
-
 // endpoint to get user by name
 // app.post('/api/users/:name', (req, res) => {
 //     mysql_pool.getConnection(function (err, connection) {
@@ -120,7 +128,7 @@ app.get('/api/users/:username', (req, res) => {
 
 // endpoint to create new user
 
-
+// creates user
 app.post('/api/users', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -140,10 +148,12 @@ app.post('/api/users', (req, res) => {
                     throw error;
                 }
                 res.status(200).send('zgm')
-        });
+            });
     });
-})
+});
 
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

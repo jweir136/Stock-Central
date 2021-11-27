@@ -1,6 +1,7 @@
 const http = require('http');
 const Joi = require('joi')
 const express = require('express')
+let functions = require('./functions')
 let connectToRDB = require('./aws_rdb')
 let sqlConnectionPool = require('./generate_sql_connection_pool');
 let alpacaSecrets = require('./secrets')
@@ -13,17 +14,36 @@ var rdb = connectToRDB.connectToRDB()
 var mysql_pool = sqlConnectionPool.sqlConnectionPool
 
 
-
-
-// marketData.getAccount()
-// marketData.getQuote('PINS')
-marketData.getCompanyNews('PINS')
-
-
 // base route
 app.get('/', (req, res) => {
     res.send('zora')
 })
+
+
+// endpoint to get price information for specified ticker
+app.get('/api/getQuote/:ticker', async (req, res) => {
+    const ticker = req.params.ticker
+    let test = await functions.tickerIsValid(ticker)
+    console.log(test)
+    res.send(test)
+    // if (functions.tickerIsValid(ticker).length > 0) {
+    //     marketData.getQuote(ticker)
+    // }
+    // else {
+    //     res.status(400).send('Enter a valid stock ticker')
+    // }
+});
+
+// endpoint to get company news for specified stock ticker
+app.get('/api/getCompanyNews/:ticker', (req, res) => {
+    const ticker = req.params.ticker
+    if (tickerIsValid(ticker)) {
+        marketData.getCompanyNews(ticker)
+    }
+    else {
+        res.status(400).send('Enter a valid stock ticker')
+    }
+});
 
 // gets all users
 app.get('/api/users', (req, res) => {

@@ -12,12 +12,18 @@ const iex = new IEXCloudClient(fetch, {
 
 // retrieves company news for last 5 days
 function getQuote(ticker) {
-    iex.symbol(ticker).quote('latestPrice').then(res => console.log(res))
+    iex.symbol(ticker).quote('latestPrice').then(res => {
+        console.log(res)
+        return res
+    });
 }
 
 // retrieves 3 of the company's recent headlines
 function getCompanyNews(ticker) {
-    iex.symbol(ticker).news(3).then(res => console.log(res))
+    iex.symbol(ticker).news(3).then(res => {
+        console.log(res)
+        return res
+    });
 }
 
 

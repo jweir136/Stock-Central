@@ -1,6 +1,7 @@
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { StockDataService } from 'src/app/services/stock-data.service';
 
 @Component({
   selector: 'app-stock-card',
@@ -12,37 +13,28 @@ export class StockCardComponent implements OnInit {
 
   companyName = '';
   latestPrice = '';
+  changeAmt = 0
+  changePercent: number = 0
+  public change: number = 0;
+  testTickers = ['AAPL', 'BA', 'DIS', 'GE', 'HD', 'NKE', 'SBUX', 'VZ']
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private stockDataService: StockDataService) { }
 
   public popup: boolean = false
 
   ngOnInit(): void {
-    const request: string = 'http://localhost:3000/api/quote/' + this.tickerSymbol;
-    const get: HttpRequest<unknown> = new HttpRequest('GET', request, null, {
-      reportProgress: false,
-      responseType: 'json'
-    });
-    let httpRequestSubscription: Subscription;
-    const httpRequestObservable: Observable<HttpEvent<unknown>> = this.http.request(get);
-    new Promise((resolve, reject) => {
-      httpRequestSubscription = httpRequestObservable.subscribe( // initiates the http request
-        (event: HttpEvent<any>) => {
-          if (HttpEventType.Response === event.type) { // finished
-            console.log(event.body);
-            this.companyName = event.body.companyName;
-            this.latestPrice = event.body.latestPrice;
-          }
-        },
-        (error) => {
-          console.debug(error);
-          reject(error);
-        },
-        () => {
-          resolve(true);
-        }
-      );
-    });
+    this.stockDataService.getStockBasicPriceInfo(this.tickerSymbol).subscribe((res: any) => {
+      // console.log(res);
+      this.companyName = res.companyName
+      this.latestPrice = res.latestPrice
+      this.changeAmt = Math.abs(res.change)
+      this.changePercent = res.changePercent.toFixed(2)
+      if (res.change > 0)
+        this.change = 1;
+      else if (res.change < 0)
+        this.change = -1;
+      else
+        this.change = 0;
+    })
   }
-
 }

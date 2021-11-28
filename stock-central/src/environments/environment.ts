@@ -12,7 +12,14 @@ export const environment = {
     messagingSenderId: "675042722546",
     appId: "1:675042722546:web:21e64eb5046dcdf9ef066b",
     measurementId: "G-LL3BJXLGFL"
-  }
+  },
+  // IEX Cloud stuff
+  IEX_SANDBOX_KEY: "Tpk_12e6eee6ed7d4026a0a87dee063b86bd",
+  IEX_BASE_SANBOX_URL: 'https://sandbox.iexapis.com/stable/stock/',
+  IEX_CLOUD_KEY: 'pk_4a09995ad6854e28a38018bdd36eb410',
+  IEX_BASE_CLOUD_URL: 'https://cloud.iexapis.com/stable/stock/',
+
+  API_BASE_URL: 'https://localhost:3000/api'
 };
 
 /*

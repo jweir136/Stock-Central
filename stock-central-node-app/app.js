@@ -1,9 +1,12 @@
 const express = require('express')
+const cors = require('cors');
 const Joi = require('joi')
 let functions = require('./functions')
 let connectToRDB = require('./aws_rdb')
 let sqlConnectionPool = require('./generate_sql_connection_pool');
 const app = express();
+
+app.use(cors());
 
 app.use(express.json())
 

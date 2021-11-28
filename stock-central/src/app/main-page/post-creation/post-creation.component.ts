@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {HttpClient, HttpEvent, HttpEventType, HttpRequest} from '@angular/common/http';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post-creation',

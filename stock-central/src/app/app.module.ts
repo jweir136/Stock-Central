@@ -16,6 +16,7 @@ import { UserPostCardComponent } from './main-page/user-post-scroll/user-post-ca
 import { UserPostScrollComponent } from './main-page/user-post-scroll/user-post-scroll.component';
 import { PostCreationComponent } from './main-page/post-creation/post-creation.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

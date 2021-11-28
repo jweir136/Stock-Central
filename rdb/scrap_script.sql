@@ -8,5 +8,8 @@ ALTER TABLE posts AUTO_INCREMENT = 1;
 
 INSERT INTO friends (fk_user_id_1, fk_user_id_2) VALUES (1, 3);
 
+INSERT INTO users (username, first_name, last_name, age, email) VALUES ('psj', 'Prateek', 'Jukalkar', 21, 'psjukalkar30@gmail.com');
+SELECT * FROM users;
+
 SELECT * FROM posts;
 

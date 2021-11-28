@@ -112,16 +112,7 @@ app.get('/api/users/:id', (req, res, next) => {
     });
 });
 
-<<<<<<< HEAD
-// endpoint to get user information by username
-app.get('/api/users/:username', (req, res) => {
-||||||| 13c8e43
-// endpoint to get user by username
-app.get('/api/users/:username', (req, res) => {
-=======
-// endpoint to get user by username
 app.get('/api/users/:username', (req, res, next) => {
->>>>>>> node-api
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
             connection.release()
@@ -147,34 +138,6 @@ app.get('/api/users/:username', (req, res, next) => {
         }
     });
 });
-
-<<<<<<< HEAD
-// endpoint to get user information by Google email (use for fk_user_id in creating posts)
-app.get('/api/users/:email', (req, res) => {
-    mysql_pool.getConnection(function (err, connection) {
-        if (err) {
-            connection.release()
-            console.log('Error getting connection from pool: ' + err)
-            throw err
-        }
-        let email = req.params.email;
-        if (typeof username !== 'undefined' && typeof username == 'string') {
-            rdb.query("SELECT * FROM stock_central.users WHERE email = '" + email + "'", function (error, result) {
-                if (error) {
-                    console.log(error);
-                    throw error;
-                }
-                res.send(result)
-            });
-        }
-        else {
-            res.status(400).send('Must specify email in request params')
-        }
-    });
-});
-
-||||||| 13c8e43
-=======
 // endpoint to get user by email
 app.get('/api/users/:email', (req, res, next) => {
     mysql_pool.getConnection(function (err, connection) {
@@ -203,8 +166,6 @@ app.get('/api/users/:email', (req, res, next) => {
         }
     });
 });
-
->>>>>>> node-api
 
 // endpoint to create new user
 app.post('/api/users', (req, res) => {

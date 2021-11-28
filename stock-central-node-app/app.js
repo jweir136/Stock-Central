@@ -5,8 +5,9 @@ let functions = require('./functions')
 let connectToRDB = require('./aws_rdb')
 let sqlConnectionPool = require('./generate_sql_connection_pool');
 const app = express();
-
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 
 app.use(express.json())
 
@@ -14,6 +15,12 @@ const port = process.env.PORT || 3000;
 var rdb = connectToRDB.connectToRDB()
 var mysql_pool = sqlConnectionPool.sqlConnectionPool
 
+
+app.all('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 
 // base route
 app.get('/', (req, res) => {
@@ -106,7 +113,7 @@ app.get('/api/users/:id', (req, res, next) => {
 });
 
 // endpoint to get user by username
-app.get('/api/users/:username', (req, res) => {
+app.get('/api/users/:username', (req, res, next) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
             connection.release()
@@ -114,7 +121,11 @@ app.get('/api/users/:username', (req, res) => {
             throw err
         }
         let username = req.params.username;
-        if (typeof username !== 'undefined' && typeof username == 'string') {
+        if (typeof username == 'undefined' || typeof username !== 'string' || username.includes('@') == true) {
+            next()
+            return
+        }
+        if (typeof username !== 'undefined') {
             rdb.query("SELECT * FROM stock_central.users WHERE username = '" + username + "'", function (error, result) {
                 if (error) {
                     console.log(error);
@@ -125,6 +136,35 @@ app.get('/api/users/:username', (req, res) => {
         }
         else {
             res.status(400).send('Must specify username in request params')
+        }
+    });
+});
+
+// endpoint to get user by email
+app.get('/api/users/:email', (req, res, next) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let email = undefined
+        email = req.params.email;
+        // if () {
+        //     next()
+        //     return
+        // }
+        if (typeof email !== 'undefined') {
+            rdb.query("SELECT * FROM stock_central.users WHERE email = '" + email + "'", function (error, result) {
+                if (error) {
+                    console.log(error);
+                    throw error;
+                }
+                res.status(200).send(result)
+            });
+        }
+        else {
+            res.status(400).send('Must specify email in request params')
         }
     });
 });

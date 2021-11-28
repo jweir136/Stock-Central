@@ -32,6 +32,35 @@ function getAccount() {
     });
 }
 
+// endpoint to get user by name
+app.post('/api/users/:name', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let name = req.params.name;
+        let firstName = undefined
+        let lastName = undefined
+        if (typeof name !== 'undefined') {
+            let splitName = name.split(' ')
+            firstName = splitName[0]
+            lastName = splitName[1]
+        }
+        else {
+            res.status(400).send('Must provide first + last name separated by a single space in request params')
+        }
+        rdb.query("SELECT * FROM stock_central.users WHERE first_name = '" + firstName + "' AND last_name = '" + lastName + "'", function (error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            res.send(result)
+        });
+    });
+});
+
 
 // var alpacaBaseURL = secrets.alpacaBaseURL
 // var alpacaDataBaseURL = secrets.alpacaDataBaseURL

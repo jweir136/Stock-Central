@@ -78,7 +78,8 @@
               "browserTarget": "stock-central:build:production"
             },
             "development": {
-              "browserTarget": "stock-central:build:development"
+              "browserTarget": "stock-central:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

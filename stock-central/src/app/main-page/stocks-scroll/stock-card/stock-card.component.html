@@ -13,11 +13,11 @@
     <div class="stockCard"> 
         <div class = "tickerCircle" type= "button" (click)="popup=true">
             <div class="circleLabel">
-                tick
+                {{tickerSymbol}}
             </div>
         </div>  
         <span class = "label">
-            current stock price
+            {{latestPrice}}
         </span>
     </div>
 </div>
@@ -28,7 +28,7 @@
             &times;
         </a>
         <span class="companyName">
-            company name
+            {{companyName}}
         </span>
     </div>
     <span class="trendData">

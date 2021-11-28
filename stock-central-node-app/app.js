@@ -257,9 +257,9 @@ app.get('/api/getUsernames/:id', (req, res) => {
         if (usernameObj.length == 0) {
             res.status(404).send(`user with user ID of ${userID} was not found`)
         }
-       res.status(200).send(usernameObj)
-    })
-})
+        res.status(200).send(usernameObj)
+    });
+});
 
 
 

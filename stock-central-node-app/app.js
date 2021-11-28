@@ -216,38 +216,49 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
             res.status(400).send(e)
         }
 
-        let friendsList = []
-        rdb.query(`SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = ${userID};`, function (error1, friendsIDList) {
-            if (error1) {
-                console.error(error1)
-                throw error1
-            }
-            friendsIDList.forEach(friend => {
-                friendsList.push(friend['fk_user_id_2'])
-            });
-        });
+        // let friendsList = []
+        // rdb.query(`SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = ${userID};`, function (error1, friendsIDList) {
+        //     if (error1) {
+        //         console.error(error1)
+        //         throw error1
+        //     }
+        //     friendsIDList.forEach(friend => {
+        //         friendsList.push(friend['fk_user_id_2'])
+        //     });
+        // });
 
         rdb.query(`SELECT * FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id WHERE fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) ORDER BY posts.num_likes DESC LIMIT 10;`,
-           function (error2, messages) {
+            function (error2, messages) {
                 if (error2) {
                     console.error(error2)
                     throw error2
                 }
                 messagesInfo = JSON.parse(JSON.stringify(messages))
-                for (let i = 0; i < messagesInfo.length; i++) {
-                    rdb.query(`SELECT username FROM users WHERE user_id = ${messagesInfo[i].fk_user_id_1}`, function (error3, usernameObj) {
-                        if (error3) {
-                            console.error(error3)
-                            throw error3
-                        }
-                        console.log(usernameObj[0].username)
-                        messagesInfo[i].username = usernameObj[0].username
-                        // console.log(messagesInfo)
-                    })
-               }
-               res.status(200).send(messagesInfo)
+                res.status(200).send(messagesInfo)
             });
     });
+});
+
+
+// endpoint to get username from user id (helper for generate feed stuff)
+app.get('/api/getUsernames/:id', (req, res) => {
+    let userID = undefined
+    try {
+        userID = parseInt(req.params.id)
+    }
+    catch (e) {
+        res.status(400).send(e)
+    }
+    rdb.query(`SELECT username FROM users WHERE user_id = ${userID}`, function (error3, usernameObj) {
+        if (error3) {
+            console.error(error3)
+            throw error3
+        }
+        if (usernameObj.length == 0) {
+            res.status(404).send(`user with user ID of ${userID} was not found`)
+        }
+       res.status(200).send(usernameObj)
+    })
 })
 
 

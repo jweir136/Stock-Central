@@ -198,6 +198,75 @@ app.get('/api/post/:id', (req, res) => {
     });
 });
 
+app.post('/api/createPost', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let messageContent = req.body.messageContent
+        let userID = req.body.id
+
+        if (typeof messageContent !== 'string' || typeof userID !== 'number') {
+            res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
+        }
+        rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            res.status(201).send('post successfully created!')
+        });
+    });
+});
+
+
+// endpoint to like a post by its post ID
+app.patch('/api/likePost/:postId', (req, res) => {
+    let postID = req.params.postId
+    if (isNaN(postID)) {
+        res.status(400).send('post ID must be an int')
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`UPDATE posts SET num_likes = num_likes + 1 WHERE post_id = ${postID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send('Number of likes increased successfully!')
+        });
+    });
+});
+
+
+// endpoint to unlike a post by its post ID
+app.patch('/api/unlikePost/:postId', (req, res) => {
+    let postID = req.params.postId
+    if (isNaN(postID)) {
+        res.status(400).send('post ID must be an int')
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`UPDATE posts SET num_likes = num_likes - 1 WHERE post_id = ${postID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send('Number of likes decremented successfully!')
+        });
+    });
+});
+
 
 // endpoint to generate feed for logged in user
 app.get('/api/posts/generateFeed/:userId', (req, res) => {
@@ -216,39 +285,50 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
             res.status(400).send(e)
         }
 
-        let friendsList = []
-        rdb.query(`SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = ${userID};`, function (error1, friendsIDList) {
-            if (error1) {
-                console.error(error1)
-                throw error1
-            }
-            friendsIDList.forEach(friend => {
-                friendsList.push(friend['fk_user_id_2'])
-            });
-        });
+        // let friendsList = []
+        // rdb.query(`SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = ${userID};`, function (error1, friendsIDList) {
+        //     if (error1) {
+        //         console.error(error1)
+        //         throw error1
+        //     }
+        //     friendsIDList.forEach(friend => {
+        //         friendsList.push(friend['fk_user_id_2'])
+        //     });
+        // });
 
         rdb.query(`SELECT * FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id WHERE fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) ORDER BY posts.num_likes DESC LIMIT 10;`,
-           function (error2, messages) {
+            function (error2, messages) {
                 if (error2) {
                     console.error(error2)
                     throw error2
                 }
                 messagesInfo = JSON.parse(JSON.stringify(messages))
-                for (let i = 0; i < messagesInfo.length; i++) {
-                    rdb.query(`SELECT username FROM users WHERE user_id = ${messagesInfo[i].fk_user_id_1}`, function (error3, usernameObj) {
-                        if (error3) {
-                            console.error(error3)
-                            throw error3
-                        }
-                        console.log(usernameObj[0].username)
-                        messagesInfo[i].username = usernameObj[0].username
-                        // console.log(messagesInfo)
-                    })
-               }
-               res.status(200).send(messagesInfo)
+                res.status(200).send(messagesInfo)
             });
     });
-})
+});
+
+
+// endpoint to get username from user id (helper for generate feed stuff)
+app.get('/api/getUsernames/:id', (req, res) => {
+    let userID = undefined
+    try {
+        userID = parseInt(req.params.id)
+    }
+    catch (e) {
+        res.status(400).send(e)
+    }
+    rdb.query(`SELECT username FROM users WHERE user_id = ${userID}`, function (error3, usernameObj) {
+        if (error3) {
+            console.error(error3)
+            throw error3
+        }
+        if (usernameObj.length == 0) {
+            res.status(404).send(`user with user ID of ${userID} was not found`)
+        }
+        res.status(200).send(usernameObj)
+    });
+});
 
 
 

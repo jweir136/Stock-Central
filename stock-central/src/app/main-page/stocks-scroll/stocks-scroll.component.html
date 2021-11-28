@@ -8,13 +8,13 @@
 
 <div class='stock-card-container'>
     <div class = "label">
-        My WatchList
+        My Watchlist
     </div>
     <div class="line1"></div>
     <div class="line2"></div> 
     <div class="filler"></div>
-    <div class="stock-card" *ngFor="let product of products">
-        <app-stock-card></app-stock-card>
+    <div class="stock-card" *ngFor="let tickerSymbol of tickerSymbols">
+        <app-stock-card [tickerSymbol]="tickerSymbol"></app-stock-card>
     </div>
 </div>
 <br>

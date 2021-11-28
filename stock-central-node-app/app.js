@@ -1,9 +1,13 @@
 const express = require('express')
+const cors = require('cors');
 const Joi = require('joi')
 let functions = require('./functions')
 let connectToRDB = require('./aws_rdb')
 let sqlConnectionPool = require('./generate_sql_connection_pool');
 const app = express();
+app.use(cors({
+    origin: '*'
+}));
 
 app.use(express.json())
 
@@ -11,6 +15,12 @@ const port = process.env.PORT || 3000;
 var rdb = connectToRDB.connectToRDB()
 var mysql_pool = sqlConnectionPool.sqlConnectionPool
 
+
+app.all('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 
 // base route
 app.get('/', (req, res) => {
@@ -86,7 +96,7 @@ app.get('/api/users/:id', (req, res, next) => {
             next()
             return
         }
-        
+
         if (typeof userID !== 'undefined') {
             rdb.query("SELECT * FROM stock_central.users WHERE user_id = '" + userID + "'", function (error, result) {
                 if (error) {
@@ -102,8 +112,16 @@ app.get('/api/users/:id', (req, res, next) => {
     });
 });
 
+<<<<<<< HEAD
 // endpoint to get user information by username
 app.get('/api/users/:username', (req, res) => {
+||||||| 13c8e43
+// endpoint to get user by username
+app.get('/api/users/:username', (req, res) => {
+=======
+// endpoint to get user by username
+app.get('/api/users/:username', (req, res, next) => {
+>>>>>>> node-api
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
             connection.release()
@@ -111,7 +129,11 @@ app.get('/api/users/:username', (req, res) => {
             throw err
         }
         let username = req.params.username;
-        if (typeof username !== 'undefined' && typeof username == 'string') {
+        if (typeof username == 'undefined' || typeof username !== 'string' || username.includes('@') == true) {
+            next()
+            return
+        }
+        if (typeof username !== 'undefined') {
             rdb.query("SELECT * FROM stock_central.users WHERE username = '" + username + "'", function (error, result) {
                 if (error) {
                     console.log(error);
@@ -126,6 +148,7 @@ app.get('/api/users/:username', (req, res) => {
     });
 });
 
+<<<<<<< HEAD
 // endpoint to get user information by Google email (use for fk_user_id in creating posts)
 app.get('/api/users/:email', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
@@ -150,6 +173,38 @@ app.get('/api/users/:email', (req, res) => {
     });
 });
 
+||||||| 13c8e43
+=======
+// endpoint to get user by email
+app.get('/api/users/:email', (req, res, next) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let email = undefined
+        email = req.params.email;
+        // if () {
+        //     next()
+        //     return
+        // }
+        if (typeof email !== 'undefined') {
+            rdb.query("SELECT * FROM stock_central.users WHERE email = '" + email + "'", function (error, result) {
+                if (error) {
+                    console.log(error);
+                    throw error;
+                }
+                res.status(200).send(result)
+            });
+        }
+        else {
+            res.status(400).send('Must specify email in request params')
+        }
+    });
+});
+
+>>>>>>> node-api
 
 // endpoint to create new user
 app.post('/api/users', (req, res) => {
@@ -211,13 +266,82 @@ app.get('/api/post/:id', (req, res) => {
         catch (e) {
             res.status(400).send(e)
         }
-        
+
         rdb.query(`SELECT * FROM posts WHERE post_id = ${postID}`, function (error, result) {
             if (error) {
                 console.error(error)
                 throw error
             }
             res.status(200).send(result)
+        });
+    });
+});
+
+app.post('/api/createPost', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let messageContent = req.body.messageContent
+        let userID = req.body.id
+
+        if (typeof messageContent !== 'string' || typeof userID !== 'number') {
+            res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
+        }
+        rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            res.status(201).send('post successfully created!')
+        });
+    });
+});
+
+
+// endpoint to like a post by its post ID
+app.patch('/api/likePost/:postId', (req, res) => {
+    let postID = req.params.postId
+    if (isNaN(postID)) {
+        res.status(400).send('post ID must be an int')
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`UPDATE posts SET num_likes = num_likes + 1 WHERE post_id = ${postID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send('Number of likes increased successfully!')
+        });
+    });
+});
+
+
+// endpoint to unlike a post by its post ID
+app.patch('/api/unlikePost/:postId', (req, res) => {
+    let postID = req.params.postId
+    if (isNaN(postID)) {
+        res.status(400).send('post ID must be an int')
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`UPDATE posts SET num_likes = num_likes - 1 WHERE post_id = ${postID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send('Number of likes decremented successfully!')
         });
     });
 });
@@ -232,7 +356,7 @@ app.post('/api/createPost', (req, res) => {
         }
         let messageContent = req.body.messageContent
         let userID = req.body.id
-    
+
         if (typeof messageContent !== 'string' || typeof userID !== 'number') {
             res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
         }
@@ -365,6 +489,7 @@ app.get('/api/getUsernames/:id', (req, res) => {
 app.listen(port, () => {
     console.log(`Express server listening on ${port}...`);
 });
+
 
 
 

@@ -72,7 +72,7 @@ app.get('/api/users', (req, res) => {
     });
 });
 
-// endpoint to get user by ID
+// endpoint to get user information by user ID
 app.get('/api/users/:id', (req, res, next) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -102,7 +102,7 @@ app.get('/api/users/:id', (req, res, next) => {
     });
 });
 
-// endpoint to get user by username
+// endpoint to get user information by username
 app.get('/api/users/:username', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -122,6 +122,30 @@ app.get('/api/users/:username', (req, res) => {
         }
         else {
             res.status(400).send('Must specify username in request params')
+        }
+    });
+});
+
+// endpoint to get user information by Google email (use for fk_user_id in creating posts)
+app.get('/api/users/:email', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let email = req.params.email;
+        if (typeof username !== 'undefined' && typeof username == 'string') {
+            rdb.query("SELECT * FROM stock_central.users WHERE email = '" + email + "'", function (error, result) {
+                if (error) {
+                    console.log(error);
+                    throw error;
+                }
+                res.send(result)
+            });
+        }
+        else {
+            res.status(400).send('Must specify email in request params')
         }
     });
 });
@@ -194,6 +218,76 @@ app.get('/api/post/:id', (req, res) => {
                 throw error
             }
             res.status(200).send(result)
+        });
+    });
+});
+
+
+app.post('/api/createPost', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let messageContent = req.body.messageContent
+        let userID = req.body.id
+    
+        if (typeof messageContent !== 'string' || typeof userID !== 'number') {
+            res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
+        }
+        rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            res.status(201).send('post successfully created!')
+        });
+    });
+});
+
+
+// endpoint to like a post by its post ID
+app.patch('/api/likePost/:postId', (req, res) => {
+    let postID = req.params.postId
+    if (isNaN(postID)) {
+        res.status(400).send('post ID must be an int')
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`UPDATE posts SET num_likes = num_likes + 1 WHERE post_id = ${postID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send('Number of likes increased successfully!')
+        });
+    });
+});
+
+
+// endpoint to unlike a post by its post ID
+app.patch('/api/unlikePost/:postId', (req, res) => {
+    let postID = req.params.postId
+    if (isNaN(postID)) {
+        res.status(400).send('post ID must be an int')
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`UPDATE posts SET num_likes = num_likes - 1 WHERE post_id = ${postID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send('Number of likes decremented successfully!')
         });
     });
 });

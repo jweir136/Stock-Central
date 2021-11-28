@@ -198,6 +198,75 @@ app.get('/api/post/:id', (req, res) => {
     });
 });
 
+app.post('/api/createPost', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let messageContent = req.body.messageContent
+        let userID = req.body.id
+
+        if (typeof messageContent !== 'string' || typeof userID !== 'number') {
+            res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
+        }
+        rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            res.status(201).send('post successfully created!')
+        });
+    });
+});
+
+
+// endpoint to like a post by its post ID
+app.patch('/api/likePost/:postId', (req, res) => {
+    let postID = req.params.postId
+    if (isNaN(postID)) {
+        res.status(400).send('post ID must be an int')
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`UPDATE posts SET num_likes = num_likes + 1 WHERE post_id = ${postID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send('Number of likes increased successfully!')
+        });
+    });
+});
+
+
+// endpoint to unlike a post by its post ID
+app.patch('/api/unlikePost/:postId', (req, res) => {
+    let postID = req.params.postId
+    if (isNaN(postID)) {
+        res.status(400).send('post ID must be an int')
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`UPDATE posts SET num_likes = num_likes - 1 WHERE post_id = ${postID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send('Number of likes decremented successfully!')
+        });
+    });
+});
+
 
 // endpoint to generate feed for logged in user
 app.get('/api/posts/generateFeed/:userId', (req, res) => {

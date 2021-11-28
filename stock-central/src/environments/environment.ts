@@ -19,7 +19,7 @@ export const environment = {
   IEX_CLOUD_KEY: 'pk_4a09995ad6854e28a38018bdd36eb410',
   IEX_BASE_CLOUD_URL: 'https://cloud.iexapis.com/stable/stock/',
 
-  API_BASE_URL: 'https://localhost:3000/api'
+  API_BASE_URL: 'http://localhost:3000/api'
 };
 
 /*

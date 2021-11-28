@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> stock card components</title>
+        <title>stock card components</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">       
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">     
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  
     </head>
 </html>
 
 
 <div class="container">
     <div class="stockCard"> 
-        <div class = "tickerCircle" type= "button" (click)="popup=true">
+        <div class = "tickerCircle" type="button" (click)="popup=true">
             <div class="circleLabel">
                 {{tickerSymbol}}
             </div>
         </div>  
-        <span class = "label">
+        <span class="label">
             {{latestPrice}}
+            <span class="material-icons" style="margin-left: 10px;" *ngIf="change == 1">
+                moving
+            </span>
+            <span class="material-icons" style="margin-left: 10px;" *ngIf="change == -1">
+                trending_down
+            </span>
+            <span class="material-icons" style="margin-left: 10px;" *ngIf="change == 0">
+                trending_flat
+            </span>
         </span>
     </div>
 </div>
@@ -32,7 +42,7 @@
         </span>
     </div>
     <span class="trendData">
-        trend data
+        Change: ${{changeAmt}} | {{changePercent}}%
     </span>
     <span class="unfollowStock" type="button">
         <span class="unfollowLabel">

@@ -13,8 +13,11 @@ const iex = new IEXCloudClient(fetch, {
 
 async function getPriceData(ticker) {
     return iex.search(ticker).then(async res => {
-        for (const elem of res) {
-            if (ticker == elem.symbol) {
+        if(res == undefined) {
+            return undefined
+        }
+        for (let i = 0; i < res.length; i++) {
+            if (ticker == res[i].symbol) {
                 return await data.getQuote(ticker)
             }
         }

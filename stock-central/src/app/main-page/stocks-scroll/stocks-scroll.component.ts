@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { StockDataService } from 'src/app/services/stock-data.service';
 
 @Component({
   selector: 'app-stocks-scroll',
@@ -7,11 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StocksScrollComponent implements OnInit {
 
-  tickerSymbols = ['AAPL', 'BA', 'DIS', 'GE', 'HD', 'NKE', 'SBUX', 'VZ']
+  tickerSymbols = ['AAPL', 'BA', 'DIS', 'SNAP', 'GE']
 
-  constructor() { }
+  constructor(private http: HttpClient, private stockDataService: StockDataService) { }
 
   ngOnInit(): void {
+    // this.stockDataService.getStockPriceBasicInfoBatch(this.tickerSymbols).subscribe((res: any) => {
+    //   console.log(res);
+    //   let data: any = {};
+    //   // data['companyName'] = res.companyName
+    //   // data['latestPrice'] = res.latestPrice
+    //   // console.log(data)
+    // })
   }
 
 }

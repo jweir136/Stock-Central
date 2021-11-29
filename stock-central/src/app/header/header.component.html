@@ -17,9 +17,12 @@
     </span>
     <span class = "search-box" *ngIf="(userLoggedIn$ | async)">
         <div class="container">
-            <input type="text" placeholder="Type to search">
+            <input type="text" placeholder="Type to search" id="searchBar" (keyup.enter)="search()">
             <div class="search"></div>
         </div>
+    </span>
+    <span *ngIf="popup">
+        <app-search-results (closePopupEvent)="popup=false" [input]="getInput()"></app-search-results>
     </span>
     <span  *ngIf="(userLoggedIn$ | async)" class="profileButton">
         <app-user-profile class="button"></app-user-profile>

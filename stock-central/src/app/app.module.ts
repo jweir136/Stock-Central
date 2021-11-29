@@ -17,6 +17,7 @@ import { UserPostScrollComponent } from './main-page/user-post-scroll/user-post-
 import { PostCreationComponent } from './main-page/post-creation/post-creation.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchResultsComponent } from './header/search-results/search-results.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
     UserPostCardComponent,
     UserPostScrollComponent,
     PostCreationComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    SearchResultsComponent
   ],
   imports: [
     BrowserModule,

@@ -362,10 +362,11 @@ function getPostID(userID, messageContent) {
 }
 
 // endpoint to like a post by its post ID
-app.patch('/api/likePost/:postId', (req, res) => {
+app.patch('/api/likePost/:postId/:userID', (req, res) => {
+    let userID = req.params.userID
     let postID = req.params.postId
-    if (isNaN(postID)) {
-        res.status(400).send('post ID must be an int')
+    if (isNaN(postID) || isNaN(userID)) {
+        res.status(400).send('post and user ID must be an int')
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -373,22 +374,23 @@ app.patch('/api/likePost/:postId', (req, res) => {
             console.log('Error getting connection from pool: ' + err)
             throw err
         }
-        rdb.query(`UPDATE posts SET num_likes = num_likes + 1 WHERE post_id = ${postID}`, function (error, result) {
+        rdb.query(`UPDATE likes SET num_likes = num_likes + 1 WHERE fk_post_id = ${postID} AND fk_user_id = ${userID}`, function (error, result) {
             if (error) {
                 console.error(error)
                 throw error
             }
-            res.status(200).send('Number of likes increased successfully!')
+            res.status(200).send(result)
         });
     });
 });
 
 
 // endpoint to unlike a post by its post ID
-app.patch('/api/unlikePost/:postId', (req, res) => {
+app.patch('/api/unlikePost/:postId/userId', (req, res) => {
+    let userID = req.params.userId
     let postID = req.params.postId
-    if (isNaN(postID)) {
-        res.status(400).send('post ID must be an int')
+    if (isNaN(postID) && isNaN(userID)) {
+        res.status(400).send('post and user ID must be an int')
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -396,7 +398,7 @@ app.patch('/api/unlikePost/:postId', (req, res) => {
             console.log('Error getting connection from pool: ' + err)
             throw err
         }
-        rdb.query(`UPDATE posts SET num_likes = num_likes - 1 WHERE post_id = ${postID}`, function (error, result) {
+        rdb.query(`UPDATE likes SET num_likes = num_likes - 1 WHERE fk_post_id = ${postID} AND fk_user_id = ${userID}`, function (error, result) {
             if (error) {
                 console.error(error)
                 throw error

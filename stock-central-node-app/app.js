@@ -185,7 +185,7 @@ app.post('/api/users', (req, res) => {
         if (typeof username !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof email !== 'string' || typeof age !== 'number') {
             res.status(400).send('username, first/last name, and email must be strings. Age must be an int')
         }
-        rdb.query(`INSERT INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', '${age}', '${email}')`, function (error, result) {
+        rdb.query(`INSERT INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
             if (error) {
                 console.log(error);
                 throw error;
@@ -317,22 +317,49 @@ app.post('/api/createPost', (req, res) => {
             console.log('Error getting connection from pool: ' + err)
             throw err
         }
-        let messageContent = req.body.messageContent
         let userID = req.body.id
+        let messageContent = req.body.messageContent
+        let postID = -1
+
 
         if (typeof messageContent !== 'string' || typeof userID !== 'number') {
             res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
         }
         rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
             if (error) {
-                console.log(error);
+                console.error(error);
                 throw error;
             }
-            res.status(201).send('post successfully created!')
+            res.status(201).send(result)
         });
+        postID = getPostID(userID, messageContent)
+        rdb.query(`INSERT INTO likes (fk_user_id, fk_post_id) VALUES (${userID}, ${postID})`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(201).send(result)
+        })
     });
 });
 
+
+function getPostID(userID, messageContent) {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        rdb.query(`SELECT post_id FROM posts WHERE fk_user_id = ${userID} AND message_content = '${messageContent}'`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            return result
+        })
+    })
+}
 
 // endpoint to like a post by its post ID
 app.patch('/api/likePost/:postId', (req, res) => {
@@ -479,7 +506,27 @@ app.get('/api/getWatchlistItems/:id', (req, res) => {
 })
 
 
-app.post('/api/')
+app.post('/api/addToWatchlist', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let userID = req.body.id
+        let ticker = req.body.ticker
+        if (userID === 'undefined' && ticker === 'undefined') {
+            res.status(400).send('a user id and ticker symbol need to be specified')
+        }
+        rdb.query(`INSERT INTO watchlist (fk_user_id, ticker) VALUES (${userID}, '${ticker}')`, function (error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            res.status(201).send(result)
+        })
+    })
+})
 
 
 

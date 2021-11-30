@@ -4,6 +4,7 @@ import firebase from "firebase/compat/app"
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class AuthenticationService {
   private authenticationEventEmitter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public authenticationEvent: Observable<boolean> = this.authenticationEventEmitter.asObservable();
 
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public afAuth: AngularFireAuth, private userService: UserService) {
     this.afAuth.authState.subscribe(this.setSession.bind(this));
   }
 
@@ -27,11 +28,14 @@ export class AuthenticationService {
     }
   }
 
-  async SignUp(email: string, password: string, name: string) {
+  async SignUp(email: string, password: string, username: string, firstName: string, lastName: string) {
     try {
       const result = await this.afAuth.createUserWithEmailAndPassword(email, password)
       console.log(result);
-      localStorage.setItem('userInfo', JSON.stringify("name: " + name));
+      localStorage.setItem('username', JSON.stringify(username));
+      localStorage.setItem('firstName', JSON.stringify(firstName));
+      localStorage.setItem('lastName', JSON.stringify(lastName));
+      this.userService.addUser(result.user);
     } catch (error) {
       console.log(error);
     }
@@ -73,6 +77,10 @@ export class AuthenticationService {
     try {
       const result = await this.afAuth.signInWithPopup(provider);
       localStorage.setItem('userInfo', JSON.stringify(result.user));
+      localStorage.setItem('username', JSON.stringify(result.user?.displayName));
+      localStorage.setItem('firstName', JSON.stringify(result.user?.displayName?.split(' ')[0]));
+      localStorage.setItem('lastName', JSON.stringify(result.user?.displayName?.split(' ')[1]));
+      this.userService.addUser(result.user);
       this.authenticationEventEmitter.next(true);
     } catch (error) {
       console.log(error);

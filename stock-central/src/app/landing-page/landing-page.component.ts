@@ -19,8 +19,10 @@ export class LandingPageComponent implements OnInit {
   signUp() {
     let email = (<HTMLInputElement>document.getElementById("Email")).value;
     let password = (<HTMLInputElement>document.getElementById("Password")).value;
-    let name = (<HTMLInputElement>document.getElementById("Username")).value;
-    this.authenticationService.SignUp(email, password, name);
+    let username = (<HTMLInputElement>document.getElementById("Username")).value;
+    let firstName = (<HTMLInputElement>document.getElementById("firstName")).value;
+    let lastName = (<HTMLInputElement>document.getElementById("lastName")).value;
+    this.authenticationService.SignUp(email, password, username, firstName, lastName);
   }
 
   signIn() {

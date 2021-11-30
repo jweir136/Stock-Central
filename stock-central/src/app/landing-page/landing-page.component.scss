@@ -263,6 +263,75 @@ p {
     border: none;
   }
 
+  .popupFirstNameInput {
+    position:absolute;
+    top: 25vh;
+    left: 45vw;
+    height: 6vh;
+    width: 30vw;
+    border: none;
+    outline: none;
+    font-size: 2vw;
+    font-family: 'Baloo 2', cursive;
+  }
+
+  .popupFirstNameLine {
+    position:absolute;
+    top: 25vh;
+    left: 44vw;
+    height: 6.5vh;
+    width: 0.25vw;
+    background-color:rgb(80, 170, 95);
+    border-radius: 0.25vw;
+    border: none;
+  }
+
+  .popupLastNameInput {
+    position:absolute;
+    top: 35vh;
+    left: 45vw;
+    height: 6vh;
+    width: 30vw;
+    border: none;
+    outline: none;
+    font-size: 2vw;
+    font-family: 'Baloo 2', cursive;
+  }
+
+  .popupLastNameLine {
+    position:absolute;
+    top: 35vh;
+    left: 44vw;
+    height: 6.5vh;
+    width: 0.25vw;
+    background-color:rgb(80, 170, 95);
+    border-radius: 0.25vw;
+    border: none;
+  }
+
+  .popupAgeInput {
+    position:absolute;
+    top: 45vh;
+    left: 45vw;
+    height: 6vh;
+    width: 30vw;
+    border: none;
+    outline: none;
+    font-size: 2vw;
+    font-family: 'Baloo 2', cursive;
+  }
+
+  .popupAgeLine {
+    position:absolute;
+    top: 45vh;
+    left: 44vw;
+    height: 6.5vh;
+    width: 0.25vw;
+    background-color:rgb(80, 170, 95);
+    border-radius: 0.25vw;
+    border: none;
+  }
+
   .popupEmailInput {
     position:absolute;
     top: 35vh;

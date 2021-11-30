@@ -9,6 +9,8 @@ app.use(cors({
     origin: '*'
 }));
 
+// "proxyConfig": "proxy.conf.json"
+
 app.use(express.json())
 
 const port = process.env.PORT || 3000;
@@ -406,7 +408,7 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
         //     });
         // });
 
-        rdb.query(`SELECT * FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id WHERE fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) ORDER BY posts.num_likes DESC LIMIT 10;`,
+        rdb.query(`SELECT * FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND likes.num_likes > 10 LIMIT 10;`,
             function (error2, messages) {
                 if (error2) {
                     console.error(error2)
@@ -421,22 +423,29 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
 
 // endpoint to get username from user id (helper for generate feed stuff)
 app.get('/api/getUsernames/:id', (req, res) => {
-    let userID = undefined
-    try {
-        userID = parseInt(req.params.id)
-    }
-    catch (e) {
-        res.status(400).send(e)
-    }
-    rdb.query(`SELECT username FROM users WHERE user_id = ${userID}`, function (error3, usernameObj) {
-        if (error3) {
-            console.error(error3)
-            throw error3
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
         }
-        if (usernameObj.length == 0) {
-            res.status(404).send(`user with user ID of ${userID} was not found`)
+        let userID = undefined
+        try {
+            userID = parseInt(req.params.id)
         }
-        res.status(200).send(usernameObj)
+        catch (e) {
+            res.status(400).send(e)
+        }
+        rdb.query(`SELECT username FROM users WHERE user_id = ${userID}`, function (error3, usernameObj) {
+            if (error3) {
+                console.error(error3)
+                throw error3
+            }
+            if (usernameObj.length == 0) {
+                res.status(404).send(`user with user ID of ${userID} was not found`)
+            }
+            res.status(200).send(usernameObj)
+        });
     });
 });
 
@@ -445,7 +454,36 @@ app.get('/api/getUsernames/:id', (req, res) => {
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// WATCHLIST ENDPOINTS
 
+// endpoint to get the watchlist items for a user by his ID
+app.get('/api/getWatchlistItems/:id', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let userID = req.params.userID
+        if (isNaN(userID)) {
+            res.status(400).send('USER ID must be an int')
+        }
+        rdb.query(`SELECT * FROM watchlists WHERE fk_user_id = ${userID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send(result)
+        })
+    })
+})
+
+
+app.post('/api/')
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 app.listen(port, () => {
     console.log(`Express server listening on ${port}...`);

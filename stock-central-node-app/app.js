@@ -185,7 +185,7 @@ app.post('/api/users', (req, res) => {
         if (typeof username !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof email !== 'string' || typeof age !== 'number') {
             res.status(400).send('username, first/last name, and email must be strings. Age must be an int')
         }
-        rdb.query(`INSERT INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
+        rdb.query(`INSERT IGNORE INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
             if (error) {
                 console.log(error);
                 throw error;

@@ -16,4 +16,8 @@ export class PostCreationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  uploadPost() {
+    console.log('This is where the post would be uploaded');
+  }
+
 }

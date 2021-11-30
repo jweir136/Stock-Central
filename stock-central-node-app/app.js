@@ -148,13 +148,13 @@ app.get('/api/users/:email', (req, res, next) => {
             console.log('Error getting connection from pool: ' + err)
             throw err
         }
-        let email = undefined
+        let email = ''
         email = req.params.email;
         // if () {
         //     next()
         //     return
         // }
-        if (typeof email !== 'undefined') {
+        if (typeof email !== 'undefined' || email !== '') {
             rdb.query("SELECT * FROM stock_central.users WHERE email = '" + email + "'", function (error, result) {
                 if (error) {
                     console.log(error);
@@ -185,7 +185,7 @@ app.post('/api/users', (req, res) => {
         if (typeof username !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof email !== 'string' || typeof age !== 'number') {
             res.status(400).send('username, first/last name, and email must be strings. Age must be an int')
         }
-        rdb.query(`INSERT INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
+        rdb.query(`INSERT IGNORE INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
             if (error) {
                 console.log(error);
                 throw error;
@@ -418,7 +418,7 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
             console.log('Error getting connection from pool: ' + err)
             throw err
         }
-        let userID = undefined
+        let userID = -1
         try {
             userID = parseInt(req.params.userId)
         }
@@ -436,16 +436,17 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
         //         friendsList.push(friend['fk_user_id_2'])
         //     });
         // });
-
-        rdb.query(`SELECT * FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND likes.num_likes > 10 LIMIT 10;`,
-            function (error2, messages) {
-                if (error2) {
-                    console.error(error2)
-                    throw error2
-                }
-                messagesInfo = JSON.parse(JSON.stringify(messages))
-                res.status(200).send(messagesInfo)
-            });
+        if (userID != 1) {
+            rdb.query(`SELECT * FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND likes.num_likes > 10 LIMIT 10;`,
+                function (error2, messages) {
+                    if (error2) {
+                        console.error(error2)
+                        throw error2
+                    }
+                    messagesInfo = JSON.parse(JSON.stringify(messages))
+                    res.status(200).send(messagesInfo)
+                });
+        }
     });
 });
 
@@ -493,11 +494,11 @@ app.get('/api/getWatchlistItems/:id', (req, res) => {
             console.log('Error getting connection from pool: ' + err)
             throw err
         }
-        let userID = req.params.userID
+        let userID = parseInt(req.params.id)
         if (isNaN(userID)) {
             res.status(400).send('USER ID must be an int')
         }
-        rdb.query(`SELECT * FROM watchlists WHERE fk_user_id = ${userID}`, function (error, result) {
+        rdb.query(`SELECT * FROM watchlist WHERE fk_user_id = ${userID}`, function (error, result) {
             if (error) {
                 console.error(error)
                 throw error

@@ -17,8 +17,13 @@
     </span>
     <span class = "search-box" *ngIf="(userLoggedIn$ | async)">
         <div class="container">
-            <input type="text" placeholder="Type to search" id="searchBar" (keyup.enter)="search()">
+            <input type="text" placeholder="Type to search" id="searchBar" (keyup.enter)="search()" (keypress)="autocomplete($event)" (keyup)="checkInput()">
             <div class="search"></div>
+        </div>
+    </span>
+    <span *ngIf="autocompleteResults">
+        <div *ngFor="let tickerSymbol of tickerSymbols">
+            <button (click)="setInput(getSymbol(tickerSymbol)); search()">{{getSymbol(tickerSymbol)}}</button>
         </div>
     </span>
     <span *ngIf="popup">

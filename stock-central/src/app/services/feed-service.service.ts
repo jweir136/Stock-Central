@@ -15,6 +15,7 @@ export class FeedService {
     let email = JSON.parse(localStorage['userInfo'])['email']
     return this.http.get(environment.API_BASE_URL + `/users/${email}`).subscribe((res: any) => {
       console.log(res)
+      localStorage.setItem('userID', JSON.stringify(res[0].user_id));
       // return res
     })
   }

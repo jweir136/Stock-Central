@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { FollowStockService } from 'src/app/services/follow-stock.service';
 import { StockDataService } from 'src/app/services/stock-data.service';
 
 @Component({
@@ -22,7 +23,7 @@ export class SearchResultsComponent implements OnInit {
   stockNewsHeadline1 = '';
   stockNewsURL1 = '';
 
-  constructor(public authenticationService: AuthenticationService, private stockDataService: StockDataService) { }
+  constructor(public authenticationService: AuthenticationService, private stockDataService: StockDataService, private followStockService: FollowStockService) { }
 
   ngOnInit(): void {
     this.stockDataService.getStockBasicPriceInfo(this.input).subscribe((res: any) => {
@@ -48,6 +49,10 @@ export class SearchResultsComponent implements OnInit {
 
   closePopup() {
     this.closePopupEvent.emit();
+  }
+
+  followStock() {
+    this.followStockService.followStock({"id": parseInt(<string>localStorage.getItem('userID')), "ticker": this.input})
   }
 
 }

@@ -25,8 +25,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.userName = this.authenticationService.getName();
-    this.userFirstName = this.userName.split(' ')[0];
+    this.userName = <string>localStorage.getItem('username')?.replace(/['"]+/g, ''),
+    this.userFirstName = <string>localStorage.getItem('username')?.replace(/['"]+/g, ''),
     this.userPhotoUrl = this.authenticationService.getUserPhotoUrl();
   }
 }

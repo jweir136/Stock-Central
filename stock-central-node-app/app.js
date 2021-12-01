@@ -240,14 +240,15 @@ app.post('/api/users', (req, res) => {
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // endpoint to get all posts 
-app.get('/api/posts', (req, res) => {
+app.get('/api/posts/:id', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
             console.error('Error getting connection from pool: ' + err)
             connection.release()
             throw err
         }
-        rdb.query(`SELECT * FROM posts`, function (error, result) {
+        let userID = req.params.id
+        rdb.query(`SELECT * FROM posts WHERE fk_user_id != ${userID}`, function (error, result) {
             if (error) {
                 console.error(error)
                 throw error
@@ -361,41 +362,45 @@ app.patch('/api/unlikePost/:postId', (req, res) => {
 });
 
 
-app.post('/api/createPost', (req, res) => {
-    mysql_pool.getConnection(function (err, connection) {
-        if (err) {
-            console.error('Error getting connection from pool: ' + err)
-            connection.release()
-            throw err
-        }
-        let userID = req.body.id
-        let messageContent = req.body.messageContent
-        let postID = -1
+// app.post('/api/createPost', (req, res) => {
+//     mysql_pool.getConnection(function (err, connection) {
+//         if (err) {
+//             console.error('Error getting connection from pool: ' + err)
+//             connection.release()
+//             throw err
+//         }
+//         let userID = req.body.id
+//         let messageContent = req.body.messageContent
+//         let postID = -1
 
-        if (typeof messageContent !== 'string' || typeof userID !== 'number') {
-            res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
-            connection.release()
-        }
-        rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
-            if (error) {
-                console.error(error);
-                connection.release()
-                throw error;
-            }
-            res.status(201).send(result)
-            connection.release()
-        });
-        postID = getPostID(userID, messageContent)
-        rdb.query(`INSERT INTO likes (fk_user_id, fk_post_id) VALUES (${userID}, ${postID})`, function (error, result) {
-            if (error) {
-                console.error(error)
-                throw error
-            }
-            res.status(201).send(result)
-            connection.release()
-        })
-    });
-});
+//         if (typeof messageContent !== 'string' || typeof userID !== 'number') {
+//             res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
+//             connection.release()
+//         }
+//         rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
+//             if (error) {
+//                 console.error(error);
+//                 connection.release()
+//                 throw error;
+//             }
+//             res.status(201).send(result)
+//             connection.release()
+//         });
+//         postID = getPostID(userID, messageContent)
+//         rdb.query(`INSERT INTO likes (fk_user_id, fk_post_id) VALUES (${userID}, ${postID})`, function (error, result) {
+//             if (error) {
+//                 console.error(error)
+//                 connection.release()
+//                 throw error
+//             }
+//             else {
+//                 res.status(201).send(result)
+//                 connection.release()
+//             }
+           
+//         })
+//     });
+// });
 
 
 function getPostID(userID, messageContent) {

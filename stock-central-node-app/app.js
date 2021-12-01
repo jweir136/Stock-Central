@@ -543,7 +543,7 @@ app.delete('/api/removeFromWatchlist', (req, res) => {
         if (userID === 'undefined' && ticker === 'undefined') {
             res.status(400).send('a user id and ticker symbol need to be specified')
         }
-        rdb.query(`DELETE FROM watchlist WHERE fk_user_id = ${userID} AND ticker = '${ticker}';)`, function (error, result) {
+        rdb.query(`DELETE FROM watchlist WHERE fk_user_id = ${userID} AND ticker = '${ticker}';`, function (error, result) {
             if (error) {
                 console.log(error);
                 throw error;

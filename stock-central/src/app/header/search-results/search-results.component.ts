@@ -25,9 +25,21 @@ export class SearchResultsComponent implements OnInit {
   stockNewsURL1 = '';
   stockLogo = '';
 
+  followButtonText = 'LOADING';
+
   constructor(public authenticationService: AuthenticationService, private stockDataService: StockDataService, private watchlistService: WatchlistServiceService, private searchService: SearchService) { }
 
   ngOnInit(): void {
+    let watchList = this.watchlistService.getWatchlist()
+    for(let i = 0; i < watchList.length; i++) {
+      if (watchList[i].ticker == this.input.toUpperCase()) {
+        this.followButtonText = 'FOLLOWING'
+        i = watchList.length;
+      }
+    }
+    if (this.followButtonText == 'LOADING') {
+      this.followButtonText = 'FOLLOW'
+    }
     this.stockDataService.getStockBasicPriceInfo(this.input).subscribe((res: any) => {
       this.companyName = res.companyName
       this.latestPrice = res.latestPrice
@@ -60,7 +72,13 @@ export class SearchResultsComponent implements OnInit {
   }
 
   followStock() {
+    this.followButtonText = "FOLLOWING"
     this.watchlistService.followStock({"id": parseInt(<string>localStorage.getItem('userID')), "ticker": this.input})
+  }
+
+  unfollowStock() {
+    this.followButtonText = 'FOLLOW';
+    this.watchlistService.unfollowStock(this.input.toUpperCase());
   }
 
 }

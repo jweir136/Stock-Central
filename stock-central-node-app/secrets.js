@@ -14,9 +14,11 @@ const alpacaDataBaseURL = 'https://data.alpaca.markets/v2'
 const finnhubAPIKey = 'c6grfpqad3iej642uqeg'
 
 const iexSandboxKey = "Tpk_12e6eee6ed7d4026a0a87dee063b86bd"
+const iexKey = 'pk_4a09995ad6854e28a38018bdd36eb410'
 const iexBaseURL = 'https://sandbox.iexapis.com/'
 
 module.exports.iexSandboxKey = iexSandboxKey
+module.exports.iexKey = iexKey
 module.exports.iexBaseURL = iexBaseURL
 
 

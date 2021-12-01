@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FollowStockService } from 'src/app/services/follow-stock.service';
 import { StockDataService } from 'src/app/services/stock-data.service';
 import { WatchlistServiceService } from 'src/app/services/watchlist-service.service';
 
@@ -10,7 +11,7 @@ import { WatchlistServiceService } from 'src/app/services/watchlist-service.serv
 })
 export class StocksScrollComponent implements OnInit {
 
-  tickerSymbols = ['AAPL', 'BA', 'DIS', 'SNAP', 'GE']
+  tickerSymbols = [];
 
   constructor(private http: HttpClient, private watchlistService: WatchlistServiceService) { }
 
@@ -28,6 +29,12 @@ export class StocksScrollComponent implements OnInit {
     //   // data['latestPrice'] = res.latestPrice
     //   // console.log(data)
     // })
+    
+    /*
+    this.followStockService.getWatchlist().subscribe((res: any) => {
+      console.log(res)
+    })
+    */
   }
 
 }

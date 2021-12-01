@@ -1,8 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 import {Observable} from 'rxjs';
+import { environment } from 'src/environments/environment';
 import {AuthenticationService} from '../services/authentication.service';
-import { StockDataService } from '../services/stock-data.service';
 
 @Component({
   selector: 'app-header',
@@ -14,8 +15,10 @@ export class HeaderComponent implements OnInit {
   public userLoggedIn$: Observable<boolean> = this.authenticationService.authenticationEvent;
 
   popup = false;
+  autocompleteResults = false;
+  tickerSymbols = [];
 
-  public constructor(private authenticationService: AuthenticationService, private stockDataService: StockDataService) {
+  public constructor(private authenticationService: AuthenticationService, private http: HttpClient) {
   }
 
   ngOnInit(): void {
@@ -28,6 +31,31 @@ export class HeaderComponent implements OnInit {
 
   search() {
     this.popup = true;
+    this.autocompleteResults = false;
+  }
+
+  autocomplete(event: any) {
+    this.autocompleteResults = true;
+    let input = this.getInput() + event.key;
+    return this.http.get('https://sandbox.iexapis.com/stable/' + 'search/' + input + '?token=' + environment.IEX_SANDBOX_KEY).subscribe((res: any) => {
+      console.log(res)
+      this.tickerSymbols = res;
+      // return res
+    })
+  }
+
+  checkInput() {
+    if (this.getInput() === '') {
+      this.autocompleteResults = false;
+    }
+  }
+
+  getSymbol(result: any) {
+    return result.symbol
+  }
+
+  setInput(newInput: string) {
+    (<HTMLInputElement>document.getElementById("searchBar")).value = newInput;
   }
 
 }

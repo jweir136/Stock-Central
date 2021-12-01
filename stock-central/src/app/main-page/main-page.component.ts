@@ -14,11 +14,6 @@ export class MainPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.feedService.setUserIDLocalStorage().subscribe((res: any) => {
-      console.log(res)
-      sessionStorage.setItem('userID', res[0].user_id)
-      console.log(res[0].user_id)
-    })
 
   }
 

@@ -21,7 +21,7 @@
             <div class="search"></div>
         </div>
     </span>
-    <div class="autoResultsContainer" *ngIf="autocompleteResults">
+    <div class="autocompleteResults" *ngIf="autocompleteResults">
         <div class="results" *ngFor="let tickerSymbol of tickerSymbols">
             <button class="res" (click)="setInput(getSymbol(tickerSymbol)); search()">{{getSymbol(tickerSymbol)}}</button>
         </div>

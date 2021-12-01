@@ -467,7 +467,7 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
         //     });
         // });
         if (userID != 1) {
-            rdb.query(`SELECT * FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND likes.num_likes > 10 LIMIT 10;`,
+            rdb.query(`SELECT posts.message_content, posts.ticker, posts.created_at, posts.post_id, posts.fk_user_id FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND likes.num_likes > 10 LIMIT 10;;`,
                 function (error2, messages) {
                     if (error2) {
                         console.error(error2)
@@ -502,6 +502,7 @@ app.get('/api/getUsernames/:id', (req, res) => {
             if (error3) {
                 console.error(error3)
                 throw error3
+                connection.release()
             }
             if (usernameObj.length == 0) {
                 res.status(404).send(`user with user ID of ${userID} was not found`)

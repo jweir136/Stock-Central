@@ -16,6 +16,9 @@ SELECT * FROM stock_central.users WHERE first_name = 'Prateek';
 
 SELECT * FROM users;
 select * from posts;
+SELECT * FROM friends; 
+
+UPDATE users SET pswd = '123' WHERE user_id = 2;
 
 INSERT INTO likes (fk_user_id, fk_post_id, num_likes) VALUES (4, 8, 22);
 
@@ -45,3 +48,5 @@ INSERT INTO likes (fk_user_id, fk_post_id) VALUES (1, 1);
 UPDATE likes SET num_likes = 30 WHERE likes_id = 3;
 
 ALTER TABLE likes ADD num_likes INT;
+
+ALTER TABLE users ADD pswd VARCHAR(100);

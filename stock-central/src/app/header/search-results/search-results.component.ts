@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FollowStockService } from 'src/app/services/follow-stock.service';
+import { SearchService } from 'src/app/services/search.service';
 import { StockDataService } from 'src/app/services/stock-data.service';
 
 @Component({
@@ -22,12 +23,12 @@ export class SearchResultsComponent implements OnInit {
   stockNewsImage1 = '';
   stockNewsHeadline1 = '';
   stockNewsURL1 = '';
+  stockLogo = '';
 
-  constructor(public authenticationService: AuthenticationService, private stockDataService: StockDataService, private followStockService: FollowStockService) { }
+  constructor(public authenticationService: AuthenticationService, private stockDataService: StockDataService, private followStockService: FollowStockService, private searchService: SearchService) { }
 
   ngOnInit(): void {
     this.stockDataService.getStockBasicPriceInfo(this.input).subscribe((res: any) => {
-      // console.log(res);
       this.companyName = res.companyName
       this.latestPrice = res.latestPrice
       this.changeAmt = Math.abs(res.change)
@@ -44,6 +45,11 @@ export class SearchResultsComponent implements OnInit {
       this.stockNewsImage1 = res[0].image;
       this.stockNewsHeadline1 = res[0].headline;
       this.stockNewsURL1 = res[0].url;
+    })
+    this.searchService.getLogo(this.input).subscribe((res: any) => {
+      console.log(res)
+      this.stockLogo = res.url
+      console.log(this.stockLogo)
     })
   }
 

@@ -16,9 +16,8 @@ export class UserPostScrollComponent implements OnInit {
 
   ngOnInit(): void {
     let email = localStorage.getItem('email')
-    this.feedService.setUserIDLocalStorage(email).subscribe((id: any) => {
+    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
       this.feedService.generateFeed(id[0].user_id).subscribe((messages: any) => {
-        console.log(messages)
         // for (let i = 0; i < messages.length; i++) {
         //   this.feedService.getUsernamesForFeed().subscribe((res) => {
         //   })

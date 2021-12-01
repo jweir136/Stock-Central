@@ -58,7 +58,7 @@
     from {opacity: 0;
           top: 30vh;}
     to {opacity: 100;
-        top: 25vh;}
+        top: 20vh;}
 }
 
 .popup {
@@ -74,7 +74,23 @@
     left: 30vw;
     text-align: center;
     animation: fadeInSlide;
-    animation-duration: 0.5s;
+    animation-duration: 0.5s ease-in-out;
+
+    .UploadButton {
+        height: 7vh;
+        width: 10vw;
+        background-color: white;
+        color:rgb(80, 170, 95);
+        font-family: 'Baloo 2', cursive;
+        border: none;
+        border-radius: 10px;
+        font-size: 4vh;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
 }
 
 .popup .close {

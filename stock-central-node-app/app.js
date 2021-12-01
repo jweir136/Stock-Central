@@ -38,17 +38,17 @@ app.get('/api/quote/:ticker', async (req, res) => {
     try {
         if (priceData == 'undefined' || priceData == null) {
             res.status(400).send('Enter a valid stock ticker')
-            connection.release()
+            // connection.release()
         }
         else {
             res.status(200).send(priceData)
-            connection.release()
+            // connection.release()
         }
     }
     catch (e) {
         console.error(e)
         res.status(400).send('Enter a valid stock ticker')
-        connection.release()
+        // connection.release()
     }
 });
 
@@ -59,17 +59,17 @@ app.get('/api/companyNews/:ticker', async (req, res) => {
     try {
         if (newsData == 'undefined' || newsData == null) {
             res.status(400).send('Enter a valid stock ticker')
-            connection.release()
+            // connection.release()
         }
         else {
             res.status(200).send(newsData)
-            connection.release()
+            // connection.release()
         }
     }
     catch (e) {
         console.error(e)
         res.status(400).send('Enter a valid stock ticker')
-        connection.release()
+        // connection.release()
     }
 });
 

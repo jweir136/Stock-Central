@@ -43,11 +43,14 @@
   position: absolute;
   float: left;
   z-index: 10;
-  width: 20vw;
+  top: 8.5vh;
+  left: 1vw;
+  width: 16vw;
   height: 22vh;
-  animation: popupSlide;
-  animation-duration: 0.5s;
-  animation-timing-function: ease-out;
+  opacity: 1;
+  animation: popupEnter;
+  animation-duration: 0.5s ease-in-out;
+  font-family: 'Baloo 2', cursive;
 
   .popupHeader {
     float: top;
@@ -55,12 +58,9 @@
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     top: 0;
-    width: 20vw;
+    width: 16vw;
     height: 6vh;
     background-color: rgb(147, 231, 161);
-    animation: popupHeaderSlide;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
     z-index: 15;
   }
 
@@ -69,13 +69,11 @@
 .popup a.close {
   z-index: 20;
   left: 0.75vw;
-  top: 0.2vh;
+  top: -1vh;
   position: absolute;
   font-size: 30px;
   font-weight: 200;
   color:rgb(56, 119, 66);
-  animation: infoAppear;
-  animation-duration: 1.25s;
 
   &:hover {
     cursor: pointer;
@@ -85,25 +83,21 @@
 
 .popupHeader span.companyName {
   position: absolute;
-  left: 6vw;
+  left: 4vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   top: 1vh;
-  animation: infoAppear;
-  animation-duration: 1.25s;
   font-family: 'Baloo 2', cursive;
 }
 
 .popup span.trendData {
-  animation: infoAppear;
-  animation-duration: 1.25s;
   position: absolute;
-  left: 1vw;
+  left: 5vw;
   top: 10vh;
 }
 .popup span.unfollowStock {
-  animation: infoAppear;
-  animation-duration: 1.25s;
   position: absolute;
-  left: 4vw;
+  left: 2vw;
   top: 17vh;
   background-color:rgb(147, 231, 161);
   height: 4vh;
@@ -123,19 +117,11 @@
   }
 }
 
-@keyframes popupSlide {
-  from {height: 0vh;}
-  to {height: 22vh;}
-}
-
-@keyframes popupHeaderSlide {
-  from {height: 0vh;}
-  to {height: 6vh;}
-}
-
-@keyframes infoAppear {
-  from {opacity: 0;}
-  to {opacity: 100;}
+@keyframes popupEnter {
+  from {top: 12.5vh;
+        opacity: 0;}
+  to {top: 8.5vh;
+      opacity: 1;}
 }
 
 .stockCard span.label {

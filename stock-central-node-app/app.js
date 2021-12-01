@@ -385,8 +385,8 @@ function getPostID(userID, messageContent) {
                 connection.release()
                 throw error
             }
-            return result
             connection.release()
+            return result
         })
     })
 }

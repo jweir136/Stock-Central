@@ -38,7 +38,6 @@ export class HeaderComponent implements OnInit {
     this.autocompleteResults = true;
     let input = this.getInput() + event.key;
     return this.http.get(environment.IEX_BASE_CLOUD_URL + 'search/' + input + '?token=' + environment.IEX_CLOUD_KEY).subscribe((res: any) => {
-      console.log(res)
       this.tickerSymbols = res;
       // return res
     })

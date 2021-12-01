@@ -36,8 +36,7 @@ export class StocksScrollComponent implements OnInit {
       }
     })
     // let userID: any = sessionStorage.getItem('userID')
-    let email: any = localStorage.getItem('email')
-    this.feedService.setUserIDLocalStorage(email).subscribe((id: any) => {
+    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
       this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
         this.tickerSymbols = res;
         this.watchlistService.setWatchlist(this.tickerSymbols);

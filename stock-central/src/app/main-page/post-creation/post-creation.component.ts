@@ -11,6 +11,8 @@ import { PostService } from 'src/app/services/post.service';
 export class PostCreationComponent implements OnInit {
 
   public popup: boolean = false;
+  public messageContent: any = ''
+
 
   constructor(private postService: PostService) { }
 
@@ -18,11 +20,12 @@ export class PostCreationComponent implements OnInit {
   }
 
   uploadPost() {
-    let userID: any = sessionStorage.getItem('userID')
-    let messageContent = ''
-    this.postService.createPost(userID, messageContent).subscribe((res: any) => {
+    let userID: any = localStorage.getItem('userID')
+    console.log(this.messageContent)
+    this.postService.createPost(userID, this.messageContent).subscribe((res: any) => {
       console.log(res) 
     })
+    
     console.log('This is where the post would be uploaded');
   }
 

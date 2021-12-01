@@ -1,18 +1,20 @@
 <div class="overlay">
     <div class="popup">
         <a class="close" (click)="closePopup()">&times;</a>
-        <div>Company Name: {{companyName}}</div>
-        <div>Latest Price: {{latestPrice}}</div>
-        <div>Change Amount: {{changeAmt}}</div>
-        <div>Change Percent: {{changePercent}}</div>
-        <div>Change: {{change}}</div>
+        <img class="logo" src="{{stockLogo}}" alt="logo">
+        <div class="CompanyName">{{companyName}}</div>
+        <button class="FollowButton" (click)="followStock()">FOLLOW</button>
         <br>
+        <br>
+        <div class="price">Latest Price: {{latestPrice}}</div>
+        <div class="amount">Change Amount: {{changeAmt}}</div>
+        <div class="percent">Change Percent: {{changePercent}}</div>
+        <br>
+        <img class="companyImage" src="{{stockNewsImage1}}" alt="Company Image">
         <div>COMPANY NEWS</div>
-        <br>
-        <div>image: {{stockNewsImage1}}</div>
         <div>headline: {{stockNewsHeadline1}}</div>
         <div>url: {{stockNewsURL1}}</div>
         <br>
-        <button (click)="followStock()">FOLLOW</button>
+
     </div>
 </div>

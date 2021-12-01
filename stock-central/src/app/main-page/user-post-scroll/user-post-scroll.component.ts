@@ -17,11 +17,12 @@ export class UserPostScrollComponent implements OnInit {
   constructor(private feedService: FeedService) { }
 
   ngOnInit(): void {
-    console.log(sessionStorage.getItem('userID'));
     this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
+      /*
       this.feedService.generateFeed(id[0].user_id).subscribe((messages: any) => {
         console.log(messages)
       })
+      */
     })
   }
 

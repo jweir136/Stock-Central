@@ -77,8 +77,8 @@ app.get('/api/companyNews/:ticker', async (req, res) => {
 app.get('/api/users', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
-            connection.release()
             console.log('Error getting connection from pool: ' + err)
+            connection.release()
             throw err
         }
         rdb.query('SELECT * FROM stock_central.users', function (error, result) {
@@ -86,7 +86,8 @@ app.get('/api/users', (req, res) => {
                 console.log(error);
                 throw error;
             }
-            res.send(result)
+            res.status(200).send(result)
+            connection.release()
         });
     });
 });
@@ -95,7 +96,7 @@ app.get('/api/users', (req, res) => {
 app.get('/api/users/:id', (req, res, next) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
-            console.log('Error getting connection from pool: ' + err)
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
             throw err
         }
@@ -112,7 +113,8 @@ app.get('/api/users/:id', (req, res, next) => {
                     console.log(error);
                     throw error;
                 }
-                res.send(result)
+                res.status(200).send(result)
+                connection.release()
             });
         }
         else {
@@ -125,8 +127,8 @@ app.get('/api/users/:id', (req, res, next) => {
 app.get('/api/users/:username', (req, res, next) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let username = req.params.username;
@@ -140,7 +142,8 @@ app.get('/api/users/:username', (req, res, next) => {
                     console.log(error);
                     throw error;
                 }
-                res.send(result)
+                res.status(200).send(result)
+                connection.release()
             });
         }
         else {
@@ -153,8 +156,8 @@ app.get('/api/users/:username', (req, res, next) => {
 app.get('/api/users/:email', (req, res, next) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let email = undefined
@@ -184,8 +187,8 @@ app.get('/api/users/:email', (req, res, next) => {
 app.post('/api/users', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let username = req.body.username
@@ -214,8 +217,8 @@ app.post('/api/users', (req, res) => {
 app.get('/api/posts', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         rdb.query(`SELECT * FROM posts`, function (error, result) {
@@ -232,8 +235,8 @@ app.get('/api/posts', (req, res) => {
 app.get('/api/post/:id', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let postID = undefined
@@ -259,8 +262,8 @@ app.get('/api/post/:id', (req, res) => {
 app.post('/api/createPost', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let messageContent = req.body.messageContent
@@ -291,8 +294,8 @@ app.patch('/api/likePost/:postId', (req, res) => {
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         rdb.query(`UPDATE posts SET num_likes = num_likes + 1 WHERE post_id = ${postID}`, function (error, result) {
@@ -312,17 +315,17 @@ app.patch('/api/unlikePost/:postId', (req, res) => {
     let postID = req.params.postId
     if (isNaN(postID)) {
         res.status(400).send('post ID must be an int')
-        connection.release()
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         rdb.query(`UPDATE posts SET num_likes = num_likes - 1 WHERE post_id = ${postID}`, function (error, result) {
             if (error) {
                 console.error(error)
+                connection.release()
                 throw error
             }
             res.status(200).send('Number of likes decremented successfully!')
@@ -335,14 +338,13 @@ app.patch('/api/unlikePost/:postId', (req, res) => {
 app.post('/api/createPost', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let userID = req.body.id
         let messageContent = req.body.messageContent
         let postID = -1
-
 
         if (typeof messageContent !== 'string' || typeof userID !== 'number') {
             res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
@@ -351,6 +353,7 @@ app.post('/api/createPost', (req, res) => {
         rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
             if (error) {
                 console.error(error);
+                connection.release()
                 throw error;
             }
             res.status(201).send(result)
@@ -372,16 +375,18 @@ app.post('/api/createPost', (req, res) => {
 function getPostID(userID, messageContent) {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         rdb.query(`SELECT post_id FROM posts WHERE fk_user_id = ${userID} AND message_content = '${messageContent}'`, function (error, result) {
             if (error) {
                 console.error(error)
+                connection.release()
                 throw error
             }
             return result
+            connection.release()
         })
     })
 }
@@ -392,17 +397,17 @@ app.patch('/api/likePost/:postId/:userID', (req, res) => {
     let postID = req.params.postId
     if (isNaN(postID) || isNaN(userID)) {
         res.status(400).send('post and user ID must be an int')
-        connection.release()
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         rdb.query(`UPDATE likes SET num_likes = num_likes + 1 WHERE fk_post_id = ${postID} AND fk_user_id = ${userID}`, function (error, result) {
             if (error) {
                 console.error(error)
+                connection.release()
                 throw error
             }
             res.status(200).send(result)
@@ -418,17 +423,17 @@ app.patch('/api/unlikePost/:postId/userId', (req, res) => {
     let postID = req.params.postId
     if (isNaN(postID) && isNaN(userID)) {
         res.status(400).send('post and user ID must be an int')
-        connection.release()
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         rdb.query(`UPDATE likes SET num_likes = num_likes - 1 WHERE fk_post_id = ${postID} AND fk_user_id = ${userID}`, function (error, result) {
             if (error) {
                 console.error(error)
+                connection.release()
                 throw error
             }
             res.status(200).send('Number of likes decremented successfully!')
@@ -443,8 +448,8 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
     let messagesInfo = {}
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let userID = -1
@@ -486,8 +491,8 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
 app.get('/api/getUsernames/:id', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let userID = undefined
@@ -501,8 +506,8 @@ app.get('/api/getUsernames/:id', (req, res) => {
         rdb.query(`SELECT username FROM users WHERE user_id = ${userID}`, function (error3, usernameObj) {
             if (error3) {
                 console.error(error3)
-                throw error3
                 connection.release()
+                throw error3
             }
             if (usernameObj.length == 0) {
                 res.status(404).send(`user with user ID of ${userID} was not found`)
@@ -525,8 +530,8 @@ app.get('/api/getUsernames/:id', (req, res) => {
 app.get('/api/getWatchlistItems/:id', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let userID = parseInt(req.params.id)
@@ -537,6 +542,7 @@ app.get('/api/getWatchlistItems/:id', (req, res) => {
         rdb.query(`SELECT * FROM watchlist WHERE fk_user_id = ${userID}`, function (error, result) {
             if (error) {
                 console.error(error)
+                connection.release()
                 throw error
             }
             res.status(200).send(result)
@@ -549,8 +555,8 @@ app.get('/api/getWatchlistItems/:id', (req, res) => {
 app.post('/api/addToWatchlist', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let userID = req.body.id
@@ -562,6 +568,7 @@ app.post('/api/addToWatchlist', (req, res) => {
         rdb.query(`INSERT INTO watchlist (fk_user_id, ticker) VALUES (${userID}, '${ticker}')`, function (error, result) {
             if (error) {
                 console.log(error);
+                connection.release()
                 throw error;
             }
             res.status(201).send(result)
@@ -573,8 +580,8 @@ app.post('/api/addToWatchlist', (req, res) => {
 app.delete('/api/removeFromWatchlist', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let userID = req.body.id
@@ -585,7 +592,8 @@ app.delete('/api/removeFromWatchlist', (req, res) => {
         }
         rdb.query(`DELETE FROM watchlist WHERE fk_user_id = ${userID} AND ticker = '${ticker}';`, function (error, result) {
             if (error) {
-                console.log(error);
+                console.error(error);
+                connection.release()
                 throw error;
             }
             res.status(200).send(result)
@@ -602,8 +610,8 @@ app.delete('/api/removeFromWatchlist', (req, res) => {
 app.post('/api/addFriend', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let userID_1 = -1
@@ -621,6 +629,7 @@ app.post('/api/addFriend', (req, res) => {
         rdb.query(`INSERT IGNORE INTO friends (fk_user_id_1, fk_user_id_2) VALUES (${userID_1}, ${userID_2})`, function (error, result) {
             if (error) {
                 console.error(error)
+                connection.release()
                 throw error
             } 
             res.status(201).send(result)
@@ -633,8 +642,8 @@ app.post('/api/addFriend', (req, res) => {
 app.delete('/api/deleteFriend', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
+            console.error('Error getting connection from pool: ' + err)
             connection.release()
-            console.log('Error getting connection from pool: ' + err)
             throw err
         }
         let userID_1 = -1
@@ -651,6 +660,7 @@ app.delete('/api/deleteFriend', (req, res) => {
         rdb.query(`DELETE FROM friends WHERE fk_user_id_1 = ${userID_1} AND fk_user_id_2 = ${userID_2}`, function (error, result) {
             if (error) {
                 console.error(error)
+                connection.release()
                 throw error
             }
             res.status(200).send(result)

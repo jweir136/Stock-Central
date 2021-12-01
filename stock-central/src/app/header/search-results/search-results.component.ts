@@ -53,7 +53,6 @@ export class SearchResultsComponent implements OnInit {
         this.change = 0;
     })
     this.stockDataService.getStockNews(this.input).subscribe((res: any) => {
-      console.log(res);
       if (res[0]) {
         this.stockNewsImage1 = res[0].image;
         this.stockNewsHeadline1 = res[0].headline;
@@ -61,9 +60,7 @@ export class SearchResultsComponent implements OnInit {
       }
     })
     this.searchService.getLogo(this.input).subscribe((res: any) => {
-      console.log(res)
       this.stockLogo = res.url
-      console.log(this.stockLogo)
     })
   }
 

@@ -18,7 +18,6 @@ export class UserPostScrollComponent implements OnInit {
 
   ngOnInit(): void {
     this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
-      console.log(id);
       localStorage.setItem('userID', id[0].user_id);
       /*
       this.feedService.generateFeed(id[0].user_id).subscribe((messages: any) => {

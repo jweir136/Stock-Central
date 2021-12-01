@@ -23,9 +23,7 @@ export class WatchlistServiceService {
   }
 
   followStock(req: any) {
-    console.log(req);
     return this.http.post<any>('http://localhost:3000/api/addToWatchlist', req).subscribe(data => {
-      console.log(data);
       this.followStockEventEmitter.next(req.ticker);
     })
   }
@@ -41,7 +39,6 @@ export class WatchlistServiceService {
       },
     };
     this.http.delete(environment.API_BASE_URL + '/removeFromWatchlist', options).subscribe(res => {
-      console.log(res);
     })
     this.unfollowStockEventEmitter.next(req);
     let index = this.watchlistStocks.indexOf(req);

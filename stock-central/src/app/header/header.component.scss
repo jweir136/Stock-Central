@@ -100,7 +100,7 @@
       opacity: 0;
       z-index: 5;
       font-weight: bolder;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.075em;
       &:hover {
         cursor: pointer;
       }
@@ -145,7 +145,7 @@
   }
 
 .autocompleteResults {
-  top: 10.5vh;
+  top: 7.4vh;
   align-items: center;
   position: absolute;
   width: 24vw;
@@ -156,10 +156,9 @@
   .results {
     .res {
       outline: none;
-      background-color: white;
-      border: solid 0.5vh rgb(104, 170, 115);
-      border-top: none;
-      width: 24vw;
+      background-color: rgb(181, 223, 188);
+      border: none;
+      width: 23vw;
       height: 6vh;
       text-align: left;
       font-family: 'Baloo 2', cursive;

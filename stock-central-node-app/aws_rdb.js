@@ -4,8 +4,7 @@ var rdb = mysql.createConnection({
     user: 'admin',
     password: 'stockcentral',
     port: '3306',
-    database: 'stock_central',
-    timeout: '10000'
+    database: 'stock_central'
 });
 
 function connectToRDB() {

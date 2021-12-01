@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors');
 const Joi = require('joi')
+const bodyParser = require('body-parser')
 let functions = require('./functions')
 let connectToRDB = require('./aws_rdb')
 let sqlConnectionPool = require('./generate_sql_connection_pool');
@@ -37,14 +38,17 @@ app.get('/api/quote/:ticker', async (req, res) => {
     try {
         if (priceData == 'undefined' || priceData == null) {
             res.status(400).send('Enter a valid stock ticker')
+            connection.release()
         }
         else {
             res.status(200).send(priceData)
+            connection.release()
         }
     }
     catch (e) {
         console.error(e)
         res.status(400).send('Enter a valid stock ticker')
+        connection.release()
     }
 });
 
@@ -55,14 +59,17 @@ app.get('/api/companyNews/:ticker', async (req, res) => {
     try {
         if (newsData == 'undefined' || newsData == null) {
             res.status(400).send('Enter a valid stock ticker')
+            connection.release()
         }
         else {
             res.status(200).send(newsData)
+            connection.release()
         }
     }
     catch (e) {
         console.error(e)
         res.status(400).send('Enter a valid stock ticker')
+        connection.release()
     }
 });
 
@@ -88,8 +95,8 @@ app.get('/api/users', (req, res) => {
 app.get('/api/users/:id', (req, res, next) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
-            connection.release()
             console.log('Error getting connection from pool: ' + err)
+            connection.release()
             throw err
         }
         let userID = undefined
@@ -110,6 +117,7 @@ app.get('/api/users/:id', (req, res, next) => {
         }
         else {
             res.status(400).send('Must specify user ID in request params')
+            connection.release()
         }
     });
 });
@@ -137,6 +145,7 @@ app.get('/api/users/:username', (req, res, next) => {
         }
         else {
             res.status(400).send('Must specify username in request params')
+            connection.release()
         }
     });
 });
@@ -148,23 +157,25 @@ app.get('/api/users/:email', (req, res, next) => {
             console.log('Error getting connection from pool: ' + err)
             throw err
         }
-        let email = ''
+        let email = undefined
         email = req.params.email;
         // if () {
         //     next()
         //     return
         // }
         if (typeof email !== 'undefined' || email !== '') {
-            rdb.query("SELECT * FROM stock_central.users WHERE email = '" + email + "'", function (error, result) {
+            rdb.query(`SELECT * FROM stock_central.users WHERE email = ${email}`, function (error, result) {
                 if (error) {
                     console.log(error);
                     throw error;
                 }
                 res.status(200).send(result)
+                connection.release()
             });
         }
         else {
             res.status(400).send('Must specify email in request params')
+            connection.release()
         }
     });
 });
@@ -184,6 +195,7 @@ app.post('/api/users', (req, res) => {
         let email = req.body.email
         if (typeof username !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof email !== 'string' || typeof age !== 'number') {
             res.status(400).send('username, first/last name, and email must be strings. Age must be an int')
+            connection.release()
         }
         rdb.query(`INSERT IGNORE INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
             if (error) {
@@ -191,6 +203,7 @@ app.post('/api/users', (req, res) => {
                 throw error;
             }
             res.status(200).send(result)
+            connection.release()
         });
     });
 });
@@ -211,6 +224,7 @@ app.get('/api/posts', (req, res) => {
                 throw error
             }
             res.status(200).send(result)
+            connection.release()
         });
     })
 });
@@ -228,6 +242,7 @@ app.get('/api/post/:id', (req, res) => {
         }
         catch (e) {
             res.status(400).send(e)
+            connection.release()
         }
 
         rdb.query(`SELECT * FROM posts WHERE post_id = ${postID}`, function (error, result) {
@@ -236,6 +251,7 @@ app.get('/api/post/:id', (req, res) => {
                 throw error
             }
             res.status(200).send(result)
+            connection.release()
         });
     });
 });
@@ -252,6 +268,7 @@ app.post('/api/createPost', (req, res) => {
 
         if (typeof messageContent !== 'string' || typeof userID !== 'number') {
             res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
+            connection.release()
         }
         rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
             if (error) {
@@ -259,6 +276,7 @@ app.post('/api/createPost', (req, res) => {
                 throw error;
             }
             res.status(201).send('post successfully created!')
+            connection.release()
         });
     });
 });
@@ -269,6 +287,7 @@ app.patch('/api/likePost/:postId', (req, res) => {
     let postID = req.params.postId
     if (isNaN(postID)) {
         res.status(400).send('post ID must be an int')
+        connection.release()
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -282,6 +301,7 @@ app.patch('/api/likePost/:postId', (req, res) => {
                 throw error
             }
             res.status(200).send('Number of likes increased successfully!')
+            connection.release()
         });
     });
 });
@@ -292,6 +312,7 @@ app.patch('/api/unlikePost/:postId', (req, res) => {
     let postID = req.params.postId
     if (isNaN(postID)) {
         res.status(400).send('post ID must be an int')
+        connection.release()
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -305,6 +326,7 @@ app.patch('/api/unlikePost/:postId', (req, res) => {
                 throw error
             }
             res.status(200).send('Number of likes decremented successfully!')
+            connection.release()
         });
     });
 });
@@ -324,6 +346,7 @@ app.post('/api/createPost', (req, res) => {
 
         if (typeof messageContent !== 'string' || typeof userID !== 'number') {
             res.status(400).send('User ID needs to be an int and messageContent needs to be a string')
+            connection.release()
         }
         rdb.query(`INSERT INTO posts (fk_user_id, message_content) VALUES ('${userID}', '${messageContent}')`, function (error, result) {
             if (error) {
@@ -331,6 +354,7 @@ app.post('/api/createPost', (req, res) => {
                 throw error;
             }
             res.status(201).send(result)
+            connection.release()
         });
         postID = getPostID(userID, messageContent)
         rdb.query(`INSERT INTO likes (fk_user_id, fk_post_id) VALUES (${userID}, ${postID})`, function (error, result) {
@@ -339,6 +363,7 @@ app.post('/api/createPost', (req, res) => {
                 throw error
             }
             res.status(201).send(result)
+            connection.release()
         })
     });
 });
@@ -367,6 +392,7 @@ app.patch('/api/likePost/:postId/:userID', (req, res) => {
     let postID = req.params.postId
     if (isNaN(postID) || isNaN(userID)) {
         res.status(400).send('post and user ID must be an int')
+        connection.release()
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -380,6 +406,7 @@ app.patch('/api/likePost/:postId/:userID', (req, res) => {
                 throw error
             }
             res.status(200).send(result)
+            connection.release()
         });
     });
 });
@@ -391,6 +418,7 @@ app.patch('/api/unlikePost/:postId/userId', (req, res) => {
     let postID = req.params.postId
     if (isNaN(postID) && isNaN(userID)) {
         res.status(400).send('post and user ID must be an int')
+        connection.release()
     }
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
@@ -404,6 +432,7 @@ app.patch('/api/unlikePost/:postId/userId', (req, res) => {
                 throw error
             }
             res.status(200).send('Number of likes decremented successfully!')
+            connection.release()
         });
     });
 });
@@ -424,6 +453,7 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
         }
         catch (e) {
             res.status(400).send(e)
+            connection.release()
         }
 
         // let friendsList = []
@@ -445,6 +475,7 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
                     }
                     messagesInfo = JSON.parse(JSON.stringify(messages))
                     res.status(200).send(messagesInfo)
+                    connection.release()
                 });
         }
     });
@@ -465,6 +496,7 @@ app.get('/api/getUsernames/:id', (req, res) => {
         }
         catch (e) {
             res.status(400).send(e)
+            connection.release()
         }
         rdb.query(`SELECT username FROM users WHERE user_id = ${userID}`, function (error3, usernameObj) {
             if (error3) {
@@ -473,8 +505,10 @@ app.get('/api/getUsernames/:id', (req, res) => {
             }
             if (usernameObj.length == 0) {
                 res.status(404).send(`user with user ID of ${userID} was not found`)
+                connection.release()
             }
             res.status(200).send(usernameObj)
+            connection.release()
         });
     });
 });
@@ -497,6 +531,7 @@ app.get('/api/getWatchlistItems/:id', (req, res) => {
         let userID = parseInt(req.params.id)
         if (isNaN(userID)) {
             res.status(400).send('USER ID must be an int')
+            connection.release()
         }
         rdb.query(`SELECT * FROM watchlist WHERE fk_user_id = ${userID}`, function (error, result) {
             if (error) {
@@ -504,6 +539,7 @@ app.get('/api/getWatchlistItems/:id', (req, res) => {
                 throw error
             }
             res.status(200).send(result)
+            connection.release()
         })
     })
 })
@@ -520,6 +556,7 @@ app.post('/api/addToWatchlist', (req, res) => {
         let ticker = req.body.ticker
         if (userID === 'undefined' && ticker === 'undefined') {
             res.status(400).send('a user id and ticker symbol need to be specified')
+            connection.release()
         }
         rdb.query(`INSERT INTO watchlist (fk_user_id, ticker) VALUES (${userID}, '${ticker}')`, function (error, result) {
             if (error) {
@@ -527,6 +564,7 @@ app.post('/api/addToWatchlist', (req, res) => {
                 throw error;
             }
             res.status(201).send(result)
+            connection.release()
         })
     })
 })
@@ -542,6 +580,7 @@ app.delete('/api/removeFromWatchlist', (req, res) => {
         let ticker = req.body.ticker
         if (userID === 'undefined' && ticker === 'undefined') {
             res.status(400).send('a user id and ticker symbol need to be specified')
+            connection.release()
         }
         rdb.query(`DELETE FROM watchlist WHERE fk_user_id = ${userID} AND ticker = '${ticker}';)`, function (error, result) {
             if (error) {
@@ -549,6 +588,7 @@ app.delete('/api/removeFromWatchlist', (req, res) => {
                 throw error;
             }
             res.status(200).send(result)
+            connection.release()
         })
     })
 })
@@ -574,6 +614,7 @@ app.post('/api/addFriend', (req, res) => {
         catch (e) {
             console.error(e)
             res.status(400).send(e)
+            connection.release()
          }
         
         rdb.query(`INSERT IGNORE INTO friends (fk_user_id_1, fk_user_id_2) VALUES (${userID_1}, ${userID_2})`, function (error, result) {
@@ -582,6 +623,7 @@ app.post('/api/addFriend', (req, res) => {
                 throw error
             } 
             res.status(201).send(result)
+            connection.release()
         })
     })
 })
@@ -603,6 +645,7 @@ app.delete('/api/deleteFriend', (req, res) => {
         catch (e) {
             console.error(e)
             res.status(400).send(e)
+            connection.release()
         }
         rdb.query(`DELETE FROM friends WHERE fk_user_id_1 = ${userID_1} AND fk_user_id_2 = ${userID_2}`, function (error, result) {
             if (error) {
@@ -610,6 +653,7 @@ app.delete('/api/deleteFriend', (req, res) => {
                 throw error
             }
             res.status(200).send(result)
+            connection.release()
         })
     })
 })

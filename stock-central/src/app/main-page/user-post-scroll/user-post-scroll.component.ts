@@ -10,7 +10,7 @@ import { FeedService } from 'src/app/services/feed-service.service';
 export class UserPostScrollComponent implements OnInit {
 
   products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-  posts = []
+  posts: any = []
 
   constructor(private feedService: FeedService) { }
 
@@ -19,12 +19,18 @@ export class UserPostScrollComponent implements OnInit {
     this.feedService.setUserIDLocalStorage(email).subscribe((id: any) => {
       this.feedService.generateFeed(id[0].user_id).subscribe((messages: any) => {
         console.log(messages)
-        // for (let i = 0; i < messages.length; i++) {
-        //   this.feedService.getUsernamesForFeed().subscribe((res) => {
-        //   })
-        // }
+        for (let i = 0; i < messages.length; i++) {
+          this.feedService.getUsernamesForFeed(messages[i].fk_user_id).subscribe((res: any) => {
+            console.log(res)
+            let username = res[0].username
+            messages[i].username = username
+            this.posts.push(messages[i])
+          })
+        }
+        
       })
     })
+    console.log(this.posts)
   }
   
 }

@@ -21,6 +21,7 @@
     "@angular/router": "~12.0.3",
     "@fortawesome/angular-fontawesome": "^0.10.1",
     "firebase": "^9.0.2",
+    "moment": "^2.29.1",
     "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",

@@ -24,7 +24,13 @@
             Edit Account
         </span>
         <div class="username">
-            Username: {{userName}}
+            Username: {{userFirstName}}{{userLastName}}
+        </div>
+        <div>
+            Username: {{username}}
+        </div>
+        <div>
+            Joined Stock Central: {{createdAt}}
         </div>
         <div class="closeButton" type="button"(click)="authenticationService.signOut()">
             <span class = "farewell">

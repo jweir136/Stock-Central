@@ -10,12 +10,9 @@ SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = 1;
 -- SELECT * FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_user_id = posts.fk_user_id WHERE fk_user_id_1 = 1 AND posts.created_at > (NOW() - INTERVAL 7 DAY) ORDER BY likes.num_likes DESC LIMIT 10;
 SELECT posts.message_content, posts.ticker, posts.created_at, posts.post_id, posts.fk_user_id FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = 4 AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND likes.num_likes > 10 LIMIT 10;
 
-<<<<<<< HEAD
 INSERT INTO posts (fk_user_id, message_content, ticker) VALUES (4, 'Prateek test msg 2', 'ZG');
-||||||| 65036a2
-=======
+
 SELECT * FROM stock_central.users WHERE first_name = 'Prateek';
->>>>>>> profile
 
 SELECT * FROM users;
 select * from posts;

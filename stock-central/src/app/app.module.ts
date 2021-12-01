@@ -18,6 +18,7 @@ import { PostCreationComponent } from './main-page/post-creation/post-creation.c
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchResultsComponent } from './header/search-results/search-results.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { SearchResultsComponent } from './header/search-results/search-results.c
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

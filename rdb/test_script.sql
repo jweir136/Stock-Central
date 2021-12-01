@@ -17,6 +17,8 @@ SELECT * FROM stock_central.users WHERE first_name = 'Prateek';
 SELECT * FROM users;
 select * from posts;
 
+INSERT INTO likes (fk_user_id, fk_post_id, num_likes) VALUES (4, 8, 22);
+
 ALTER TABLE posts DROP num_likes;
 
 ALTER TABLE friends RENAME COLUMN fK_user_id_2 TO fk_user_id_2;

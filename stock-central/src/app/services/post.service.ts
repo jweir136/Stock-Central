@@ -17,4 +17,5 @@ export class PostService {
     }
     return this.http.post(environment.API_BASE_URL + '/createPost', requestBody)
   }
+  
 }

@@ -22,10 +22,12 @@ export class StocksScrollComponent implements OnInit {
     //   // data['latestPrice'] = res.latestPrice
     //   // console.log(data)
     // })
+    
+    /*
     this.followStockService.getWatchlist().subscribe((res: any) => {
       console.log(res)
-      // return res
     })
+    */
   }
 
 }

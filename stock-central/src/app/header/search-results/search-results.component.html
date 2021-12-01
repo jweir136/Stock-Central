@@ -3,7 +3,9 @@
         <a class="close" (click)="closePopup()">&times;</a>
         <img class="logo" src="{{stockLogo}}" alt="logo">
         <div class="CompanyName">{{companyName}}</div>
-        <button class="FollowButton" (click)="followStock()">FOLLOW</button>
+        <button *ngIf="followButtonText == 'FOLLOW'" class="FollowButton" (click)="followStock()">{{followButtonText}}</button>
+        <button *ngIf="followButtonText == 'FOLLOWING'" class="FollowButton" (click)="unfollowStock()">{{followButtonText}}</button>
+        <button *ngIf="followButtonText == 'LOADING'" class="FollowButton">{{followButtonText}}</button>
         <br>
         <br>
         <div class="price">Latest Price: {{latestPrice}}</div>

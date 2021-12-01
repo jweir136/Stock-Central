@@ -11,7 +11,7 @@ export class StockDataService {
   constructor(private http: HttpClient) { }
 
   public getStockBasicPriceInfo(ticker: string) {
-    return this.http.get(environment.IEX_BASE_CLOUD_URL + '/stock/' + ticker + '/quote?token=' + environment.IEX_CLOUD_KEY);
+    return this.http.get(environment.IEX_BASE_CLOUD_URL + 'stock/' + ticker + '/quote?token=' + environment.IEX_CLOUD_KEY);
   }
 
   public getStockPriceBasicInfoBatch(tickers: string[]) {

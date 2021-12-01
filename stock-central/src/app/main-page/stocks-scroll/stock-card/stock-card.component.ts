@@ -1,7 +1,8 @@
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { StockDataService } from 'src/app/services/stock-data.service';
+import { WatchlistServiceService } from 'src/app/services/watchlist-service.service';
 
 @Component({
   selector: 'app-stock-card',
@@ -16,9 +17,8 @@ export class StockCardComponent implements OnInit {
   changeAmt = 0
   changePercent: number = 0
   public change: number = 0;
-  testTickers = ['AAPL', 'BA', 'DIS', 'GE', 'HD', 'NKE', 'SBUX', 'VZ']
 
-  constructor(private http: HttpClient, private stockDataService: StockDataService) { }
+  constructor(private http: HttpClient, private stockDataService: StockDataService, private watchlistService: WatchlistServiceService) { }
 
   public popup: boolean = false
 
@@ -36,5 +36,8 @@ export class StockCardComponent implements OnInit {
       else
         this.change = 0;
     })
+  }
+  unfollowStock() {
+    this.watchlistService.unfollowStock(this.tickerSymbol);
   }
 }

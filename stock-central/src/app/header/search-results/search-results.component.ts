@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { FollowStockService } from 'src/app/services/follow-stock.service';
 import { SearchService } from 'src/app/services/search.service';
 import { StockDataService } from 'src/app/services/stock-data.service';
+import { WatchlistServiceService } from 'src/app/services/watchlist-service.service';
 
 @Component({
   selector: 'app-search-results',
@@ -25,9 +25,21 @@ export class SearchResultsComponent implements OnInit {
   stockNewsURL1 = '';
   stockLogo = '';
 
-  constructor(public authenticationService: AuthenticationService, private stockDataService: StockDataService, private followStockService: FollowStockService, private searchService: SearchService) { }
+  followButtonText = 'LOADING';
+
+  constructor(public authenticationService: AuthenticationService, private stockDataService: StockDataService, private watchlistService: WatchlistServiceService, private searchService: SearchService) { }
 
   ngOnInit(): void {
+    let watchList = this.watchlistService.getWatchlist()
+    for(let i = 0; i < watchList.length; i++) {
+      if (watchList[i].ticker == this.input.toUpperCase()) {
+        this.followButtonText = 'FOLLOWING'
+        i = watchList.length;
+      }
+    }
+    if (this.followButtonText == 'LOADING') {
+      this.followButtonText = 'FOLLOW'
+    }
     this.stockDataService.getStockBasicPriceInfo(this.input).subscribe((res: any) => {
       this.companyName = res.companyName
       this.latestPrice = res.latestPrice
@@ -41,15 +53,14 @@ export class SearchResultsComponent implements OnInit {
         this.change = 0;
     })
     this.stockDataService.getStockNews(this.input).subscribe((res: any) => {
-      console.log(res);
-      this.stockNewsImage1 = res[0].image;
-      this.stockNewsHeadline1 = res[0].headline;
-      this.stockNewsURL1 = res[0].url;
+      if (res[0]) {
+        this.stockNewsImage1 = res[0].image;
+        this.stockNewsHeadline1 = res[0].headline;
+        this.stockNewsURL1 = res[0].url;
+      }
     })
     this.searchService.getLogo(this.input).subscribe((res: any) => {
-      console.log(res)
       this.stockLogo = res.url
-      console.log(this.stockLogo)
     })
   }
 
@@ -58,7 +69,13 @@ export class SearchResultsComponent implements OnInit {
   }
 
   followStock() {
-    this.followStockService.followStock({"id": parseInt(<string>localStorage.getItem('userID')), "ticker": this.input})
+    this.followButtonText = "FOLLOWING"
+    this.watchlistService.followStock({"id": parseInt(<string>localStorage.getItem('userID')), "ticker": this.input})
+  }
+
+  unfollowStock() {
+    this.followButtonText = 'FOLLOW';
+    this.watchlistService.unfollowStock(this.input.toUpperCase());
   }
 
 }

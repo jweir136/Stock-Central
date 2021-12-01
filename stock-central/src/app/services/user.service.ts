@@ -17,7 +17,7 @@ export class UserService {
       "email": user.email
     }
     return this.http.post<any>('http://localhost:3000/api/users', newUser).subscribe(data => {
-      console.log(data);
+      // console.log(data);
     })
   }
 }

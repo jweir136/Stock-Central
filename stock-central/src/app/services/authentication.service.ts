@@ -36,6 +36,7 @@ export class AuthenticationService {
       localStorage.setItem('username', JSON.stringify(username));
       localStorage.setItem('firstName', JSON.stringify(firstName));
       localStorage.setItem('lastName', JSON.stringify(lastName));
+
       this.userService.addUser(result.user);
     } catch (error) {
       console.log(error);
@@ -77,10 +78,15 @@ export class AuthenticationService {
   async AuthLogin(provider: any) {
     try {
       const result = await this.afAuth.signInWithPopup(provider);
+      console.log(result)
       localStorage.setItem('userInfo', JSON.stringify(result.user));
       localStorage.setItem('username', JSON.stringify(result.user?.displayName));
       localStorage.setItem('firstName', JSON.stringify(result.user?.displayName?.split(' ')[0]));
       localStorage.setItem('lastName', JSON.stringify(result.user?.displayName?.split(' ')[1]));
+      localStorage.setItem('email', JSON.stringify(result.user?.email))
+      this.feedService.setUserIDLocalStorage(localStorage.getItem('email')).subscribe((id: any) => {
+        console.log(id)
+      })
       this.userService.addUser(result.user);
       this.authenticationEventEmitter.next(true);
     } catch (error) {

@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./user-post-card.component.scss']
 })
 export class UserPostCardComponent implements OnInit {
-  @Input('post') posts = [];
+  @Input() posts = [];
 
   constructor() { }
 

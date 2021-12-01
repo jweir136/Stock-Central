@@ -17,12 +17,12 @@ export class StocksScrollComponent implements OnInit {
   constructor(private http: HttpClient, private watchlistService: WatchlistServiceService, private feedService: FeedService) { }
 
   ngOnInit(): void {
-    let userID: any = sessionStorage.getItem('userID')
-    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
-      this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
-        console.log(res)
-      })
-    })
+    // this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
+    //   console.log(id)
+      // this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
+      //   console.log(res)
+      // })
+    // })
 
 
     // this.stockDataService.getStockPriceBasicInfoBatch(this.tickerSymbols).subscribe((res: any) => {

@@ -55,7 +55,7 @@
     from {opacity: 0;
           top: 30vh;}
     to {opacity: 1;
-        top: 25vh;}
+        top: 15vh;}
 }
 
 .popup {
@@ -64,13 +64,13 @@
     background: white;
     border-radius: 10px;
     width: 20vw;
-    height: 27vh;
+    height: 40vh;
     position: relative;
     transition: all 5s ease-in-out;
     color: rgb(80, 170, 95);
     font-family: 'Baloo 2', cursive;
     font-size: 20px;
-    top: 25vh;
+    top: 15vh;
     text-align: center;
     animation: fadeInSlide;
     animation-duration: 0.5s;
@@ -133,26 +133,28 @@
     left: 5.75vw;
 }
 
-.popup closeButton{
+.popup .closeButton{
     padding:5px 10px;
-    background: rgb(56, 119, 66);
-    border: none;
-    height: 20px;
-    width: 60px;
+    background: white;
+    border: solid 2.5px rgb(56, 119, 66);
+    height: 6vh;
+    width: 12vw;
     position: relative;
-    border-radius:2px;
+    border-radius:3vh;
     text-align:center;
-    bottom: 10px;
+    top: 5.3vh;
+    left: 3vw;
     transition: all 0.4s ease 0s;
 }
 
-.popup closeButton:hover{
+.popup .closeButton:hover{
     cursor: pointer;
-    opacity: .5;
+    background:rgb(56, 119, 66);
+    color: white;
     transition: all 0.4s ease 0s;
 }
 
-.popup closeButton.transparent {
+.popup .closeButton.transparent {
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
@@ -163,7 +165,7 @@
     padding: 0px;
 }
 
-.popup closeButton.transparent span {
+.popup .closeButton.transparent span {
     margin-left: 10px;
 }
 

@@ -15,23 +15,13 @@ export class UserPostScrollComponent implements OnInit {
   posts = []
 
   constructor(private feedService: FeedService) { }
+
   ngOnInit(): void {
-    // this.feedService.setUserIDLocalStorage
-    console.log(sessionStorage.getItem('userID'))
-    this.feedService.generateFeed(1).subscribe((messages: any) => {
-      console.log(messages)
-      // for (let i = 0; i < messages.length; i++) {
-      //   posts.push(messages[i])
-      // }
-      // for (let i = 0; i < messages.length; i++) {
-      //   userID = -1
-      //   console.log(messages[i])
-      //   this.feedService.getUsernamesForFeed(userID).subscribe((res: any) => {
-      //     let username = res['username']
-      //     messages[i].username = username
-      //   })
-      //   feedContents.push(messages[i])
-      // }
+    console.log(sessionStorage.getItem('userID'));
+    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
+      this.feedService.generateFeed(id[0].user_id).subscribe((messages: any) => {
+        console.log(messages)
+      })
     })
   }
 

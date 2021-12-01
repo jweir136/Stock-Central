@@ -11,9 +11,7 @@ export class MainPageComponent implements OnInit {
 
   constructor(private feedService: FeedService) { }
 
-
-
   ngOnInit(): void {
+    
   }
-
 }

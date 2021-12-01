@@ -19,21 +19,6 @@ export class StocksScrollComponent implements OnInit {
   constructor(private http: HttpClient, private watchlistService: WatchlistServiceService, private feedService: FeedService) { }
 
   ngOnInit(): void {
-<<<<<<< HEAD
-    // this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
-    //   console.log(id)
-      // this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
-      //   console.log(res)
-      // })
-    // })
-||||||| c6c29fa
-    let userID: any = sessionStorage.getItem('userID')
-    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
-      this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
-        console.log(res)
-      })
-    })
-=======
     this.newStockFollowed.subscribe( res => {
       if (res != '') {
         this.tickerSymbols.push({"ticker": res});
@@ -50,15 +35,15 @@ export class StocksScrollComponent implements OnInit {
         }
       }
     })
-    let userID: any = sessionStorage.getItem('userID')
-    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
+    // let userID: any = sessionStorage.getItem('userID')
+    let email: any = localStorage.getItem('email')
+    this.feedService.setUserIDLocalStorage(email).subscribe((id: any) => {
       this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
         this.tickerSymbols = res;
         this.watchlistService.setWatchlist(this.tickerSymbols);
       })
     })
   }
->>>>>>> a3429fbb9fc1d0a75fc1354591cdf5e2c1aa3307
 
   getTicker(tickerSymbol: any) {
     return tickerSymbol.ticker;

@@ -148,3 +148,38 @@
     margin-right: 1vw;
   }
 
+.autoResultsContainer {
+  top: 10.5vh;
+  align-items: center;
+  position: absolute;
+  width: 24vw;
+  left: 39vw;
+  height: relative;
+  z-index: 50;
+
+  .results {
+
+    .res {
+      outline: none;
+      background-color: white;
+      border: solid 0.5vh rgb(104, 170, 115);
+      border-top: none;
+      width: 24vw;
+      height: 6vh;
+      text-align: left;
+      font-family: 'Baloo 2', cursive;
+      font-size: 4vh;
+
+      &:hover {
+        cursor: pointer;
+        background-color:rgb(204, 240, 210);
+        transition: all 0.25s ease-in-out;
+
+      }
+
+    }
+
+  }
+
+}
+

@@ -164,7 +164,7 @@ app.get('/api/users/:email', (req, res, next) => {
         //     return
         // }
         if (typeof email !== 'undefined' || email !== '') {
-            rdb.query(`SELECT * FROM stock_central.users WHERE email = ${email}`, function (error, result) {
+            rdb.query(`SELECT * FROM stock_central.users WHERE email = '${email}'`, function (error, result) {
                 if (error) {
                     console.log(error);
                     throw error;

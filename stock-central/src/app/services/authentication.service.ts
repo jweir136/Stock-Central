@@ -84,7 +84,7 @@ export class AuthenticationService {
       localStorage.setItem('firstName', JSON.stringify(result.user?.displayName?.split(' ')[0]));
       localStorage.setItem('lastName', JSON.stringify(result.user?.displayName?.split(' ')[1]));
       localStorage.setItem('email', JSON.stringify(result.user?.email))
-      this.feedService.setUserIDLocalStorage(localStorage.getItem('email')).subscribe((id: any) => {
+      this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
         console.log(id)
       })
       this.userService.addUser(result.user);

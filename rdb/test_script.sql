@@ -12,6 +12,8 @@ SELECT posts.message_content, posts.ticker, posts.created_at, posts.post_id, pos
 
 INSERT INTO posts (fk_user_id, message_content, ticker) VALUES (4, 'Prateek test msg 2', 'ZG');
 
+SELECT * FROM stock_central.users WHERE first_name = 'Prateek';
+
 SELECT * FROM users;
 select * from posts;
 

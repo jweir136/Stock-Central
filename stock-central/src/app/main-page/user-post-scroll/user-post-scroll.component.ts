@@ -16,7 +16,7 @@ export class UserPostScrollComponent implements OnInit {
 
   ngOnInit(): void {
     this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
-      this.feedService.generateFeed(3).subscribe((messages: any) => {
+      this.feedService.generateFeed(localStorage.getItem('userID')).subscribe((messages: any) => {
         for (let i = 0; i < messages.length; i++) {
           this.feedService.getUsernamesForFeed(messages[i].fk_user_id).subscribe((res: any) => {
             let username = res[0].username

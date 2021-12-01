@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FeedService } from 'src/app/services/feed-service.service';
+import { ProfileService } from 'src/app/services/profile.service';
 
 
 @Component({
@@ -12,10 +13,10 @@ export class UserPostScrollComponent implements OnInit {
   products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
   posts: any = []
 
-  constructor(private feedService: FeedService) { }
+  constructor(private feedService: FeedService, private profileService: ProfileService) { }
 
   ngOnInit(): void {
-    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
+    this.profileService.getFullUserInfo(localStorage.getItem('email')).subscribe((id: any) => {
       this.feedService.generateFeed(localStorage.getItem('userID')).subscribe((messages: any) => {
         for (let i = 0; i < messages.length; i++) {
           this.feedService.getUsernamesForFeed(messages[i].fk_user_id).subscribe((res: any) => {

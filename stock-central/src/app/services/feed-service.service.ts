@@ -10,11 +10,6 @@ export class FeedService {
   constructor(private http: HttpClient) {
   }
 
-  public setUserIDLocalStorage() {
-    let email = JSON.parse(<string>localStorage.getItem('userInfo')).email;
-    return this.http.get(environment.API_BASE_URL + `/users/${email}`)
-  }
-
   public generateFeed(userID: any) {
     //TODO: this is getting all posts. You need to get posts just from friends
     return this.http.get(environment.API_BASE_URL + `/posts/${userID}`)

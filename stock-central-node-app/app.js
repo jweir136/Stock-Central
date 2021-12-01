@@ -125,7 +125,7 @@ app.get('/api/users/:id', (req, res, next) => {
     });
 });
 
-app.get('/api/users/:username', (req, res, next) => {
+app.get('/api/users/:username', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
             console.error('Error getting connection from pool: ' + err)
@@ -134,8 +134,8 @@ app.get('/api/users/:username', (req, res, next) => {
         }
         let username = req.params.username;
         if (typeof username == 'undefined' || typeof username !== 'string' || username.includes('@') == true) {
-            next()
-            return
+            res.status(400).send('Must specify username in request params')
+            connection.release()
         }
         if (typeof username !== 'undefined') {
             rdb.query("SELECT * FROM stock_central.users WHERE username = '" + username + "'", function (error, result) {
@@ -154,7 +154,7 @@ app.get('/api/users/:username', (req, res, next) => {
     });
 });
 // endpoint to get user by email
-app.get('/api/users/:email', (req, res, next) => {
+app.get('/api/getUserByEmail/:email', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
             console.error('Error getting connection from pool: ' + err)

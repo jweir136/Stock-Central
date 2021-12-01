@@ -6,6 +6,7 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from './user.service';
 import { FeedService } from './feed-service.service';
+import { ProfileService } from './profile.service';
 
 
 @Injectable({
@@ -16,30 +17,61 @@ export class AuthenticationService {
   private authenticationEventEmitter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public authenticationEvent: Observable<boolean> = this.authenticationEventEmitter.asObservable();
 
-  constructor(public afAuth: AngularFireAuth, private userService: UserService, private feedService: FeedService) {
+  signingUp = false;
+  username = '';
+  firstName = '';
+  lastName = '';
+
+  constructor(public afAuth: AngularFireAuth, private userService: UserService, private feedService: FeedService, private profileService: ProfileService) {
     this.afAuth.authState.subscribe(this.setSession.bind(this));
   }
 
-  private setSession(user: firebase.User | null): void {
+  private async setSession(user: firebase.User | null): Promise<void> {
     if (user) {
+      let userInfoSet = false;
       localStorage.setItem('userInfo', JSON.stringify(user));
-      this.authenticationEventEmitter.next(true);
+      localStorage.setItem('email', (JSON.stringify(user?.email)).replace(/['"]+/g, ''))
+
+      if (user.displayName) {
+        localStorage.setItem('username', JSON.stringify(user?.displayName));
+        localStorage.setItem('firstName', JSON.stringify(user?.displayName?.split(' ')[0]));
+        localStorage.setItem('lastName', JSON.stringify(user?.displayName?.split(' ')[1]));
+        await this.userService.addUser();
+        userInfoSet = true;
+      }
+      
+      if (this.signingUp) {
+        localStorage.setItem('username', this.username);
+        localStorage.setItem('firstName', this.firstName);
+        localStorage.setItem('lastName', this.lastName);
+      }
+
+      this.profileService.getFullUserInfo(localStorage.getItem('email')).subscribe((id: any) => {
+        localStorage.setItem('userID', id[0].user_id);
+        if (!userInfoSet) {
+          localStorage.setItem('username', id[0].username);
+          localStorage.setItem('firstName', id[0].first_name);
+          localStorage.setItem('lastName', id[0]. last_name);
+          userInfoSet = true;
+        }
+        this.authenticationEventEmitter.next(true);
+      })
     } else {
       this.resetSession();
     }
   }
 
   async SignUp(email: string, password: string, username: string, firstName: string, lastName: string) {
+    this.signingUp = true;
+    this.username = username;
+    this.firstName = firstName;
+    this.lastName = lastName;
     try {
-      const result = await this.afAuth.createUserWithEmailAndPassword(email, password)
-      console.log(result);
-      localStorage.setItem('username', JSON.stringify(username));
-      localStorage.setItem('firstName', JSON.stringify(firstName));
-      localStorage.setItem('lastName', JSON.stringify(lastName));
-
-      this.userService.addUser(result.user);
-    } catch (error) {
-      console.log(error);
+      this.afAuth.createUserWithEmailAndPassword(email, password)
+    } catch (error: any) {
+      if (error.message.startsWith('Firebase: The email address is already in use')) {
+        alert("Email is already in our system. Please return to the sign in to use this email");
+      }
     }
   }
 
@@ -52,8 +84,7 @@ export class AuthenticationService {
     } 
     else {
       try {
-        const result = await this.afAuth.signInWithEmailAndPassword(email, password)
-        console.log(result);
+       this.afAuth.signInWithEmailAndPassword(email, password)
       } catch (error: any) {
         console.log(error);
         if (error.message.startsWith('Firebase: The password is invalid')) {
@@ -71,31 +102,16 @@ export class AuthenticationService {
 
   // Sign in with Google
   GoogleAuth() {
-    return this.AuthLogin(new firebase.auth.GoogleAuthProvider());
+    this.AuthLogin(new firebase.auth.GoogleAuthProvider());
   }  
 
   // Auth logic to run auth providers
   async AuthLogin(provider: any) {
     try {
       const result = await this.afAuth.signInWithPopup(provider);
-      console.log(result)
-      localStorage.setItem('userInfo', JSON.stringify(result.user));
-      localStorage.setItem('username', JSON.stringify(result.user?.displayName));
-      localStorage.setItem('firstName', JSON.stringify(result.user?.displayName?.split(' ')[0]));
-      localStorage.setItem('lastName', JSON.stringify(result.user?.displayName?.split(' ')[1]));
-      localStorage.setItem('email', JSON.stringify(result.user?.email))
-      this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
-        console.log(id)
-      })
-      this.userService.addUser(result.user);
-      this.authenticationEventEmitter.next(true);
     } catch (error) {
       console.log(error);
     }
-  }
-
-  public getName(): string {
-    return (JSON.parse(localStorage.getItem('userInfo') || '{}')).displayName;
   }
 
   public getUserPhotoUrl(): string {
@@ -104,6 +120,11 @@ export class AuthenticationService {
 
   private resetSession(): void {
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('username');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
+    localStorage.removeItem('email');
+    localStorage.removeItem('userID');
     this.authenticationEventEmitter.next(false);
   }
 

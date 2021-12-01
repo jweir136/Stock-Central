@@ -36,11 +36,5 @@ export class UserProfileComponent implements OnInit {
       this.userFirstName = <string>localStorage.getItem('username')?.replace(/['"]+/g, '').split(' ')[0],
       this.userLastName = <string>localStorage.getItem('username')?.replace(/['"]+/g, '').split(' ')[1],
       this.userPhotoUrl = this.authenticationService.getUserPhotoUrl();
-    
-    this.profileService.getFullUserInfo(this.userFirstName).subscribe((res: any) => {
-      this.username = res[0].username
-      this.age = res[0].age
-      this.createdAt = moment(res[0].created_at).format('MM/DD/YYYY')
-    })
   }
 }

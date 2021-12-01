@@ -26,8 +26,8 @@ async function getPriceData(ticker) {
 
 async function getNewsData(ticker) {
     return iex.search(ticker).then(async res => {
-        for (const elem of res) {
-            if (ticker == elem.symbol) {
+        for (let i = 0; i < res.length; i++) {
+            if (ticker == res[i].symbol) {
                 return await data.getCompanyNews(ticker)
             }
         }

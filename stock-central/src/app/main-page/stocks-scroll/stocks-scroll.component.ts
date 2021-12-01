@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FeedService } from 'src/app/services/feed-service.service';
+import { ProfileService } from 'src/app/services/profile.service';
 import { WatchlistServiceService } from 'src/app/services/watchlist-service.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class StocksScrollComponent implements OnInit {
 
   tickerSymbols: any[] = [];
 
-  constructor(private http: HttpClient, private watchlistService: WatchlistServiceService, private feedService: FeedService) { }
+  constructor(private http: HttpClient, private watchlistService: WatchlistServiceService, private feedService: FeedService, private profileService: ProfileService) { }
 
   ngOnInit(): void {
     this.newStockFollowed.subscribe( res => {
@@ -36,11 +37,9 @@ export class StocksScrollComponent implements OnInit {
       }
     })
     // let userID: any = sessionStorage.getItem('userID')
-    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
-      this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
-        this.tickerSymbols = res;
-        this.watchlistService.setWatchlist(this.tickerSymbols);
-      })
+    this.watchlistService.getWatchlistItems(parseInt(<string>localStorage.getItem("userID"))).subscribe((res: any) => {
+      this.tickerSymbols = res;
+      this.watchlistService.setWatchlist(this.tickerSymbols);
     })
   }
 

@@ -9,7 +9,7 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
 
-  public getFullUserInfo(firstName: any) {
-    return this.http.get(environment.API_BASE_URL + `/getUserByFirstName/${firstName}`)
+  public getFullUserInfo(email: any) { 
+    return this.http.get('http://localhost:3000/api/getUserByEmail/' + email)
   }
 }

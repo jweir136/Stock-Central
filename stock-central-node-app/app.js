@@ -294,7 +294,7 @@ app.post('/api/createPost', (req, res) => {
             throw err
         }
         let messageContent = req.body.messageContent
-        let userID = req.body.id
+        let userID = parseInt(req.body.id)
 
         if (typeof messageContent !== 'string' || typeof userID !== 'number') {
             res.status(400).send('User ID needs to be an int and messageContent needs to be a string')

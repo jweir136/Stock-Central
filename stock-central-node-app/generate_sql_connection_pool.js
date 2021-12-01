@@ -2,7 +2,7 @@ let connectToRDB = require('./aws_rdb')
 var mysql = connectToRDB.mysql
 
 var connectionPool = mysql.createPool({
-    connectionLimit: 1000,
+    connectionLimit: 100,
     host: 'stock-central.cpbbumloza64.us-east-2.rds.amazonaws.com',
     user: 'admin',
     password: 'stockcentral',

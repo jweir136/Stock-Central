@@ -14,7 +14,7 @@
     <div class="line2"></div> 
     <div class="filler"></div>
     <div class="stock-card" *ngFor="let tickerSymbol of tickerSymbols">
-        <app-stock-card [tickerSymbol]="tickerSymbol"></app-stock-card>
+        <app-stock-card [tickerSymbol]="getTicker(tickerSymbol)"></app-stock-card>
     </div>
 </div>
 <br>

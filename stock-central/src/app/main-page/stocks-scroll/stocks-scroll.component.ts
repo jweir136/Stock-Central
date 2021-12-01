@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
 import { FeedService } from 'src/app/services/feed-service.service';
-import { FollowStockService } from 'src/app/services/follow-stock.service';
-import { StockDataService } from 'src/app/services/stock-data.service';
 import { WatchlistServiceService } from 'src/app/services/watchlist-service.service';
 
 @Component({
@@ -12,32 +11,41 @@ import { WatchlistServiceService } from 'src/app/services/watchlist-service.serv
 })
 export class StocksScrollComponent implements OnInit {
 
-  tickerSymbols = [];
+  public newStockFollowed: Observable<string> = this.watchlistService.followStockEvent;
+  public stockUnfollowed: Observable<string> = this.watchlistService.unfollowStockEvent;
+
+  tickerSymbols: any[] = [];
 
   constructor(private http: HttpClient, private watchlistService: WatchlistServiceService, private feedService: FeedService) { }
 
   ngOnInit(): void {
-    let userID: any = sessionStorage.getItem('userID')
+    this.newStockFollowed.subscribe( res => {
+      if (res != '') {
+        this.tickerSymbols.push({"ticker": res});
+        this.watchlistService.setWatchlist(this.tickerSymbols);
+      }
+    })
+    this.stockUnfollowed.subscribe( res => {
+      if (res != '') {
+        for (let i = 0; i < this.tickerSymbols.length; i++) {
+          if (this.tickerSymbols[i].ticker == res) {
+            this.tickerSymbols.splice(i, 1);
+            i = this.tickerSymbols.length;
+          }
+        }
+      }
+    })
+    // let userID: any = sessionStorage.getItem('userID')
     this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
       this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
-        console.log(res)
+        this.tickerSymbols = res;
+        this.watchlistService.setWatchlist(this.tickerSymbols);
       })
     })
+  }
 
-
-    // this.stockDataService.getStockPriceBasicInfoBatch(this.tickerSymbols).subscribe((res: any) => {
-    //   console.log(res);
-    //   let data: any = {};
-    //   // data['companyName'] = res.companyName
-    //   // data['latestPrice'] = res.latestPrice
-    //   // console.log(data)
-    // })
-    
-    /*
-    this.followStockService.getWatchlist().subscribe((res: any) => {
-      console.log(res)
-    })
-    */
+  getTicker(tickerSymbol: any) {
+    return tickerSymbol.ticker;
   }
 
 }

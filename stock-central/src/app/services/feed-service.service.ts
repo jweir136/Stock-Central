@@ -11,16 +11,11 @@ export class FeedService {
   }
 
   public setUserIDLocalStorage() {
-    let email = JSON.parse(localStorage['userInfo'])['email']
+    let email = JSON.parse(<string>localStorage.getItem('userInfo')).email;
     return this.http.get(environment.API_BASE_URL + `/users/${email}`)
   }
 
-  public generateFeed(userID: number) {
-    // let userID = sessionStorage.getItem('userID')
-    // if (userID == null) {
-    //   this.setUserIDLocalStorage()
-    // }
-    console.log(userID)
+  public generateFeed(userID: any) {
     return this.http.get(environment.API_BASE_URL + `/posts/generateFeed/${userID}`)
   }
 

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 let functions = require('./functions')
 let connectToRDB = require('./aws_rdb')
 let sqlConnectionPool = require('./generate_sql_connection_pool');
+const { error } = require('console');
 const app = express();
 app.use(cors({
     origin: '*'
@@ -183,6 +184,31 @@ app.get('/api/users/:email', (req, res, next) => {
     });
 });
 
+
+app.get('/api/getUserByFirstName/:firstName', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            console.error('Error getting connection from pool: ' + err)
+            connection.release()
+            throw err
+        }
+        let firstName = req.params.firstName
+        if (typeof firstName !== 'string') {
+            console.error('firstName must be of type string')
+            connection.release()
+            res.status(400).send('firstName must be string!')
+        }
+        rdb.query(`SELECT * FROM users WHERE first_name = '${firstName}'`, function (error, result) {
+            if (error) {
+                console.error(error);
+                throw error;
+            }
+            res.status(200).send(result)
+            connection.release()
+        })
+    })
+})
+
 // endpoint to create new user
 app.post('/api/users', (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
@@ -202,7 +228,7 @@ app.post('/api/users', (req, res) => {
         }
         rdb.query(`INSERT IGNORE INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
             if (error) {
-                console.log(error);
+                console.error(error);
                 throw error;
             }
             res.status(200).send(result)

@@ -6,11 +6,17 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./user-post-card.component.scss']
 })
 export class UserPostCardComponent implements OnInit {
-  @Input() posts = [];
+
+  @Input() post: any = '';
+
+  message: string = '';
+  username: string = '';
 
   constructor() { }
 
   ngOnInit(): void {
+    this.message = this.post.message_content
+    this.username = this.post.username
   }
 
 }

@@ -16,7 +16,8 @@ export class FeedService {
   }
 
   public generateFeed(userID: any) {
-    return this.http.get(environment.API_BASE_URL + `/posts/generateFeed/${userID}`)
+    //TODO: this is getting all posts. You need to get posts just from friends
+    return this.http.get(environment.API_BASE_URL + '/posts')
   }
 
   public getUsernamesForFeed(userID: number) {

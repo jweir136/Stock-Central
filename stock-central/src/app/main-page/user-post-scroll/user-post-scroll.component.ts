@@ -15,13 +15,10 @@ export class UserPostScrollComponent implements OnInit {
   constructor(private feedService: FeedService) { }
 
   ngOnInit(): void {
-    let email = localStorage.getItem('email')
     this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
-      this.feedService.generateFeed(id[0].user_id).subscribe((messages: any) => {
-        console.log(messages)
+      this.feedService.generateFeed(3).subscribe((messages: any) => {
         for (let i = 0; i < messages.length; i++) {
           this.feedService.getUsernamesForFeed(messages[i].fk_user_id).subscribe((res: any) => {
-            console.log(res)
             let username = res[0].username
             messages[i].username = username
             this.posts.push(messages[i])
@@ -34,7 +31,6 @@ export class UserPostScrollComponent implements OnInit {
         // }
       })
     })
-    console.log(this.posts)
   }
   
 }

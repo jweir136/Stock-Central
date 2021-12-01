@@ -4,10 +4,11 @@ let secrets = require('./secrets')
 let data = require('./market_data')
 
 const iexSandboxKey = secrets.iexSandboxKey
+const iexKey = secrets.iexKey
 
 const iex = new IEXCloudClient(fetch, {
-    sandbox: true,
-    publishable: iexSandboxKey,
+    sandbox: false,
+    publishable: iexKey,
     version: "stable"
 });
 

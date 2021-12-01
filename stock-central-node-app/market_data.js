@@ -4,11 +4,12 @@ let secrets = require('./secrets');
 
 
 const iexSandboxKey = secrets.iexSandboxKey
+const iexKey = secrets.iexKey
 const iexBaseURL = secrets.iexBaseURL
 
 const iex = new IEXCloudClient(fetch, {
-    sandbox: true,
-    publishable: iexSandboxKey,
+    sandbox: false,
+    publishable: secrets.iexKey,
     version: "stable"
 });
 

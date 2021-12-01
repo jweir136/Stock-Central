@@ -15,9 +15,9 @@ export const environment = {
   },
   // IEX Cloud stuff
   IEX_SANDBOX_KEY: "Tpk_12e6eee6ed7d4026a0a87dee063b86bd",
-  IEX_BASE_SANBOX_URL: 'https://sandbox.iexapis.com/stable/stock/',
+  IEX_BASE_SANBOX_URL: 'https://sandbox.iexapis.com/stable/',
   IEX_CLOUD_KEY: 'pk_4a09995ad6854e28a38018bdd36eb410',
-  IEX_BASE_CLOUD_URL: 'https://cloud.iexapis.com/stable/stock/',
+  IEX_BASE_CLOUD_URL: 'https://cloud.iexapis.com/stable/',
 
   API_BASE_URL: 'http://localhost:3000/api'
 };

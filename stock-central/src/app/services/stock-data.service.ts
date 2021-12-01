@@ -12,35 +12,6 @@ export class StockDataService {
 
   public getStockBasicPriceInfo(ticker: string) {
     return this.http.get(environment.IEX_BASE_SANBOX_URL + ticker + '/quote?token=' + environment.IEX_SANDBOX_KEY);
-
-  //   let companyName = '';
-  //   let latestPrice = '';
-  //   const request: string = 'http://localhost:3000/api/quote/' + ticker;
-  //   const get: HttpRequest<unknown> = new HttpRequest('GET', request, null, {
-  //     reportProgress: false,
-  //     responseType: 'json'
-  //   });
-  //   let httpRequestSubscription: Subscription;
-  //   const httpRequestObservable: Observable<HttpEvent<unknown>> = this.http.request(get);
-  //   new Promise((resolve, reject) => {
-  //     httpRequestSubscription = httpRequestObservable.subscribe( // initiates the http request
-  //       (event: HttpEvent<any>) => {
-  //         if (HttpEventType.Response === event.type) { // finished
-  //           console.log(event.body);
-  //           companyName = event.body.companyName;
-  //           latestPrice = event.body.latestPrice;
-  //         }
-  //       },
-  //       (error) => {
-  //         console.debug(error);
-  //         reject(error);
-  //       },
-  //       () => {
-  //         resolve(true);
-  //       }
-  //     );
-  //   });
-  //   return [companyName, latestPrice]
   }
 
   public getStockPriceBasicInfoBatch(tickers: string[]) {

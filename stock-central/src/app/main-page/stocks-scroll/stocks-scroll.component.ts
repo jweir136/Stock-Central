@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FeedService } from 'src/app/services/feed-service.service';
 import { FollowStockService } from 'src/app/services/follow-stock.service';
 import { StockDataService } from 'src/app/services/stock-data.service';
 import { WatchlistServiceService } from 'src/app/services/watchlist-service.service';
@@ -13,12 +14,14 @@ export class StocksScrollComponent implements OnInit {
 
   tickerSymbols = [];
 
-  constructor(private http: HttpClient, private watchlistService: WatchlistServiceService) { }
+  constructor(private http: HttpClient, private watchlistService: WatchlistServiceService, private feedService: FeedService) { }
 
   ngOnInit(): void {
     let userID: any = sessionStorage.getItem('userID')
-    this.watchlistService.getWatchlistItems(11).subscribe((res: any) => {
+    this.feedService.setUserIDLocalStorage().subscribe((id: any) => {
+      this.watchlistService.getWatchlistItems(id[0].user_id).subscribe((res: any) => {
         console.log(res)
+      })
     })
 
 

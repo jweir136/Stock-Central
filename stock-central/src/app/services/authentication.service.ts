@@ -5,6 +5,7 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from './user.service';
+import { FeedService } from './feed-service.service';
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class AuthenticationService {
   private authenticationEventEmitter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public authenticationEvent: Observable<boolean> = this.authenticationEventEmitter.asObservable();
 
-  constructor(public afAuth: AngularFireAuth, private userService: UserService) {
+  constructor(public afAuth: AngularFireAuth, private userService: UserService, private feedService: FeedService) {
     this.afAuth.authState.subscribe(this.setSession.bind(this));
   }
 

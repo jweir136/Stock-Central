@@ -84,8 +84,11 @@
 
 .popupHeader span.companyName {
   position: absolute;
-  left: 4vw;
+  left: 2vw;
+  text-align: center;
   text-overflow: ellipsis;
+  width: 14vw;
+  height: 6vh;
   white-space: nowrap;
   top: 1vh;
   font-family: 'Baloo 2', cursive;
@@ -93,7 +96,7 @@
 
 .popup span.trendData {
   position: absolute;
-  left: 5vw;
+  left: 2vw;
   top: 10vh;
 }
 .popup span.unfollowStock {

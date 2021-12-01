@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -13,15 +12,19 @@ export class FeedService {
 
   public setUserIDLocalStorage() {
     let email = JSON.parse(localStorage['userInfo'])['email']
-    return this.http.get(environment.API_BASE_URL + `/users/${email}`).subscribe((res: any) => {
-      console.log(res)
-      localStorage.setItem('userID', JSON.stringify(res[0].user_id));
-      // return res
-    })
+    return this.http.get(environment.API_BASE_URL + `/users/${email}`)
   }
 
-  public generateFeed() {
-    return this.setUserIDLocalStorage()
-    // return this.http.get(environment.API_BASE_URL + `/posts/generatedFeed/${userID}`)
+  public generateFeed(userID: number) {
+    // let userID = sessionStorage.getItem('userID')
+    // if (userID == null) {
+    //   this.setUserIDLocalStorage()
+    // }
+    console.log(userID)
+    return this.http.get(environment.API_BASE_URL + `/posts/generateFeed/${userID}`)
+  }
+
+  public getUsernamesForFeed(userID: number) {
+    return this.http.get(environment.API_BASE_URL + `/getUsernames/${userID}`)
   }
 }

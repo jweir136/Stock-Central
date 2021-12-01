@@ -190,7 +190,7 @@ app.post('/api/users', (req, res) => {
                 console.log(error);
                 throw error;
             }
-            res.status(200).send('zgm')
+            res.status(200).send(result)
         });
     });
 });
@@ -531,9 +531,95 @@ app.post('/api/addToWatchlist', (req, res) => {
     })
 })
 
+app.delete('/api/removeFromWatchlist', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let userID = req.body.id
+        let ticker = req.body.ticker
+        if (userID === 'undefined' && ticker === 'undefined') {
+            res.status(400).send('a user id and ticker symbol need to be specified')
+        }
+        rdb.query(`DELETE FROM watchlist WHERE fk_user_id = ${userID} AND ticker = '${ticker}';)`, function (error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            res.status(200).send(result)
+        })
+    })
+})
+
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// FRIENDS table endpoints
+
+app.post('/api/addFriend', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let userID_1 = -1
+        let userID_2 = -1
+        try {
+            userID_1 = parseInt(req.body.id)
+            userID_2 = parseInt(req.body.id2)
+        }
+        catch (e) {
+            console.error(e)
+            res.status(400).send(e)
+         }
+        
+        rdb.query(`INSERT IGNORE INTO friends (fk_user_id_1, fk_user_id_2) VALUES (${userID_1}, ${userID_2})`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            } 
+            res.status(201).send(result)
+        })
+    })
+})
+
+
+app.delete('/api/deleteFriend', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            connection.release()
+            console.log('Error getting connection from pool: ' + err)
+            throw err
+        }
+        let userID_1 = -1
+        let userID_2 = -1
+        try {
+            userID_1 = parseInt(req.body.id)
+            userID_2 = parseInt(req.body.id2)
+        }
+        catch (e) {
+            console.error(e)
+            res.status(400).send(e)
+        }
+        rdb.query(`DELETE FROM friends WHERE fk_user_id_1 = ${userID_1} AND fk_user_id_2 = ${userID_2}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send(result)
+        })
+    })
+})
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 app.listen(port, () => {
     console.log(`Express server listening on ${port}...`);

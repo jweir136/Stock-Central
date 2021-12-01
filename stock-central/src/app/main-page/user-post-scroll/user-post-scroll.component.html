@@ -13,7 +13,7 @@
     <div class="block"></div>
     <div class="line1"></div>
     <div class="filler"></div>
-    <div *ngFor="let product of products">
-        <app-user-post-card></app-user-post-card>
+    <div *ngFor="let post of posts">
+        <app-user-post-card [post]="post"></app-user-post-card>
     </div>
 </div>

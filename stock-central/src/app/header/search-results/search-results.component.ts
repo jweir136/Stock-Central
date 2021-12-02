@@ -69,13 +69,17 @@ export class SearchResultsComponent implements OnInit {
   }
 
   followStock() {
-    this.followButtonText = "FOLLOWING"
-    this.watchlistService.followStock({"id": parseInt(<string>localStorage.getItem('userID')), "ticker": this.input})
+    this.followButtonText = 'LOADING'
+    this.watchlistService.followStock({"id": parseInt(<string>localStorage.getItem('userID')), "ticker": this.input}).subscribe(res => {
+      this.followButtonText = 'FOLLOWING'
+    })
   }
 
   unfollowStock() {
-    this.followButtonText = 'FOLLOW';
-    this.watchlistService.unfollowStock(this.input.toUpperCase());
+    this.followButtonText = 'LOADING';
+    this.watchlistService.unfollowStock(this.input.toUpperCase()).subscribe(res => {
+      this.followButtonText = 'FOLLOW'
+    })
   }
 
 }

@@ -550,30 +550,21 @@ app.get('/api/getUsernames/:id', (req, res) => {
     });
 });
 
-app.get('api/getUsers/:id' , (req, res) => {
+app.get('/api/getUsers/:input' , (req, res) => {
     mysql_pool.getConnection(function (err, connection) {
         if (err) {
             console.error('Error getting connection from pool: ' + err)
             connection.release()
             throw err
         }
-        let userID = undefined
-        try {
-            userID = parseInt(req.params.id)
-        }
-        catch (e) {
-            res.status(400).send(e)
-            connection.release()
-        }
-        rdb.query(`SELECT username FROM users WHERE user_id = ${userID}`, function (error3, usernameObj) {
+        let input = req.params.input;
+        let query = "SELECT * FROM users WHERE username LIKE ?";
+        let value = input + "%"
+        rdb.query(query,[value] , function (error3, usernameObj) {
             if (error3) {
                 console.error(error3)
                 connection.release()
                 throw error3
-            }
-            if (usernameObj.length == 0) {
-                res.status(404).send(`user with user ID of ${userID} was not found`)
-                connection.release()
             }
             res.status(200).send(usernameObj)
             connection.release()
@@ -695,6 +686,30 @@ app.post('/api/addFriend', (req, res) => {
                 throw error
             } 
             res.status(201).send(result)
+            connection.release()
+        })
+    })
+})
+
+app.get('/api/getFriendsList/:id', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            console.error('Error getting connection from pool: ' + err)
+            connection.release()
+            throw err
+        }
+        let userID = parseInt(req.params.id)
+        if (isNaN(userID)) {
+            res.status(400).send('USER ID must be an int')
+            connection.release()
+        }
+        rdb.query(`SELECT * FROM friends WHERE fk_user_id_1 = ${userID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                connection.release()
+                throw error
+            }
+            res.status(200).send(result)
             connection.release()
         })
     })

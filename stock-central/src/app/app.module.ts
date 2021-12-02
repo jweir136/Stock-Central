@@ -19,6 +19,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchResultsComponent } from './header/search-results/search-results.component';
 import { FormsModule } from '@angular/forms';
+import { UserSearchResultsComponent } from './header/user-search-results/user-search-results.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { FormsModule } from '@angular/forms';
     UserPostScrollComponent,
     PostCreationComponent,
     LandingPageComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    UserSearchResultsComponent
   ],
   imports: [
     BrowserModule,

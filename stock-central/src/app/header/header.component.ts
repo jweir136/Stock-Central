@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit {
   popup = false;
   autocompleteResults = false;
   tickerSymbols = [];
+  users = [];
+  userIndex = 0;
 
   dataList = [
     { code: 1, name: "STOCKS" },
@@ -44,16 +46,14 @@ export class HeaderComponent implements OnInit {
     this.autocompleteResults = true;
     let input = this.getInput() + event.key;
     let dropDownResult = <HTMLInputElement>document.getElementById("ddlViewBy");
-    console.log(dropDownResult.value);
     if (dropDownResult.value == '1') {
       return this.http.get(environment.IEX_BASE_CLOUD_URL + 'search/' + input + '?token=' + environment.IEX_CLOUD_KEY).subscribe((res: any) => {
         this.tickerSymbols = res;
-        // return res
       })
     }
     else {
       return this.http.get(environment.API_BASE_URL + '/getUsers/' + input).subscribe((res: any) => {
-        console.log(res);
+        this.users = res;
       })
     }
   }
@@ -68,13 +68,21 @@ export class HeaderComponent implements OnInit {
     return result.symbol
   }
 
+  getUsername(result: any) {
+    return result.username;
+  }
+
   setInput(newInput: string) {
     (<HTMLInputElement>document.getElementById("searchBar")).value = newInput;
   }
 
-  checkIt() {
+  checkDropDown() {
     var e = <HTMLInputElement>document.getElementById("ddlViewBy");
-    console.log(e.value);
+    return e.value;
+  }
+
+  setUserIndex(index: number) {
+    this.userIndex = index;
   }
 
 }

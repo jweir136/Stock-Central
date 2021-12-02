@@ -24,7 +24,6 @@ export class StockCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.stockDataService.getStockBasicPriceInfo(this.tickerSymbol).subscribe((res: any) => {
-      // console.log(res);
       this.companyName = res.companyName
       this.latestPrice = res.latestPrice
       this.changeAmt = Math.abs(res.change)

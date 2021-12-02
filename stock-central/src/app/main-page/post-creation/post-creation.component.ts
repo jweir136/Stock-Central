@@ -21,12 +21,9 @@ export class PostCreationComponent implements OnInit {
 
   uploadPost() {
     let userID: any = localStorage.getItem('userID')
-    console.log(this.messageContent)
     this.postService.createPost(userID, this.messageContent).subscribe((res: any) => {
-      console.log(res)
     })
     this.popup = false;
-    console.log('This is where the post would be uploaded');
   }
 
 }

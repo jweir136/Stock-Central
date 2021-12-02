@@ -86,7 +86,7 @@ export class AuthenticationService {
       try {
        this.afAuth.signInWithEmailAndPassword(email, password)
       } catch (error: any) {
-        console.log(error);
+        console.error(error);
         if (error.message.startsWith('Firebase: The password is invalid')) {
           alert("Password entered was incorrect. Please try again");
         }
@@ -110,7 +110,7 @@ export class AuthenticationService {
     try {
       const result = await this.afAuth.signInWithPopup(provider);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

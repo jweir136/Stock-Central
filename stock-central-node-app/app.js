@@ -550,6 +550,37 @@ app.get('/api/getUsernames/:id', (req, res) => {
     });
 });
 
+app.get('api/getUsers/:id' , (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            console.error('Error getting connection from pool: ' + err)
+            connection.release()
+            throw err
+        }
+        let userID = undefined
+        try {
+            userID = parseInt(req.params.id)
+        }
+        catch (e) {
+            res.status(400).send(e)
+            connection.release()
+        }
+        rdb.query(`SELECT username FROM users WHERE user_id = ${userID}`, function (error3, usernameObj) {
+            if (error3) {
+                console.error(error3)
+                connection.release()
+                throw error3
+            }
+            if (usernameObj.length == 0) {
+                res.status(404).send(`user with user ID of ${userID} was not found`)
+                connection.release()
+            }
+            res.status(200).send(usernameObj)
+            connection.release()
+        });
+    });
+})
+
 
 
 

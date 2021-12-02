@@ -16,6 +16,12 @@
         <i class="fa fa-line-chart" style="font-size:30px"></i>
     </span>
     <span class = "search-box" *ngIf="(userLoggedIn$ | async)">
+        <select id="ddlViewBy">
+              <option *ngFor="let item of this.dataList;let i = index" value="{{item.code}}" [selected]="i == 0">
+                {{item.name}}
+              </option>
+        </select>
+        <button (click)="checkIt()">poop</button>
         <div class="container">
             <input type="text" placeholder="Type to search" id="searchBar" (keyup.enter)="search()" (keypress)="autocomplete($event)" (keyup)="checkInput()">
             <div class="search"></div>

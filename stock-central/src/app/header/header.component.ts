@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 
 import {Observable} from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -17,6 +18,11 @@ export class HeaderComponent implements OnInit {
   popup = false;
   autocompleteResults = false;
   tickerSymbols = [];
+
+  dataList = [
+    { code: 1, name: "STOCKS" },
+    { code: 2, name: "USERS" },
+  ]
 
   public constructor(private authenticationService: AuthenticationService, private http: HttpClient) {
   }
@@ -37,10 +43,19 @@ export class HeaderComponent implements OnInit {
   autocomplete(event: any) {
     this.autocompleteResults = true;
     let input = this.getInput() + event.key;
-    return this.http.get(environment.IEX_BASE_CLOUD_URL + 'search/' + input + '?token=' + environment.IEX_CLOUD_KEY).subscribe((res: any) => {
-      this.tickerSymbols = res;
-      // return res
-    })
+    let dropDownResult = <HTMLInputElement>document.getElementById("ddlViewBy");
+    console.log(dropDownResult.value);
+    if (dropDownResult.value == '1') {
+      return this.http.get(environment.IEX_BASE_CLOUD_URL + 'search/' + input + '?token=' + environment.IEX_CLOUD_KEY).subscribe((res: any) => {
+        this.tickerSymbols = res;
+        // return res
+      })
+    }
+    else {
+      return this.http.get(environment.API_BASE_URL + '/getUsers/' + input).subscribe((res: any) => {
+        console.log(res);
+      })
+    }
   }
 
   checkInput() {
@@ -55,6 +70,11 @@ export class HeaderComponent implements OnInit {
 
   setInput(newInput: string) {
     (<HTMLInputElement>document.getElementById("searchBar")).value = newInput;
+  }
+
+  checkIt() {
+    var e = <HTMLInputElement>document.getElementById("ddlViewBy");
+    console.log(e.value);
   }
 
 }

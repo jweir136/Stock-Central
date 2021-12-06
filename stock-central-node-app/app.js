@@ -502,7 +502,7 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
         //     friendsIDList.forEach(friend => {
         //         friendsList.push(friend['fk_user_id_2'])
         //     });
-        rdb.query(`SELECT posts.message_content, posts.created_at, posts.post_id, posts.fk_user_id FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND posts.num_likes >= 0 LIMIT 10;`, function (error, result) {
+        rdb.query(`SELECT posts.message_content, posts.created_at, posts.post_id, posts.fk_user_id, posts.num_likes FROM posts JOIN friends ON friends.fk_user_id_2 = posts.fk_user_id WHERE friends.fk_user_id_1 = 1 AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND posts.num_likes >= 0 LIMIT 10;`, function (error, result) {
             if (error) {
                 console.error(error);
                 throw error;

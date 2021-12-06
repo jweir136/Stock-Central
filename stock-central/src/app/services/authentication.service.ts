@@ -48,7 +48,7 @@ export class AuthenticationService {
       }
 
       this.profileService.getFullUserInfo(localStorage.getItem('email')).subscribe((id: any) => {
-        console.log(id)
+        console.log(id);
         localStorage.setItem('userID', id[0].user_id);
         if (!userInfoSet) {
           localStorage.setItem('username', id[0].username);

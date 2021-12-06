@@ -1,3 +1,4 @@
+import { parseHostBindings } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -11,12 +12,23 @@ export class UserPostCardComponent implements OnInit {
 
   message: string = '';
   username: string = '';
+  showUser = false;
+  user = '';
 
   constructor() { }
 
   ngOnInit(): void {
     this.message = this.post.message_content
     this.username = this.post.username
+    this.user = this.post;
+    let userJSON = JSON.parse(JSON.stringify(this.user));
+    userJSON.user_id = userJSON.fk_user_id;
+    this.user = JSON.stringify(userJSON);
+  }
+
+  showUserPage() {
+    console.log('check this out');
+    this.showUser = true;
   }
 
 }

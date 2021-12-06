@@ -424,8 +424,11 @@ function getPostID(userID, messageContent) {
 
 // endpoint to like a post by its post ID
 app.patch('/api/likePost/:postId/:userID', (req, res) => {
+    console.log('fuck');
     let userID = req.params.userID
     let postID = req.params.postId
+    console.log(userID);
+    console.log(postID);
     if (isNaN(postID) || isNaN(userID)) {
         res.status(400).send('post and user ID must be an int')
     }
@@ -435,12 +438,13 @@ app.patch('/api/likePost/:postId/:userID', (req, res) => {
             connection.release()
             throw err
         }
-        rdb.query(`UPDATE likes SET num_likes = num_likes + 1 WHERE fk_post_id = ${postID} AND fk_user_id = ${userID}`, function (error, result) {
+        rdb.query(`INSERT INTO likes (fk_user_id, fk_post_id) VALUES (${userID}, ${postID})`, function (error, result) {
             if (error) {
                 console.error(error)
                 connection.release()
                 throw error
             }
+            console.log('very interesting');
             res.status(200).send(result)
             connection.release()
         });

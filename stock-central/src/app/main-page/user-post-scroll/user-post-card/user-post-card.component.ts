@@ -1,5 +1,6 @@
 import { parseHostBindings } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
+import { LikeService } from 'src/app/services/like.service';
 
 @Component({
   selector: 'app-user-post-card',
@@ -15,7 +16,7 @@ export class UserPostCardComponent implements OnInit {
   showUser = false;
   user = '';
 
-  constructor() { }
+  constructor(private likeService: LikeService) { }
 
   ngOnInit(): void {
     this.message = this.post.message_content
@@ -29,6 +30,10 @@ export class UserPostCardComponent implements OnInit {
   showUserPage() {
     console.log('check this out');
     this.showUser = true;
+  }
+
+  likePost() {
+    this.likeService.likePost(this.post.post_id, <string>localStorage.getItem('userID'));
   }
 
 }

@@ -23,6 +23,7 @@
     <div class="post-content">
         <p>{{message}}</p>
     </div>
+    <button (click)="likePost()">LIKE</button>
     <div *ngIf="showUser">
         <app-user-search-results (closePopupEvent)="showUser=false" [user]="user"></app-user-search-results>
     </div>

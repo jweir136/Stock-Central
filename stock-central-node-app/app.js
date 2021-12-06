@@ -220,13 +220,12 @@ app.post('/api/users', (req, res) => {
         let username = req.body.username
         let firstName = req.body.firstName
         let lastName = req.body.lastName
-        let age = req.body.age
         let email = req.body.email
-        if (typeof username !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof email !== 'string' || typeof age !== 'number') {
-            res.status(400).send('username, first/last name, and email must be strings. Age must be an int')
+        if (typeof username !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof email !== 'string') {
+            res.status(400).send('username, first/last name, and email must be strings.')
             connection.release()
         }
-        rdb.query(`INSERT IGNORE INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
+        rdb.query(`INSERT IGNORE INTO stock_central.users (username, first_name, last_name, email) VALUES ('${username}', '${firstName}', '${lastName}', '${email}')`, function (error, result) {
             if (error) {
                 console.error(error);
                 throw error;
@@ -424,8 +423,11 @@ function getPostID(userID, messageContent) {
 
 // endpoint to like a post by its post ID
 app.patch('/api/likePost/:postId/:userID', (req, res) => {
+    console.log('fuck');
     let userID = req.params.userID
     let postID = req.params.postId
+    console.log(userID);
+    console.log(postID);
     if (isNaN(postID) || isNaN(userID)) {
         res.status(400).send('post and user ID must be an int')
     }
@@ -435,12 +437,13 @@ app.patch('/api/likePost/:postId/:userID', (req, res) => {
             connection.release()
             throw err
         }
-        rdb.query(`UPDATE likes SET num_likes = num_likes + 1 WHERE fk_post_id = ${postID} AND fk_user_id = ${userID}`, function (error, result) {
+        rdb.query(`INSERT INTO likes (fk_user_id, fk_post_id) VALUES (${userID}, ${postID})`, function (error, result) {
             if (error) {
                 console.error(error)
                 connection.release()
                 throw error
             }
+            console.log('very interesting');
             res.status(200).send(result)
             connection.release()
         });
@@ -494,14 +497,24 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
 
         // let friendsList = []
         // rdb.query(`SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = ${userID};`, function (error1, friendsIDList) {
-        //     if (error1) {
+        //    if (error1) {
         //         console.error(error1)
         //         throw error1
         //     }
+        //     console.log(friendsIDList);
         //     friendsIDList.forEach(friend => {
         //         friendsList.push(friend['fk_user_id_2'])
         //     });
-        // });
+        rdb.query(`SELECT posts.message_content, posts.created_at, posts.post_id, posts.fk_user_id FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND posts.num_likes > 10 LIMIT 10;`, function (error, result) {
+            if (error) {
+                console.error(error);
+                throw error;
+            }
+            console.log('shut up');
+            res.status(200).send(result);
+            connection.release();
+        });
+        /*
         if (userID != 1) {
             rdb.query(`SELECT posts.message_content, posts.ticker, posts.created_at, posts.post_id, posts.fk_user_id FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND likes.num_likes > 10 LIMIT 10;;`,
                 function (error2, messages) {
@@ -509,11 +522,13 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
                         console.error(error2)
                         throw error2
                     }
+                    console.log(messages);
                     messagesInfo = JSON.parse(JSON.stringify(messages))
                     res.status(200).send(messagesInfo)
                     connection.release()
                 });
         }
+        */
     });
 });
 

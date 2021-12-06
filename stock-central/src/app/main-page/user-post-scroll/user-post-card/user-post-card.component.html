@@ -13,7 +13,7 @@
                 tick
             </span>
         </span>  
-        <div class='profile-image'>
+        <div class='profile-image' (click)="showUserPage()">
             <img src="https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png" alt="profile image">
         </div>
         <div class='post-username' type='button'>
@@ -22,6 +22,10 @@
     </div>
     <div class="post-content">
         <p>{{message}}</p>
+    </div>
+    <button (click)="likePost()">LIKE</button>
+    <div *ngIf="showUser">
+        <app-user-search-results (closePopupEvent)="showUser=false" [user]="user"></app-user-search-results>
     </div>
 </div>
 <br>

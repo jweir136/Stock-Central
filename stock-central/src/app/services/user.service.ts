@@ -14,7 +14,6 @@ export class UserService {
       "username": localStorage.getItem('username')?.replace(/['"]+/g, ''),
       "firstName": localStorage.getItem('firstName')?.replace(/['"]+/g, ''),
       "lastName": localStorage.getItem('lastName')?.replace(/['"]+/g, ''),
-      "age": 0,
       "email": localStorage.getItem('email')?.replace(/['"]+/g, '')
     }
     this.http.post<any>('http://localhost:3000/api/users', newUser).subscribe(data => {

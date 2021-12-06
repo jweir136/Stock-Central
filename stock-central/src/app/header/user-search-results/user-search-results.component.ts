@@ -21,21 +21,28 @@ export class UserSearchResultsComponent implements OnInit {
   changePercent: number = 0
   public change: number = 0;
   friendsList: any = [];
+  userJSON = JSON.parse('{}');
 
   stockNewsImage1 = '';
   stockNewsHeadline1 = '';
   stockNewsURL1 = '';
-  stockLogo = '';
+  profilePic = '';
 
   followButtonText = 'LOADING';
 
   constructor(public authenticationService: AuthenticationService, private stockDataService: StockDataService, private friendsService: FriendsService, private searchService: SearchService) { }
 
   ngOnInit(): void {
+    try {
+      this.userJSON = JSON.parse(this.user);
+    } catch {
+      this.userJSON = JSON.parse(JSON.stringify(this.user));
+    }
+    this.profilePic = "https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png";
     this.friendsService.getFriendsList(parseInt(<string>localStorage.getItem('userID'))).subscribe(res => {
       this.friendsList = res;
       for(let i = 0; i < this.friendsList.length; i++) {
-        if (this.friendsList[i].fk_user_id_2 == JSON.parse(JSON.stringify(this.user)).user_id) {
+        if (this.friendsList[i].fk_user_id_2 == this.userJSON.user_id) {
           this.followButtonText = 'FOLLOWING'
           i = this.friendsList.length;
         }
@@ -53,10 +60,9 @@ export class UserSearchResultsComponent implements OnInit {
 
   followUser() {
     this.followButtonText = "LOADING"
-    let userJSON = JSON.parse(JSON.stringify(this.user));
     let followObject = {
       "id": parseInt(<string>localStorage.getItem('userID')), 
-      "id2": userJSON.user_id
+      "id2": this.userJSON.user_id
     }
     this.friendsService.followUser(followObject).subscribe(res => {
       this.followButtonText = 'FOLLOWING';
@@ -65,10 +71,9 @@ export class UserSearchResultsComponent implements OnInit {
 
   unfollowUser() {
     this.followButtonText = 'LOADING';
-    let userJSON = JSON.parse(JSON.stringify(this.user));
     let followObject = {
       "id": parseInt(<string>localStorage.getItem('userID')), 
-      "id2": userJSON.user_id
+      "id2": this.userJSON.user_id
     }
     this.friendsService.unfollowUser(followObject).subscribe(res => {
       this.followButtonText = 'FOLLOW';
@@ -76,8 +81,7 @@ export class UserSearchResultsComponent implements OnInit {
   }
 
   getUsername() {
-    let userJSON = JSON.parse(JSON.stringify(this.user))
-    return userJSON.username;
+    return this.userJSON.username;
   }
 
 }

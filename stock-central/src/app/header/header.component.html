@@ -16,7 +16,8 @@
         <i class="fa fa-line-chart" style="font-size:30px"></i>
     </span>
     <span class = "search-box" *ngIf="(userLoggedIn$ | async)">
-        <select id="ddlViewBy">
+        <div class="searchFor">Search For</div>
+        <select class="dropDown" id="ddlViewBy">
               <option *ngFor="let item of this.dataList;let i = index" value="{{item.code}}" [selected]="i == 0">
                 {{item.name}}
               </option>

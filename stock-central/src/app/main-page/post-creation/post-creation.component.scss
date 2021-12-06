@@ -42,7 +42,7 @@
     right: 0;
     background: rgba(0, 0, 0, 0.7);
     transition: opacity 500ms;
-    z-index: 2;
+    z-index: 50;
     visibility: visible;
     opacity: 1;
     animation: fadeIn;
@@ -54,22 +54,15 @@
     to {opacity: 1;}
 }
 
-@keyframes fadeInSlide {
-    from {opacity: 0;
-          top: 30vh;}
-    to {opacity: 100;
-        top: 20vh;}
-}
-
 .popup {
-    background: rgb(80, 170, 95);
+    background: white;
     border-radius: 10px;
     width: 40vw;
     height: 40vh;
     position: relative;
-    color: white;
+    color:black;
     font-family: 'Baloo 2', cursive;
-    font-size: 20px;
+    font-size: 26px;
     top: 20vh;
     left: 30vw;
     text-align: center;
@@ -79,8 +72,11 @@
     .UploadButton {
         height: 7vh;
         width: 10vw;
-        background-color: white;
-        color:rgb(80, 170, 95);
+        bottom: 1vh;
+        right: 2vh;
+        position: absolute;
+        background-color:rgb(80, 170, 95);
+        color:white;
         font-family: 'Baloo 2', cursive;
         border: none;
         border-radius: 10px;
@@ -88,20 +84,41 @@
 
         &:hover {
             cursor: pointer;
+            background-color: white;
+            color:rgb(80, 170, 95);
+            transition: 0.15s ease-in-out;
+            border: solid 2px rgb(80, 170, 95);
         }
+    }
+
+    .body {
+        height: 20vh;
+        width: 30vw;
+        border-radius: 5px;
+        align-items: center;
+        font-family: 'Baloo 2', cursive;
     }
 
 }
 
+@keyframes fadeInSlide {
+    from {opacity: 0;
+          top: 30vh;}
+    to {opacity: 100;
+        top: 20vh;}
+}
+
 .popup .close {
     position: relative;
-    top: 0;
+    top: -0.5vh;
+    float: left;
+    left: 1vw;
     right: 10px;
     transition: all 200ms;
     font-size: 30px;
     font-weight: bold;
     text-decoration: none;
-    color: white;
+    color:rgb(80, 170, 95);
 }
 
 .popup .close:hover {

@@ -20,7 +20,7 @@
     <div class="popup" *ngIf="popup">
         <a class="close" (click)="popup=false">&times;</a>
         <div>What's on your mind?</div>
-        <textarea class="body" id="postBody" [(ngModel)]="messageContent"></textarea>
+        <textarea class="body" id="postBody" style="resize:none;" [(ngModel)]="messageContent"></textarea>
         <br>
         <button class="UploadButton" (click)="uploadPost()">Post</button>
     </div>

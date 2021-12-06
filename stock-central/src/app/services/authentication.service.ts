@@ -67,7 +67,7 @@ export class AuthenticationService {
     this.firstName = firstName;
     this.lastName = lastName;
     try {
-      this.afAuth.createUserWithEmailAndPassword(email, password)
+      this.afAuth.createUserWithEmailAndPassword(email, password);
     } catch (error: any) {
       if (error.message.startsWith('Firebase: The email address is already in use')) {
         alert("Email is already in our system. Please return to the sign in to use this email");

@@ -15,14 +15,14 @@ export class UserProfileComponent implements OnInit {
   @Output() openUserPreferenceEditor = new EventEmitter();
 
   public popup: boolean = false;
-  public accountCreated: string = '';
-  public userName: string = '';
-  public userFirstName: string = '';
-  public userLastName: string = '';
-  public userPhotoUrl: string = '';
+  public accountCreated: any = '';
+  public userFirstName: any = '';
+  public userLastName: any = '';
+  public userPhotoUrl: any = '';
   public editBio: boolean = false;
-  public username: string = '';
-  public age: number = -1;
+  public username: any = '';
+  public email: any = '';
+  public age: any = -1;
   public createdAt: string = '';
   public bioForm: FormGroup = FormGroup.prototype;
 
@@ -32,9 +32,16 @@ export class UserProfileComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-      this.userName = <string>localStorage.getItem('username')?.replace(/['"]+/g, ''),
-      this.userFirstName = <string>localStorage.getItem('username')?.replace(/['"]+/g, '').split(' ')[0],
-      this.userLastName = <string>localStorage.getItem('username')?.replace(/['"]+/g, '').split(' ')[1],
-      this.userPhotoUrl = this.authenticationService.getUserPhotoUrl();
+    this.userFirstName = localStorage.getItem('firstName')?.replace(/['"]+/g, ''),
+    this.userLastName = localStorage.getItem('lastName')?.replace(/['"]+/g, ''),
+    this.email = localStorage.getItem('email')
+    this.userPhotoUrl = this.authenticationService.getUserPhotoUrl();
+  
+    this.profileService.getFullUserInfo(this.email).subscribe((res: any) => {
+      this.username = res[0].username
+      this.age = res[0].age;
+      this.createdAt = (res[0].created_at).split('T')[0]
+    });
+
   }
 }

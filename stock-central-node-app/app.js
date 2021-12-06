@@ -220,13 +220,12 @@ app.post('/api/users', (req, res) => {
         let username = req.body.username
         let firstName = req.body.firstName
         let lastName = req.body.lastName
-        let age = req.body.age
         let email = req.body.email
-        if (typeof username !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof email !== 'string' || typeof age !== 'number') {
-            res.status(400).send('username, first/last name, and email must be strings. Age must be an int')
+        if (typeof username !== 'string' || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof email !== 'string') {
+            res.status(400).send('username, first/last name, and email must be strings.')
             connection.release()
         }
-        rdb.query(`INSERT IGNORE INTO stock_central.users (username, first_name, last_name, age, email) VALUES ('${username}', '${firstName}', '${lastName}', ${age}, '${email}')`, function (error, result) {
+        rdb.query(`INSERT IGNORE INTO stock_central.users (username, first_name, last_name, email) VALUES ('${username}', '${firstName}', '${lastName}', '${email}')`, function (error, result) {
             if (error) {
                 console.error(error);
                 throw error;
@@ -496,27 +495,24 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
             connection.release()
         }
 
-        let friendsList = []
-        rdb.query(`SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = ${userID};`, function (error1, friendsIDList) {
-           if (error1) {
-                console.error(error1)
-                throw error1
+        // let friendsList = []
+        // rdb.query(`SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = ${userID};`, function (error1, friendsIDList) {
+        //    if (error1) {
+        //         console.error(error1)
+        //         throw error1
+        //     }
+        //     console.log(friendsIDList);
+        //     friendsIDList.forEach(friend => {
+        //         friendsList.push(friend['fk_user_id_2'])
+        //     });
+        rdb.query(`SELECT posts.message_content, posts.created_at, posts.post_id, posts.fk_user_id FROM friends JOIN posts ON friends.fk_user_id_2 = posts.fk_user_id JOIN likes ON likes.fk_post_id = posts.post_id WHERE friends.fk_user_id_1 = ${userID} AND posts.created_at > (NOW() - INTERVAL 7 DAY) AND posts.num_likes > 10 LIMIT 10;`, function (error, result) {
+            if (error) {
+                console.error(error);
+                throw error;
             }
-            console.log(friendsIDList);
-            friendsIDList.forEach(friend => {
-                friendsList.push(friend['fk_user_id_2'])
-            });
-
-            console.log(friendsList);
-            rdb.query(`SELECT * FROM posts WHERE fk_user_id in (${friendsList})`, function (error, result) {
-                if (error) {
-                    console.error(error);
-                    throw error;
-                }
-                console.log('shut up');
-                res.status(200).send(result);
-                connection.release();
-            });
+            console.log('shut up');
+            res.status(200).send(result);
+            connection.release();
         });
         /*
         if (userID != 1) {

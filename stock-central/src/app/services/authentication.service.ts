@@ -44,9 +44,11 @@ export class AuthenticationService {
         localStorage.setItem('username', this.username);
         localStorage.setItem('firstName', this.firstName);
         localStorage.setItem('lastName', this.lastName);
+        await this.userService.addUser();
       }
 
       this.profileService.getFullUserInfo(localStorage.getItem('email')).subscribe((id: any) => {
+        console.log(id)
         localStorage.setItem('userID', id[0].user_id);
         if (!userInfoSet) {
           localStorage.setItem('username', id[0].username);

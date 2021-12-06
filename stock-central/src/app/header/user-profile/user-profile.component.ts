@@ -39,7 +39,6 @@ export class UserProfileComponent implements OnInit {
   
     this.profileService.getFullUserInfo(this.email).subscribe((res: any) => {
       this.username = res[0].username
-      this.age = res[0].age;
       this.createdAt = (res[0].created_at).split('T')[0]
     });
 

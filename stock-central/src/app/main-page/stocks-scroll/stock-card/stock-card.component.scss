@@ -22,14 +22,14 @@
     }
 
     .circleLabel {
-      font-size: 26px;
+      font-size: 18px;
       color:rgb(56, 119, 66);
       text-overflow: clip;
       text-align: center;
       height: 5vh;
       width: 5vw;
       left: 0vw;
-      top: 0.6vh;
+      top: 1.7vh;
       position: absolute;
     }
 
@@ -130,11 +130,16 @@
 
 .stockCard span.label {
   text-align: right;
-  top: 1.5vh;
+  top: 1vh;
   left: 5.5vw;
   position: relative;
   color: rgb(56, 119, 66);
   font-weight: 700;
   font-size: 18px;
   text-overflow: clip;
+
+  span.material-icons {
+    top: 1vh;
+    position: relative;
+  }
 }

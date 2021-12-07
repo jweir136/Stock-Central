@@ -14,6 +14,6 @@
     <div class="line1"></div>
     <div class="filler"></div>
     <div *ngFor="let post of posts">
-        <app-user-post-card [post]=post></app-user-post-card>
+        <app-user-post-card [post]=post [likedPosts]=likedPosts></app-user-post-card>
     </div>
 </div>

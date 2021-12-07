@@ -10,30 +10,53 @@ import { LikeService } from 'src/app/services/like.service';
 export class UserPostCardComponent implements OnInit {
 
   @Input() post: any = '';
+  @Input() likedPosts: any = '';
 
   message: string = '';
   username: string = '';
   showUser = false;
   user = '';
+  numOfLikes = 0;
+  liked = false;
 
   constructor(private likeService: LikeService) { }
 
   ngOnInit(): void {
+    console.log(this.likedPosts);
+    for (let i = 0; i < this.likedPosts.length; i++) {
+      if (this.likedPosts[i] == this.post.post_id) {
+        this.liked = true;
+        i = this.likedPosts.length;
+      }
+    }
+    console.log(this.post);
     this.message = this.post.message_content
     this.username = this.post.username
     this.user = this.post;
+    this.numOfLikes = this.post.num_likes;
     let userJSON = JSON.parse(JSON.stringify(this.user));
     userJSON.user_id = userJSON.fk_user_id;
     this.user = JSON.stringify(userJSON);
   }
 
   showUserPage() {
-    console.log('check this out');
     this.showUser = true;
   }
 
   likePost() {
-    this.likeService.likePost(this.post.post_id, <string>localStorage.getItem('userID'));
+    this.likeService.likePost(this.post.post_id, <string>localStorage.getItem('userID')).subscribe(res => {
+      
+    })
+    this.liked = true;
+    this.numOfLikes++;
+  }
+
+  unlikePost() {
+    console.log('u big idit');
+    this.likeService.unlikePost(this.post.post_id, <string>localStorage.getItem('userID')).subscribe(res => {
+    })
+    this.liked = false;
+    this.numOfLikes--;
   }
 
 }

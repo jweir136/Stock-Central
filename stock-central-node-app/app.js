@@ -360,6 +360,33 @@ app.patch('/api/unlikePost/:postId', (req, res) => {
     });
 });
 
+app.get('/api/getLikes/:id', (req, res) => {
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            console.error('Error getting connection from pool: ' + err)
+            connection.release()
+            throw err
+        }
+        let userID = undefined
+        try {
+            userID = parseInt(req.params.id)
+        }
+        catch (e) {
+            res.status(400).send(e)
+            connection.release()
+        }
+
+        rdb.query(`SELECT * FROM likes WHERE fk_user_id = ${userID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send(result)
+            connection.release()
+        });
+    });
+});
+
 
 // app.post('/api/createPost', (req, res) => {
 //     mysql_pool.getConnection(function (err, connection) {
@@ -440,15 +467,21 @@ app.patch('/api/likePost/:postId/:userID', (req, res) => {
                 connection.release()
                 throw error
             }
-            res.status(200).send(result)
-            connection.release()
+            rdb.query(`UPDATE posts SET num_likes = num_likes + 1 WHERE post_id = ${postID}`, function (error, result) {
+                if (error) {
+                    console.error(error)
+                    throw error
+                }
+                res.status(200).send('Number of likes increased successfully!')
+                connection.release()
+            });
         });
     });
 });
 
 
 // endpoint to unlike a post by its post ID
-app.patch('/api/unlikePost/:postId/userId', (req, res) => {
+app.patch('/api/unlikePost/:postId/:userId', (req, res) => {
     let userID = req.params.userId
     let postID = req.params.postId
     if (isNaN(postID) && isNaN(userID)) {
@@ -460,15 +493,22 @@ app.patch('/api/unlikePost/:postId/userId', (req, res) => {
             connection.release()
             throw err
         }
-        rdb.query(`UPDATE likes SET num_likes = num_likes - 1 WHERE fk_post_id = ${postID} AND fk_user_id = ${userID}`, function (error, result) {
+        rdb.query(`DELETE FROM likes WHERE fk_user_id = ${userID} AND fk_post_id = '${postID}';`, function (error, result) {
             if (error) {
-                console.error(error)
+                console.error(error);
                 connection.release()
-                throw error
+                throw error;
             }
-            res.status(200).send('Number of likes decremented successfully!')
-            connection.release()
-        });
+            rdb.query(`UPDATE posts SET num_likes = num_likes - 1 WHERE post_id = ${postID}`, function (error, result) {
+                if (error) {
+                    console.error(error)
+                    connection.release()
+                    throw error
+                }
+                res.status(200).send('Number of likes decremented successfully!')
+                connection.release()
+            });
+        })
     });
 });
 

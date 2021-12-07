@@ -10,8 +10,14 @@ export class LikeService {
   constructor(private http: HttpClient) { }
 
   likePost(postID: string, userID: string) {
-    this.http.patch(environment.API_BASE_URL + '/likePost/' + postID + '/' + userID, JSON.parse('{}')).subscribe(res => {
-      console.log(res);
-    })
+    return this.http.patch(environment.API_BASE_URL + '/likePost/' + postID + '/' + userID, JSON.parse('{}'));
+  }
+
+  unlikePost(postID: string, userID: string) {
+    return this.http.patch(environment.API_BASE_URL + '/unlikePost/' + postID + '/' + userID, JSON.parse('{}'));
+  }
+
+  getLikes(userID: string) {
+    return this.http.get(environment.API_BASE_URL + '/getLikes/' + userID);
   }
 }

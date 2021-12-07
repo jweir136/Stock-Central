@@ -18,6 +18,7 @@ export class UserPostCardComponent implements OnInit {
   user = '';
   numOfLikes = 0;
   liked = false;
+  postCreationDate = '';
 
   constructor(private likeService: LikeService) { }
 
@@ -28,6 +29,7 @@ export class UserPostCardComponent implements OnInit {
         i = this.likedPosts.length;
       }
     }
+    this.postCreationDate = this.post.created_at;
     this.message = this.post.message_content
     this.username = this.post.username
     this.user = this.post;

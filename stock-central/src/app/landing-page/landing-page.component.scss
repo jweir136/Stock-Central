@@ -236,14 +236,14 @@ p {
     height: 0.75vh;
     top: 16.5vh;
     position: absolute;
-    borderRadius: 0.375vh;
+    border-radius: 0.375vh;
     left: 30.4vw;
   }
 
   .popupUsernameInput {
     position:absolute;
     top: 25vh;
-    left: 12.5vw;
+    left: 6vw;
     height: 6vh;
     width: 30vw;
     border: none;
@@ -255,7 +255,7 @@ p {
   .popupUsernameLine {
     position:absolute;
     top: 25vh;
-    left: 11.5vw;
+    left: 5vw;
     height: 6.5vh;
     width: 0.25vw;
     background-color:rgb(80, 170, 95);
@@ -266,7 +266,7 @@ p {
   .popupFirstNameInput {
     position:absolute;
     top: 25vh;
-    left: 45vw;
+    left: 38.5vw;
     height: 6vh;
     width: 30vw;
     border: none;
@@ -278,7 +278,7 @@ p {
   .popupFirstNameLine {
     position:absolute;
     top: 25vh;
-    left: 44vw;
+    left: 37.5vw;
     height: 6.5vh;
     width: 0.25vw;
     background-color:rgb(80, 170, 95);
@@ -289,7 +289,7 @@ p {
   .popupLastNameInput {
     position:absolute;
     top: 35vh;
-    left: 45vw;
+    left: 38.5vw;
     height: 6vh;
     width: 30vw;
     border: none;
@@ -301,7 +301,7 @@ p {
   .popupLastNameLine {
     position:absolute;
     top: 35vh;
-    left: 44vw;
+    left: 37.5vw;
     height: 6.5vh;
     width: 0.25vw;
     background-color:rgb(80, 170, 95);
@@ -312,7 +312,7 @@ p {
   .popupAgeInput {
     position:absolute;
     top: 45vh;
-    left: 45vw;
+    left: 38.5vw;
     height: 6vh;
     width: 30vw;
     border: none;
@@ -324,7 +324,7 @@ p {
   .popupAgeLine {
     position:absolute;
     top: 45vh;
-    left: 44vw;
+    left: 37.5vw;
     height: 6.5vh;
     width: 0.25vw;
     background-color:rgb(80, 170, 95);
@@ -335,7 +335,7 @@ p {
   .popupEmailInput {
     position:absolute;
     top: 35vh;
-    left: 12.5vw;
+    left: 6vw;
     height: 6vh;
     width: 30vw;
     border: none;
@@ -347,7 +347,7 @@ p {
   .popupEmailLine {
     position:absolute;
     top: 35vh;
-    left: 11.5vw;
+    left: 5vw;
     height: 6.5vh;
     width: 0.25vw;
     background-color:rgb(80, 170, 95);
@@ -358,7 +358,7 @@ p {
   .popupPasswordInput {
     position: absolute;
     top: 45vh;
-    left: 12.5vw;
+    left: 6vw;
     height: 6vh;
     width: 30vw;
     outline: none;
@@ -370,7 +370,7 @@ p {
   .popupPasswordLine {
     position:absolute;
     top: 45vh;
-    left: 11.5vw;
+    left: 5vw;
     height: 6.5vh;
     width: 0.25vw;
     background-color:rgb(80, 170, 95);

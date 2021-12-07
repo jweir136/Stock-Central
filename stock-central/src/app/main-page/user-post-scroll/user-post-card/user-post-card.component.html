@@ -23,7 +23,9 @@
     <div class="post-content">
         <p>{{message}}</p>
     </div>
-    <button (click)="likePost()">LIKE</button>
+    <button *ngIf="!liked" (click)="likePost()">LIKE</button>
+    <button *ngIf="liked" (click)="unlikePost()">LIKED</button>
+    <p>{{numOfLikes}}</p>
     <div *ngIf="showUser">
         <app-user-search-results (closePopupEvent)="showUser=false" [user]="user"></app-user-search-results>
     </div>

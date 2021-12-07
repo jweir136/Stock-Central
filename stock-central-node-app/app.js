@@ -512,6 +512,32 @@ app.patch('/api/unlikePost/:postId/:userId', (req, res) => {
     });
 });
 
+app.patch('/api/updateUserInfo/:userID/:firstName/:lastName/:username', (req, res) => {
+    let userID = req.params.userID;
+    let firstName = req.params.firstName;
+    let lastName = req.params.lastName;
+    let username = req.params.username;
+    if (isNaN(userID)) {
+        res.status(400).send('post ID must be an int')
+        connection.release()
+    }
+    mysql_pool.getConnection(function (err, connection) {
+        if (err) {
+            console.error('Error getting connection from pool: ' + err)
+            connection.release()
+            throw err
+        }
+        rdb.query(`UPDATE users SET username = '${username}', first_name = '${firstName}', last_name = '${lastName}' WHERE user_id = ${userID}`, function (error, result) {
+            if (error) {
+                console.error(error)
+                throw error
+            }
+            res.status(200).send(result);
+            connection.release()
+        });
+    });
+});
+
 
 // endpoint to generate feed for logged in user
 app.get('/api/posts/generateFeed/:userId', (req, res) => {

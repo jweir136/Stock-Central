@@ -22,14 +22,12 @@ export class UserPostCardComponent implements OnInit {
   constructor(private likeService: LikeService) { }
 
   ngOnInit(): void {
-    console.log(this.likedPosts);
     for (let i = 0; i < this.likedPosts.length; i++) {
       if (this.likedPosts[i] == this.post.post_id) {
         this.liked = true;
         i = this.likedPosts.length;
       }
     }
-    console.log(this.post);
     this.message = this.post.message_content
     this.username = this.post.username
     this.user = this.post;
@@ -52,7 +50,6 @@ export class UserPostCardComponent implements OnInit {
   }
 
   unlikePost() {
-    console.log('u big idit');
     this.likeService.unlikePost(this.post.post_id, <string>localStorage.getItem('userID')).subscribe(res => {
     })
     this.liked = false;

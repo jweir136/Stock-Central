@@ -37,7 +37,6 @@ export class AuthenticationService {
         localStorage.setItem('firstName', JSON.stringify(user?.displayName?.split(' ')[0]));
         localStorage.setItem('lastName', JSON.stringify(user?.displayName?.split(' ')[1]));
         await this.userService.addUser();
-        userInfoSet = true;
       }
       
       if (this.signingUp) {
@@ -48,7 +47,6 @@ export class AuthenticationService {
       }
 
       this.profileService.getFullUserInfo(localStorage.getItem('email')).subscribe((id: any) => {
-        console.log(id);
         localStorage.setItem('userID', id[0].user_id);
         if (!userInfoSet) {
           localStorage.setItem('username', id[0].username);

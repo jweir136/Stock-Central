@@ -26,6 +26,8 @@ export class UserProfileComponent implements OnInit {
   public createdAt: string = '';
   public bioForm: FormGroup = FormGroup.prototype;
 
+  edit = false;
+
   public constructor(public authenticationService: AuthenticationService, private profileService: ProfileService) {
     this.authenticationService.authenticationEvent.subscribe((user: boolean) => {
     });
@@ -35,12 +37,26 @@ export class UserProfileComponent implements OnInit {
     this.userFirstName = localStorage.getItem('firstName')?.replace(/['"]+/g, ''),
     this.userLastName = localStorage.getItem('lastName')?.replace(/['"]+/g, ''),
     this.email = localStorage.getItem('email')
-    this.userPhotoUrl = this.authenticationService.getUserPhotoUrl();
+    this.userPhotoUrl = (JSON.parse(localStorage.getItem('userInfo') || '{}')).photoURL;
+    if (!this.userPhotoUrl) {
+      this.userPhotoUrl = 'https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png';
+    }
   
     this.profileService.getFullUserInfo(this.email).subscribe((res: any) => {
       this.username = res[0].username
       this.createdAt = (res[0].created_at).split('T')[0]
     });
 
+  }
+
+  saveProfileEdit() {
+    let editedFirstName = (<HTMLInputElement>document.getElementById("editFirstName")).value;
+    let editedLastName = (<HTMLInputElement>document.getElementById("editLastName")).value;
+    let editedUsername = (<HTMLInputElement>document.getElementById("editUsername")).value;
+    this.profileService.updateInfo(editedFirstName, editedLastName, editedUsername);
+    this.userFirstName = editedFirstName;
+    this.userLastName = editedLastName;
+    this.username = editedUsername;
+    this.edit = false;
   }
 }

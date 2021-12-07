@@ -64,7 +64,7 @@
     background: white;
     border-radius: 10px;
     width: 20vw;
-    height: 40vh;
+    height: 30vh;
     position: relative;
     transition: all 5s ease-in-out;
     color: rgb(80, 170, 95);
@@ -78,8 +78,11 @@
 }
 
 .popup span.editButton {
+    position: absolute;
     font-size: 16px;
     color:rgb(80, 170, 95);
+    top: 1vh;
+    right: 2vw;
 
     &:hover {
         cursor: pointer;
@@ -107,13 +110,34 @@
     overflow: auto;
 }
 
-.username {
-    background-color: rgb(227, 253, 228);
+.Name {
     border-radius: 2vh;
     width: 22vw;
     height: 6vh;
-    position: relative;
-    right: 1vw;
+    position: absolute;
+    right: 0.5vw;
+    top: 14vh;
+    font-size: 18px;
+}
+
+.Username {
+    border-radius: 2vh;
+    width: 22vw;
+    height: 6vh;
+    position: absolute;
+    right: 0.5vw;
+    top: 19vh;
+    font-size: 18px;
+}
+
+.joinDate {
+    border-radius: 2vh;
+    width: 22vw;
+    height: 6vh;
+    position: absolute;
+    right: 0.5vw;
+    top: 24vh;
+    font-size: 18px;
 }
 
 @media screen and (max-width: 700px){
@@ -134,16 +158,15 @@
 }
 
 .popup .closeButton{
-    padding:5px 10px;
     background: white;
     border: solid 2.5px rgb(56, 119, 66);
-    height: 6vh;
+    height: 5.5vh;
     width: 12vw;
-    position: relative;
+    position: absolute;
     border-radius:3vh;
     text-align:center;
-    top: 5.3vh;
-    left: 3vw;
+    bottom: 0.5vh;
+    left: 5vw;
     transition: all 0.4s ease 0s;
 }
 
@@ -169,10 +192,6 @@
     margin-left: 10px;
 }
 
-.popup .closeButton:hover {
-    cursor: pointer;
-}
-
 .editButton span {
     float: left;
     margin-top: 15px;
@@ -189,6 +208,87 @@
 
 .profilePicture:hover {
     cursor: pointer;
+}
+
+.editmenu {
+    .first {
+        position: absolute;
+        left: 1vw;
+        top: 8vh;
+    }
+    .ifirst {
+        background-color:rgb(241, 255, 243);
+        border: none;
+        outline: none;
+        position: absolute;
+        top: 13vh;
+        left: 9vw;
+    }
+    .second {
+        position: absolute;
+        left: 1vw;
+        top: 13vh;
+    }
+    .isecond {
+        background-color:rgb(241, 255, 243);
+        border: none;
+        outline: none;
+        position: absolute;
+        top: 18vh;
+        left: 9vw;
+    }
+    .third {
+        position: absolute;
+        left: 1vw;
+        top: 18vh;
+    }
+    .ithird {
+        background-color:rgb(241, 255, 243);
+        border: none;
+        outline: none;
+        position: absolute;
+        top: 23vh;
+        left: 9vw;
+    }
+    
+    .save{
+        font-family: 'Baloo 2', cursive;
+        font-size: 20px;
+        color:rgb(80, 170, 95);
+        background: white;
+        border: solid 2.5px rgb(56, 119, 66);
+        height: 6.5vh;
+        width: 12.5vw;
+        position: absolute;
+        border-radius:3vh;
+        text-align:center;
+        bottom: 0.5vh;
+        left: 5vw;
+        z-index: 100;
+        transition: all 0.4s ease 0s;
+    }
+
+    .save:hover{
+        cursor: pointer;
+        background:rgb(56, 119, 66);
+        color: white;
+        transition: all 0.4s ease 0s;
+    }
+
+    .save.transparent {
+        background-color: Transparent;
+        background-repeat:no-repeat;
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        outline:none;
+        color: white;
+        padding: 0px;
+    }
+
+    .save.transparent span {
+        margin-left: 10px;
+    }
 }
 
   

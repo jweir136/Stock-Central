@@ -37,6 +37,7 @@ export class StockCardComponent implements OnInit {
     })
   }
   unfollowStock() {
-    this.watchlistService.unfollowStock(this.tickerSymbol);
+    this.watchlistService.unfollowStock(this.tickerSymbol).subscribe(res => {
+    })
   }
 }

@@ -556,7 +556,6 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
             res.status(400).send(e)
             connection.release()
         }
-        console.log(userID);
 
         // let friendsList = []
         // rdb.query(`SELECT fk_user_id_2 FROM friends WHERE fk_user_id_1 = ${userID};`, function (error1, friendsIDList) {
@@ -564,7 +563,6 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
         //         console.error(error1)
         //         throw error1
         //     }
-        //     console.log(friendsIDList);
         //     friendsIDList.forEach(friend => {
         //         friendsList.push(friend['fk_user_id_2'])
         //     });
@@ -585,7 +583,6 @@ app.get('/api/posts/generateFeed/:userId', (req, res) => {
                         console.error(error2)
                         throw error2
                     }
-                    console.log(messages);
                     messagesInfo = JSON.parse(JSON.stringify(messages))
                     res.status(200).send(messagesInfo)
                     connection.release()

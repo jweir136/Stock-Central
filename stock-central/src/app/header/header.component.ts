@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getInput() {
-    return (<HTMLInputElement>document.getElementById("searchBar")).value;
+    return (<HTMLInputElement>document.getElementById("searchBar")).value.toUpperCase();
   }
 
   search() {
